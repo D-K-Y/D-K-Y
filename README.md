@@ -1,5 +1,12 @@
 # Deepak Kumar Yadav
 
+<p align="center">
+  <img src="photo.jpg" alt="Deepak Kumar Yadav" width="180" style="border-radius:50%;margin-bottom:16px;">
+</p>
+
+
+🚀 **[View My Website](https://d-k-y.github.io/D-K-Y/)**
+
 **Engineering Leader | Backend Systems Specialist | Tech Optimist**
 
 ---
