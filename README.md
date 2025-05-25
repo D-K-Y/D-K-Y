@@ -1,4 +1,4 @@
 - 👋 Hi, I’m DKY
-- 👀 I’m interested in C++ Linux Algos and BlockChain Tech
+- 👀 I’m interested in C++, Python,GoLang Linux  and Algos
 - 🌱 I’m currently learning BlockChain and working in my freetime a secure Share application
 - 💞️ I’m looking to collaborate on Secure Share project . If intrested shoot me a message on my email
