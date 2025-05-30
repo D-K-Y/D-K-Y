@@ -101,12 +101,39 @@ main {
     padding: 0 1rem;
 }
 
+main > section { /* Apply to direct children sections of main */
+    margin-bottom: 2.5rem; /* Keep existing margin */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+main > section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .hero {
     background: var(--accent);
     border-radius: 12px;
     padding: 2rem 1.5rem;
     margin-bottom: 2.5rem;
-    text-align: center;
+    text-align: center; /* This centers the text content of h1, h2, p */
+}
+
+.profile-photo {
+    width: 140px; /* Or your desired width */
+    height: 140px; /* Or your desired height */
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1.2rem; /* Space below the photo */
+    border: 3px solid var(--primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    /* Key styles for centering the image itself: */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero h1 {
@@ -213,17 +240,28 @@ body.dark-mode {
     --accent: #23283a;
 }
 
-.profile-photo {
-    width: 140px;
-    height: 140px;
-    object-fit: cover;
+/* Scroll-to-top Button */
+#scrollTopBtn {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1000; /* Ensure it's above other content */
+    border: none;
+    outline: none;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    padding: 10px 14px;
     border-radius: 50%;
-    margin-bottom: 1.2rem;
-    border: 3px solid var(--primary);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 20px;
+    line-height: 1;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+#scrollTopBtn:hover {
+    background-color: #0056b3; /* A darker shade of your primary color */
 }
 
 @media (max-width: 700px) {
