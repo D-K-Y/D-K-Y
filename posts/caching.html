@@ -1,10 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caching Strategies | Deepak Kumar Yadav</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ultimate Guide to Caching in Python</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .blog-post-content {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--background, #f8f9fa);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            color: #333;
+        }
+        .blog-post-content h1, 
+        .blog-post-content h2, 
+        .blog-post-content h3 {
+            color: #2c3e50;
+        }
+        .blog-post-content code {
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            padding: 0.2em 0.4em;
+            font-size: 0.98em;
+        }
+        .blog-post-content pre {
+            background-color: #f4f4f4;
+            border-left: 4px solid #3498db;
+            padding: 1em;
+            display: block;
+            overflow-x: auto;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .diagram {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .cache-diagram {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+        
+        .diagram-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            color: #2c3e50;
+        }
+        
+        .diagram-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .diagram-box {
+            padding: 1.2rem 1rem;
+            border-radius: 8px;
+            min-width: 90px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            border: 2px solid;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .diagram-box:hover {
+            transform: translateY(-2px);
+        }
+        
+        .client-box { 
+            background: #e3f2fd;
+            color: #1565c0;
+            border-color: #90caf9;
+        }
+        
+        .app-box { 
+            background: #f3e5f5;
+            color: #7b1fa2;
+            border-color: #ce93d8;
+        }
+        
+        .cache-box { 
+            background: #e0f2f1;
+            color: #00695c;
+            border-color: #80cbc4;
+        }
+        
+        .db-box { 
+            background: #fff3e0;
+            color: #ef6c00;
+            border-color: #ffcc02;
+        }
+        
+        .flow-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 0.5rem;
+        }
+        
+        .arrow-line {
+            font-size: 1.8rem;
+            color: #6c757d;
+            font-weight: bold;
+        }
+        
+        .arrow-label {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 0.2rem;
+            font-weight: 500;
+        }
+        
+        .request-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .flow-info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #ffffff;
+            border-left: 4px solid #28a745;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+            text-align: left;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 0.6rem 0;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .step-number {
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .cache-hit {
+            border-left-color: #28a745;
+        }
+        
+        .cache-miss {
+            border-left-color: #ffc107;
+        }
+        
+        .cache-hit .step-number {
+            background: #28a745;
+        }
+        
+        .cache-miss .step-number {
+            background: #ffc107;
+        }
+        
+        .pattern-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .pattern-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pattern-card h4 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        
+        .pros-cons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .pros-list {
+            background: #d4edda;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .cons-list {
+            background: #f8d7da;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid #dc3545;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .diagram-flow {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+            
+            .request-flow {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .cache-diagram {
+                padding: 1rem;
+            }
+            
+            .diagram-box {
+                min-width: 80px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .pros-cons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pattern-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        ul {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 700px) {
+            .blog-post-content {
+                padding: 1rem;
+            }
+            .diagram img {
+                width: 100% !important;
+                height: auto;
+            }
+        }
+        
+        .tag {
+            background-color: #e7f3ff;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            margin-right: 0.3rem;
+            color: #0366d6;
+            display: inline-block;
+            margin-bottom: 0.3rem;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -20,20 +324,1533 @@
             <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
         </nav>
     </header>
-    
     <main>
         <article class="blog-post-content">
-            <h1>🗄️ Caching Strategies</h1>
-            <p class="post-meta">Coming Soon...</p>
-            <p>This blog post will cover comprehensive caching strategies including Redis implementation, cache invalidation patterns, and performance optimization techniques.</p>
-            <a href="../blog.html" class="back-link">← Back to Blog</a>
+            <h1>🚀 Ultimate Guide to Caching in Python</h1>
+            <p>Caching is essential for optimizing performance and scalability in Python applications. In this guide, we explore caching architectures, eviction strategies, and real Python implementations using in-memory and distributed caches like Redis.</p>
+            
+            <h2>🧱 Caching Architecture</h2>
+            <div class="diagram">
+                <div class="cache-diagram">
+                    <div class="diagram-title">🏗️ Cache-Aside Pattern Flow</div>
+                    
+                    <!-- Unified Flow -->
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 2px solid #dee2e6;">
+                        
+                        <!-- Initial Request -->
+                        <div class="request-flow" style="grid-template-columns: 1fr auto 1fr auto 1fr;">
+                            <div class="diagram-box client-box">
+                                <div style="font-size: 1.5rem;">📱</div>
+                                <strong>Client</strong>
+                            </div>
+                            
+                            <div class="flow-arrow">
+                                <div class="arrow-line">→</div>
+                                <div class="arrow-label">HTTP Request</div>
+                            </div>
+                            
+                            <div class="diagram-box app-box">
+                                <div style="font-size: 1.5rem;">⚙️</div>
+                                <strong>App</strong>
+                            </div>
+                            
+                            <div class="flow-arrow">
+                                <div class="arrow-line">→</div>
+                                <div class="arrow-label">Check Cache</div>
+                            </div>
+                            
+                            <div class="diagram-box cache-box">
+                                <div style="font-size: 1.5rem;">🗄️</div>
+                                <strong>Redis</strong>
+                            </div>
+                        </div>
+                        
+                        <!-- Decision Point -->
+                        <div style="text-align: center; margin: 1.5rem 0; padding: 1rem; background: #fff3cd; border-radius: 6px;">
+                            <strong>🚦 Cache Hit or Miss?</strong>
+                        </div>
+                        
+                        <!-- Two Paths -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            
+                            <!-- Cache HIT -->
+                            <div style="background: #d4edda; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
+                                <h4 style="color: #28a745; margin: 0 0 1rem 0; text-align: center;">✅ HIT (~1ms)</h4>
+                                <div style="text-align: center; font-size: 0.9rem;">
+                                    Cache → App → Client<br>
+                                    <strong>Fast Response</strong><br>
+                                    No DB Load
+                                </div>
+                            </div>
+                            
+                            <!-- Cache MISS -->
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; border-left: 4px solid #ffc107;">
+                                <h4 style="color: #856404; margin: 0 0 1rem 0; text-align: center;">⚠️ MISS (~50ms)</h4>
+                                <div style="text-align: center; font-size: 0.9rem;">
+                                    App → DB → Cache → Client<br>
+                                    <strong>Slower Response</strong><br>
+                                    Full DB Query
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Points -->
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 6px; text-align: center;">
+                            <strong>🎯 Goal:</strong> 80-95% cache hit rate<br>
+                            <strong>📈 Impact:</strong> 20-50x faster responses on hits
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; font-style: italic; color: #666; margin-top: 1rem;">
+                    <strong>Cache-Aside:</strong> App manages cache reads/writes explicitly
+                </p>
+            </div>
+            
+            <h2>🏗️ Complete Guide to Caching Patterns</h2>
+            <p>Understanding different caching patterns is crucial for choosing the right strategy for your application. Each pattern has specific use cases, benefits, and trade-offs.</p>
+
+            <!-- Cache-Aside Pattern Details -->
+            <h3>1️⃣ Cache-Aside (Lazy Loading) Pattern</h3>
+            <div class="cache-diagram">
+                <div class="request-flow">
+                    <div class="diagram-box app-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">📱</div>
+                        <strong>Application</strong><br>
+                        <small>Manages Cache</small>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line">↕</div>
+                        <div class="arrow-label">1. Check</div>
+                    </div>
+                    
+                    <div class="diagram-box cache-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗄️</div>
+                        <strong>Cache</strong><br>
+                        <small>Hit/Miss</small>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line">↕</div>
+                        <div class="arrow-label">2. If Miss</div>
+                    </div>
+                    
+                    <div class="diagram-box db-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗃️</div>
+                        <strong>Database</strong><br>
+                        <small>Fetch Data</small>
+                    </div>
+                </div>
+                
+                <div class="flow-info">
+                    <strong>📋 How it works:</strong>
+                    <ul>
+                        <li>Application checks cache first</li>
+                        <li>On cache miss, fetches from database</li>
+                        <li>Application stores result in cache</li>
+                        <li>Subsequent requests served from cache</li>
+                    </ul>
+                    <p><strong>✅ Best for:</strong> Read-heavy workloads, unpredictable access patterns<br>
+                    <strong>❌ Challenges:</strong> Cache warming, potential stale data, initial latency</p>
+                </div>
+            </div>
+
+            <!-- Write-Through Pattern -->
+            <h3>2️⃣ Write-Through Pattern</h3>
+            <div class="cache-diagram">
+                <div class="request-flow">
+                    <div class="diagram-box client-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">📱</div>
+                        <strong>Application</strong><br>
+                        <small>Write Request</small>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line">→</div>
+                        <div class="arrow-label">1. Write</div>
+                    </div>
+                    
+                    <div class="diagram-box cache-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗄️</div>
+                        <strong>Cache</strong><br>
+                        <small>Store Data</small>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line">→</div>
+                        <div class="arrow-label">2. Sync Write</div>
+                    </div>
+                    
+                    <div class="diagram-box db-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗃️</div>
+                        <strong>Database</strong><br>
+                        <small>Persist Data</small>
+                    </div>
+                </div>
+                
+                <div class="flow-info">
+                    <strong>📋 How it works:</strong>
+                    <ul>
+                        <li>Write to cache and database simultaneously</li>
+                        <li>Cache always consistent with database</li>
+                        <li>Reads are fast (always cache hits)</li>
+                        <li>Write operation completes only after both succeed</li>
+                    </ul>
+                    <p><strong>✅ Best for:</strong> Strong consistency requirements, read-heavy after writes<br>
+                    <strong>❌ Challenges:</strong> Higher write latency, unnecessary cache entries</p>
+                </div>
+            </div>
+
+            <!-- Write-Behind Pattern -->
+            <h3>3️⃣ Write-Behind (Write-Back) Pattern</h3>
+            <div class="cache-diagram">
+                <div class="request-flow">
+                    <div class="diagram-box client-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">📱</div>
+                        <strong>Application</strong><br>
+                        <small>Write Request</small>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line">→</div>
+                        <div class="arrow-label">1. Fast Write</div>
+                    </div>
+                    
+                    <div class="diagram-box cache-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗄️</div>
+                        <strong>Cache</strong><br>
+                        <small>Store Immediately</small>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 1rem 0; font-size: 1.1rem; color: #6c757d;">
+                    ⏰ Async After Delay ⏰
+                </div>
+                
+                <div class="request-flow">
+                    <div class="diagram-box cache-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗄️</div>
+                        <strong>Cache</strong><br>
+                        <small>Background Process</small>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line">→</div>
+                        <div class="arrow-label">Batch Write</div>
+                    </div>
+                    
+                    <div class="diagram-box db-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗃️</div>
+                        <strong>Database</strong><br>
+                        <small>Batch Updates</small>
+                    </div>
+                </div>
+                
+                <div class="flow-info">
+                    <strong>📋 How it works:</strong>
+                    <ul>
+                        <li>Write to cache immediately, return success</li>
+                        <li>Database updated asynchronously later</li>
+                        <li>Can batch multiple writes for efficiency</li>
+                        <li>Excellent write performance</li>
+                    </ul>
+                    <p><strong>✅ Best for:</strong> Write-heavy workloads, high performance requirements<br>
+                    <strong>❌ Challenges:</strong> Data loss risk, complex consistency, cache/DB drift</p>
+                </div>
+            </div>
+
+            <!-- Write-Around Pattern -->
+            <h3>4️⃣ Write-Around Pattern</h3>
+            <div class="cache-diagram">
+                <div class="request-flow">
+                    <div class="diagram-box client-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">📱</div>
+                        <strong>Application</strong><br>
+                        <small>Write Request</small>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line">→</div>
+                        <div class="arrow-label">Direct Write</div>
+                    </div>
+                    
+                    <div class="diagram-box db-box">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">🗃️</div>
+                        <strong>Database</strong><br>
+                        <small>Store Data</small>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 1rem 0; font-size: 1.1rem; color: #6c757d;">
+                    📖 Read Requests Use Cache-Aside
+                </div>
+                
+                <div class="flow-info">
+                    <strong>📋 How it works:</strong>
+                    <ul>
+                        <li>Writes bypass cache, go directly to database</li>
+                        <li>Reads use cache-aside pattern</li>
+                        <li>Cache populated only on read requests</li>
+                        <li>Prevents cache pollution from rarely-read data</li>
+                    </ul>
+                    <p><strong>✅ Best for:</strong> Write-heavy workloads, infrequently read data<br>
+                    <strong>❌ Challenges:</strong> Cache misses after writes, potential inconsistency window</p>
+                </div>
+            </div>
+
+            <h2>🎯 Pattern Selection Guide</h2>
+            <div style="background: #f8f9fa; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #28a745;">
+                        <h4 style="color: #28a745; margin-top: 0;">📖 Read-Heavy Applications</h4>
+                        <p><strong>Best Choice:</strong> Cache-Aside</p>
+                        <p><strong>Examples:</strong> News sites, product catalogs, user profiles</p>
+                    </div>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #007bff;">
+                        <h4 style="color: #007bff; margin-top: 0;">✍️ Write-Heavy Applications</h4>
+                        <p><strong>Best Choice:</strong> Write-Behind or Write-Around</p>
+                        <p><strong>Examples:</strong> Logging systems, analytics, IoT data</p>
+                    </div>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #6f42c1;">
+                        <h4 style="color: #6f42c1; margin-top: 0;">🔒 Strong Consistency</h4>
+                        <p><strong>Best Choice:</strong> Write-Through</p>
+                        <p><strong>Examples:</strong> Financial systems, inventory, user settings</p>
+                    </div>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #dc3545;">
+                        <h4 style="color: #dc3545; margin-top: 0;">⚡ High Performance</h4>
+                        <p><strong>Best Choice:</strong> Write-Behind + Cache-Aside</p>
+                        <p><strong>Examples:</strong> Gaming leaderboards, real-time feeds</p>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <h2>🔄 Example: E-commerce Platform</h2>
+            <div class="flow-info">
+                <h4>🏪 How different patterns work together:</h4>
+                <ul>
+                    <li><strong>Product Catalog:</strong> Cache-Aside (read-heavy, occasional updates)</li>
+                    <li><strong>User Sessions:</strong> Write-Through (consistency important)</li>
+                    <li><strong>Analytics Events:</strong> Write-Behind (high volume, eventual consistency OK)</li>
+                    <li><strong>Price Updates:</strong> Write-Around (frequent writes, infrequent reads)</li>
+                </ul>
+            </div>
+
+<            <h2>🏃‍♂️ Demo</h2>
+
+            <!-- Interactive Demo Controls -->
+            <div style="background: #e3f2fd; padding: 2rem; border-radius: 8px; border-left: 4px solid #2196f3; margin: 2rem 0;">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+                    <button id="runDemo" style="background: #28a745; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem;">
+                        🚀 Run Caching Demo
+                    </button>
+                    <button id="clearOutput" style="background: #6c757d; color: white; border: none; padding: 0.8rem 1rem; border-radius: 6px; cursor: pointer;">
+                        🗑️ Clear Output
+                    </button>
+                    <button id="runCustomTest" style="background: #007bff; color: white; border: none; padding: 0.8rem 1rem; border-radius: 6px; cursor: pointer;">
+                        🧪 Run Custom Test
+                    </button>
+                </div>
+                
+                <!-- Custom Test Controls -->
+                <div id="customControls" style="display: none; background: #f8f9fa; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                    <h4 style="margin: 0 0 1rem 0;">🧪 Custom Test Parameters:</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <label style="font-size: 0.9rem; font-weight: bold; color: #495057;">Product ID (1-5):</label>
+                            <input type="number" id="productId" value="1" min="1" max="5" style="width: 100%; padding: 0.5rem; border: 2px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <small style="color: #6c757d; font-size: 0.8rem;">Available products: 1-5</small>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.9rem; font-weight: bold; color: #495057;">User ID (101-103):</label>
+                            <input type="number" id="userId" value="101" min="101" max="103" style="width: 100%; padding: 0.5rem; border: 2px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <small style="color: #6c757d; font-size: 0.8rem;">Test users: 101, 102, 103</small>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.9rem; font-weight: bold; color: #495057;">DB Delay (10-1000ms):</label>
+                            <input type="number" id="dbDelay" value="100" min="10" max="1000" step="10" style="width: 100%; padding: 0.5rem; border: 2px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <small style="color: #6c757d; font-size: 0.8rem;">Simulates database speed</small>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.9rem; font-weight: bold; color: #495057;">Cache TTL (1-300s):</label>
+                            <input type="number" id="cacheTTL" value="60" min="1" max="300" style="width: 100%; padding: 0.5rem; border: 2px solid #ddd; border-radius: 4px; font-size: 0.9rem;">
+                            <small style="color: #6c757d; font-size: 0.8rem;">How long cache entries live</small>
+                        </div>
+                    </div>
+                    <div style="background: #e3f2fd; padding: 0.8rem; border-radius: 4px; font-size: 0.85rem; color: #1976d2;">
+                        💡 <strong>Tip:</strong> Try different combinations! Higher DB delays show bigger performance gains from caching.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Output Console -->
+            <div style="background: #1a1a1a; color: #00ff00; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; font-family: 'Courier New', monospace; min-height: 200px; max-height: 500px; overflow-y: auto; border: 2px solid #333;">
+                <div style="color: #888; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+                    📟 Live Demo Console Output
+                </div>
+                <div id="demoOutput" style="white-space: pre-wrap; line-height: 1.4;">
+                    Click "Run Caching Demo" to see the magic happen! ✨
+                </div>
+            </div>
+
+            <!-- Performance Metrics Display -->
+            <div id="performanceMetrics" style="display: none; background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+                <h4 style="margin: 0 0 1rem 0; color: #2c3e50;">📊 Performance Metrics</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #28a745;" id="cacheHits">0</div>
+                        <div style="font-size: 0.9rem; color: #155724;">Cache Hits</div>
+                    </div>
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #856404;" id="cacheMisses">0</div>
+                        <div style="font-size: 0.9rem; color: #533f03;">Cache Misses</div>
+                    </div>
+                    <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #1976d2;" id="hitRate">0%</div>
+                        <div style="font-size: 0.9rem; color: #0d47a1;">Hit Rate</div>
+                    </div>
+                    <div style="background: #f3e5f5; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #7b1fa2;" id="avgSpeedup">0x</div>
+                        <div style="font-size: 0.9rem; color: #4a148c;">Avg Speedup</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Implementation (Still Available) -->
+            <details style="margin: 2rem 0; background: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                <summary style="padding: 1rem; font-weight: bold; cursor: pointer; background: #e9ecef; border-radius: 8px 8px 0 0;">
+                    📝 View Complete Python Implementation Code
+                </summary>
+                <div style="padding: 1rem;">
+
+<pre><code># complete_ecommerce_cache_example.py
+import time
+import json
+import random
+from functools import lru_cache
+from datetime import datetime, timedelta
+from typing import Dict, List, Optional
+
+class DatabaseSimulator:
+    """Simulates a slow database with realistic delays"""
+    
+    def __init__(self):
+        # Simulate some sample data
+        self.products = {
+            1: {"id": 1, "name": "iPhone 14", "price": 999, "category": "phones"},
+            2: {"id": 2, "name": "MacBook Pro", "price": 2399, "category": "laptops"},
+            3: {"id": 3, "name": "AirPods", "price": 249, "category": "accessories"},
+            4: {"id": 4, "name": "iPad Pro", "price": 1099, "category": "tablets"},
+            5: {"id": 5, "name": "Apple Watch", "price": 399, "category": "watches"}
+        }
+        
+        self.users = {
+            101: {"id": 101, "name": "John Doe", "email": "john@example.com", "tier": "premium"},
+            102: {"id": 102, "name": "Jane Smith", "email": "jane@example.com", "tier": "basic"},
+            103: {"id": 103, "name": "Bob Wilson", "email": "bob@example.com", "tier": "premium"}
+        }
+    
+    def get_product(self, product_id: int, delay: float = 0.1) -> Optional[Dict]:
+        """Simulate slow database query for product"""
+        print(f"🐌 DB Query: Fetching product {product_id}...")
+        time.sleep(delay)  # Simulate database delay
+        return self.products.get(product_id)
+    
+    def get_user(self, user_id: int, delay: float = 0.15) -> Optional[Dict]:
+        """Simulate slow database query for user"""
+        print(f"🐌 DB Query: Fetching user {user_id}...")
+        time.sleep(delay)  # Simulate database delay
+        return self.users.get(user_id)
+    
+    def get_user_orders(self, user_id: int, delay: float = 0.2) -> List[Dict]:
+        """Simulate expensive query for user orders"""
+        print(f"🐌 DB Query: Fetching orders for user {user_id}...")
+        time.sleep(delay)  # Simulate database delay
+        
+        # Generate fake orders
+        orders = []
+        for i in range(random.randint(1, 5)):
+            orders.append({
+                "id": f"order_{user_id}_{i}",
+                "product_id": random.choice(list(self.products.keys())),
+                "quantity": random.randint(1, 3),
+                "total": random.randint(100, 1000)
+            })
+        return orders
+
+class InMemoryCache:
+    """Simple in-memory cache with TTL support"""
+    
+    def __init__(self):
+        self.cache = {}
+        self.expiry_times = {}
+        self.hit_count = 0
+        self.miss_count = 0
+    
+    def get(self, key: str):
+        """Get value from cache if not expired"""
+        if key in self.cache:
+            if datetime.now() < self.expiry_times[key]:
+                self.hit_count += 1
+                print(f"✅ Cache HIT: {key}")
+                return self.cache[key]
+            else:
+                # Expired, remove from cache
+                del self.cache[key]
+                del self.expiry_times[key]
+        
+        self.miss_count += 1
+        print(f"❌ Cache MISS: {key}")
+        return None
+    
+    def set(self, key: str, value, ttl_seconds: int = 60):
+        """Store value in cache with TTL"""
+        self.cache[key] = value
+        self.expiry_times[key] = datetime.now() + timedelta(seconds=ttl_seconds)
+        print(f"💾 Cache SET: {key} (TTL: {ttl_seconds}s)")
+    
+    def delete(self, key: str):
+        """Remove key from cache"""
+        if key in self.cache:
+            del self.cache[key]
+            del self.expiry_times[key]
+            print(f"🗑️ Cache DELETE: {key}")
+    
+    def clear(self):
+        """Clear all cache data"""
+        self.cache.clear()
+        self.expiry_times.clear()
+        self.hit_count = 0
+        self.miss_count = 0
+    
+    def get_stats(self):
+        """Get cache performance statistics"""
+        total_requests = self.hit_count + self.miss_count
+        hit_rate = (self.hit_count / total_requests * 100) if total_requests > 0 else 0
+        return {
+            "hits": self.hit_count,
+            "misses": self.miss_count,
+            "hit_rate": f"{hit_rate:.1f}",
+            "total_keys": len(self.cache)
+        }
+
+class ECommerceService:
+    """E-commerce service demonstrating different caching patterns"""
+    
+    def __init__(self, db_delay: float = 0.1, cache_ttl: int = 60):
+        self.db = DatabaseSimulator()
+        self.cache = InMemoryCache()
+        self.db_delay = db_delay
+        self.cache_ttl = cache_ttl
+    
+    # Pattern 1: Cache-Aside for Products (Read-Heavy)
+    def get_product(self, product_id: int) -> Optional[Dict]:
+        """Get product using cache-aside pattern"""
+        cache_key = f"product:{product_id}"
+        
+        # Try cache first
+        cached_product = self.cache.get(cache_key)
+        if cached_product:
+            return cached_product
+        
+        # Cache miss - fetch from database
+        product = self.db.get_product(product_id, self.db_delay)
+        if product:
+            # Store in cache for specified TTL
+            self.cache.set(cache_key, product, ttl_seconds=self.cache_ttl)
+        
+        return product
+    
+    # Pattern 2: Cache-Aside for User Data
+    def get_user(self, user_id: int) -> Optional[Dict]:
+        """Get user using cache-aside pattern"""
+        cache_key = f"user:{user_id}"
+        
+        cached_user = self.cache.get(cache_key)
+        if cached_user:
+            return cached_user
+        
+        user = self.db.get_user(user_id, self.db_delay + 0.05)
+        if user:
+            # Store in cache with shorter TTL (user data changes more frequently)
+            self.cache.set(cache_key, user, ttl_seconds=max(30, self.cache_ttl - 30))
+        
+        return user
+    
+    # Pattern 3: Expensive Query Caching
+    def get_user_orders(self, user_id: int) -> List[Dict]:
+        """Get user orders with caching for expensive queries"""
+        cache_key = f"user_orders:{user_id}"
+        
+        cached_orders = self.cache.get(cache_key)
+        if cached_orders:
+            return cached_orders
+        
+        orders = self.db.get_user_orders(user_id, self.db_delay + 0.1)
+        # Cache for shorter time (orders change frequently)
+        self.cache.set(cache_key, orders, ttl_seconds=max(20, self.cache_ttl - 40))
+        
+        return orders
+    
+    # Cache Invalidation Example
+    def update_user(self, user_id: int, user_data: Dict):
+        """Update user and invalidate cache"""
+        # Update in database (simulated)
+        print(f"📝 Updating user {user_id} in database...")
+        
+        # Invalidate related cache entries
+        cache_keys = [
+            f"user:{user_id}",
+            f"user_orders:{user_id}"
+        ]
+        
+        for key in cache_keys:
+            self.cache.delete(key)
+        
+        print(f"🔄 Invalidated {len(cache_keys)} cache entries")
+
+# LRU Cache Example for Computation-Heavy Operations
+@lru_cache(maxsize=100)
+def calculate_shipping_cost(weight: float, distance: int, shipping_type: str) -> float:
+    """Expensive shipping calculation with LRU cache"""
+    print(f"🧮 Computing shipping cost (weight={weight}, distance={distance}, type={shipping_type})")
+    time.sleep(0.05)  # Simulate complex calculation
+    
+    base_cost = weight * 0.5
+    distance_cost = distance * 0.01
+    type_multiplier = {"standard": 1.0, "express": 2.0, "overnight": 3.5}
+    
+    return round(base_cost + distance_cost * type_multiplier[shipping_type], 2)
+
+def run_performance_test(product_id: int = 1, user_id: int = 101, 
+                        db_delay: float = 0.1, cache_ttl: int = 60):
+    """Run performance test to demonstrate caching benefits"""
+    print("\n" + "="*60)
+    print("🚀 E-COMMERCE CACHING PERFORMANCE TEST")
+    print("="*60)
+    
+    service = ECommerceService(db_delay, cache_ttl)
+    
+    # Test scenarios with timing
+    test_cases = [
+        ("Product Lookups", lambda: service.get_product(product_id)),
+        ("User Lookups", lambda: service.get_user(user_id)),
+        ("User Orders", lambda: service.get_user_orders(user_id)),
+    ]
+    
+    performance_results = []
+    
+    for test_name, test_func in test_cases:
+        print(f"\n📊 Testing: {test_name}")
+        print("-" * 40)
+        
+        # First call (cache miss)
+        start_time = time.time()
+        result1 = test_func()
+        miss_time = time.time() - start_time
+        
+        # Second call (cache hit)
+        start_time = time.time()
+        result2 = test_func()
+        hit_time = time.time() - start_time
+        
+        # Performance comparison
+        speedup = miss_time / hit_time if hit_time > 0 else float('inf')
+        print(f"⏱️ Cache MISS time: {miss_time*1000:.1f}ms")
+        print(f"⚡ Cache HIT time: {hit_time*1000:.1f}ms")
+        print(f"🚀 Speedup: {speedup:.1f}x faster")
+        
+        performance_results.append({
+            'test': test_name,
+            'miss_time': miss_time,
+            'hit_time': hit_time,
+            'speedup': speedup
+        })
+    
+    # Test LRU Cache
+    print(f"\n📊 Testing: LRU Cache (Shipping Calculations)")
+    print("-" * 40)
+    
+    # First calculation (cache miss)
+    start_time = time.time()
+    cost1 = calculate_shipping_cost(2.5, 100, "express")
+    miss_time = time.time() - start_time
+    
+    # Same calculation (cache hit)
+    start_time = time.time()
+    cost2 = calculate_shipping_cost(2.5, 100, "express")
+    hit_time = time.time() - start_time
+    
+    speedup = miss_time / hit_time if hit_time > 0 else float('inf')
+    print(f"⏱️ First calculation: {miss_time*1000:.1f}ms (result: ${cost1})");
+    console.log(f"Cache HIT time: {hit_time:.1f}ms") 
+    console.log(`Speedup: ${speedup:.1f}x faster`);
+    
+    # Cache invalidation test
+    print(f"\n📊 Testing: Cache Invalidation")
+    print("-" * 40)
+    service.update_user(user_id, {"name": "John Updated"})
+    
+    # Show cache statistics
+    print(f"\n📈 Final Cache Statistics:");
+    console.log("-" * 40);
+    stats = service.cache.get_stats();
+    for (key, value) in stats.items():
+        print(f"{key.replace('_', ' ').title()}: {value}");
+    
+    # LRU Cache info
+    print(f"\nLRU Cache Info: {calculate_shipping_cost.cache_info()}")
+    
+    return performance_results, stats
+
+# Example usage with different parameters
+def test_different_scenarios():
+    """Test various caching scenarios"""
+    
+    # Scenario 1: Normal operations
+    print("🧪 Scenario 1: Normal E-commerce Operations")
+    run_performance_test(product_id=1, user_id=101, db_delay=0.1, cache_ttl=60)
+    
+    # Scenario 2: Slow database
+    print("\n🧪 Scenario 2: Slow Database (300ms delays)")
+    run_performance_test(product_id=2, user_id=102, db_delay=0.3, cache_ttl=60)
+    
+    # Scenario 3: Short TTL (quick expiration)
+    print("\n🧪 Scenario 3: Short TTL (5 seconds)")
+    run_performance_test(product_id=3, user_id=103, db_delay=0.1, cache_ttl=5)
+
+if __name__ == "__main__":
+    # Run basic performance test
+    run_performance_test()
+    
+    # Uncomment to run different scenarios
+    # test_different_scenarios()
+    
+    # Example of running with custom parameters
+    print("\n" + "="*60);
+    print("🔧 Custom Test Example:");
+    print("="*60);
+    results, stats = run_performance_test(
+        product_id=5,
+        user_id=103, 
+        db_delay=0.2,  # 200ms database delay
+        cache_ttl=120  # 2 minutes cache TTL
+    )
+    
+    # Print summary
+    print(f"\n📊 Performance Summary:");
+    total_speedup = sum(r['speedup'] for r in results if r['speedup'] != float('inf'));
+    avg_speedup = total_speedup / len(results) if results else 0;
+    print(f"Average Speedup: {avg_speedup:.1f}x");
+    print(f"Cache Hit Rate: {stats['hit_rate']}");
+</code></pre>
+
+                </div>
+            </details>
+
+            <h2>🎯 How to Run This Python Example</h2>
+            <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2196f3; margin: 1rem 0;">
+                <h4 style="color: #1976d2; margin-top: 0;">Step-by-Step Instructions:</h4>
+                <ol>
+                    <li><strong>Save the code:</strong> Copy the complete Python code above to a file named <code>ecommerce_cache_demo.py</code></li>
+                    <li><strong>Run it:</strong> <code>python ecommerce_cache_demo.py</code></li>
+                    <li><strong>Observe the output:</strong> You'll see real-time cache hits/misses and performance metrics</li>
+                </ol>
+                
+                <h4 style="color: #1976d2; margin-top: 1rem;">Requirements:</h4>
+                <pre><code># No external dependencies required! 
+# Uses only Python standard library:
+# - time, json, random, functools, datetime, typing</code></pre>
+            </div>
+            <h2>🐍 Python-Specific Features Used</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                
+                <div style="background: #d4edda; padding: 1rem; border-radius: 8px; border-left: 4px solid #28a745;">
+                    <h4 style="color: #28a745; margin-top: 0;">🔧 Python Built-ins</h4>
+                    <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                        <li><code>@lru_cache</code> decorator for function memoization</li>
+                        <li><code>datetime</code> for TTL management</li>
+                        <li><code>typing</code> for type hints</li>
+                        <li><code>time.sleep()</code> for realistic delays</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <h4 style="color: #856404; margin-top: 0;">📦 No Dependencies</h4>
+                    <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                        <li>Pure Python standard library</li>
+                        <li>No Redis or external cache required</li>
+                        <li>Easy to run and experiment with</li>
+                        <li>Self-contained demonstration</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #2196f3;">
+                    <h4 style="color: #1976d2; margin-top: 0;">🎯 Educational Focus</h4>
+                    <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                        <li>Clear cache hit/miss visualization</li>
+                        <li>Real performance timing</li>
+                        <li>Multiple caching patterns shown</li>
+                        <li>Configurable parameters for testing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>🧪 Python Experiments to Try</h2>
+            <div class="flow-info">
+                <p>Modify the Python code to experiment with different scenarios:</p>
+                <ol>
+                    <li><strong>Test TTL Expiration:</strong> Set TTL to 2 seconds, run tests, wait 3 seconds, run again</li>
+                    <li><strong>Compare Different Delays:</strong> Try <code>db_delay=0.001</code> vs <code>db_delay=1.0</code></li>
+                    <li><strong>Memory Usage:</strong> Add thousands of cache entries and monitor memory</li>
+                    <li><strong>Concurrent Access:</strong> Use <code>threading</code> to simulate multiple users</li>
+                </ol>
+            </div>
+
+<pre><code># Experiment: Test cache expiration in Python
+import time
+
+def test_ttl_expiration():
+    """Test TTL expiration with real timing"""
+    service = ECommerceService(db_delay=0.1, cache_ttl=2)  # 2 second TTL
+    
+    print("🧪 Testing TTL Expiration")
+    print("-" * 30)
+    
+    # Get product (cache miss)
+    product = service.get_product(1)
+    print(f"Got product: {product['name']}")
+    
+    # Immediately get again (cache hit)
+    product = service.get_product(1)
+    print(f"Got product: {product['name']}")
+    
+    # Wait for TTL expiration
+    print("⏳ Waiting 3 seconds for cache expiration...")
+    time.sleep(3)
+    
+    # Get again (should be cache miss due to expiration)
+    product = service.get_product(1)
+    print(f"Got product: {product['name']}")
+    
+    # Show final stats
+    stats = service.cache.get_stats()
+    print(f"Final stats: {stats}")
+
+# Run the TTL test
+if __name__ == "__main__":
+    test_ttl_expiration()
+</code></pre>
+
+            <!-- JavaScript Implementation for Web Demo Functionality -->
+            <script>
+            // Python code execution simulation for the web demo
+            class PythonCodeRunner {
+                constructor() {
+                    this.cache = {};
+                    this.expiryTimes = {};
+                    this.hitCount = 0;
+                    this.missCount = 0;
+                    this.products = {
+                        1: {id: 1, name: "iPhone 14", price: 999, category: "phones"},
+                        2: {id: 2, name: "MacBook Pro", price: 2399, category: "laptops"}, 
+                        3: {id: 3, name: "AirPods", price: 249, category: "accessories"},
+                        4: {id: 4, name: "iPad Pro", price: 1099, category: "tablets"},
+                        5: {id: 5, name: "Apple Watch", price: 399, category: "watches"}
+                    };
+                    this.users = {
+                        101: {id: 101, name: "John Doe", email: "john@example.com", tier: "premium"},
+                        102: {id: 102, name: "Jane Smith", email: "jane@example.com", tier: "basic"},
+                        103: {id: 103, name: "Bob Wilson", email: "bob@example.com", tier: "premium"}
+                    };
+                }
+
+                log(message) {
+                    const output = document.getElementById('demoOutput');
+                    const timestamp = new Date().toLocaleTimeString();
+                    output.textContent += `[${timestamp}] ${message}\n`;
+                    output.scrollTop = output.scrollHeight;
+                }
+
+                async sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+
+                // Simulate Python cache operations
+                async cacheGet(key) {
+                    if (key in this.cache) {
+                        if (Date.now() < this.expiryTimes[key]) {
+                            this.hitCount++;
+                            this.log(`✅ Cache HIT: ${key}`);
+                            return this.cache[key];
+                        } else {
+                            delete this.cache[key];
+                            delete this.expiryTimes[key];
+                        }
+                    }
+                    this.missCount++;
+                    this.log(`❌ Cache MISS: ${key}`);
+                    return null;
+                }
+
+                cacheSet(key, value, ttlSeconds = 60) {
+                    this.cache[key] = value;
+                    this.expiryTimes[key] = Date.now() + (ttlSeconds * 1000);
+                    this.log(`💾 Cache SET: ${key} (TTL: ${ttlSeconds}s)`);
+                }
+
+                cacheDelete(key) {
+                    if (key in this.cache) {
+                        delete this.cache[key];
+                        delete this.expiryTimes[key];
+                        this.log(`🗑️ Cache DELETE: ${key}`);
+                    }
+                }
+
+                // Simulate Python database operations
+                async dbGetProduct(productId, delay) {
+                    this.log(`🐌 DB Query: Fetching product ${productId}...`);
+                    await this.sleep(delay);
+                    return this.products[productId] || null;
+                }
+
+                async dbGetUser(userId, delay) {
+                    this.log(`🐌 DB Query: Fetching user ${userId}...`);
+                    await this.sleep(delay);
+                    return this.users[userId] || null;
+                }
+
+                async dbGetUserOrders(userId, delay) {
+                    this.log(`🐌 DB Query: Fetching orders for user ${userId}...`);
+                    await this.sleep(delay);
+                    
+                    const orders = [];
+                    const numOrders = Math.floor(Math.random() * 5) + 1;
+                    for (let i = 0; i < numOrders; i++) {
+                        orders.push({
+                            id: `order_${userId}_${i}`,
+                            product_id: Math.floor(Math.random() * 5) + 1,
+                            quantity: Math.floor(Math.random() * 3) + 1,
+                            total: Math.floor(Math.random() * 900) + 100
+                        });
+                    }
+                    return orders;
+                }
+
+                // Python-style cache-aside pattern
+                async getProduct(productId, dbDelay, cacheTTL) {
+                    const cacheKey = `product:${productId}`;
+                    
+                    const cached = await this.cacheGet(cacheKey);
+                    if (cached) {
+                        return cached;
+                    }
+
+                    const product = await this.dbGetProduct(productId, dbDelay);
+                    if (product) {
+                        this.cacheSet(cacheKey, product, cacheTTL);
+                    }
+                    return product;
+                }
+
+                async getUser(userId, dbDelay, cacheTTL) {
+                    const cacheKey = `user:${userId}`;
+                    
+                    const cached = await this.cacheGet(cacheKey);
+                    if (cached) {
+                        return cached;
+                    }
+
+                    const user = await this.dbGetUser(userId, dbDelay + 50);
+                    if (user) {
+                        this.cacheSet(cacheKey, user, Math.max(30, cacheTTL - 30));
+                    }
+                    return user;
+                }
+
+                async getUserOrders(userId, dbDelay, cacheTTL) {
+                    const cacheKey = `user_orders:${userId}`;
+                    
+                    const cached = await this.cacheGet(cacheKey);
+                    if (cached) {
+                        return cached;
+                    }
+
+                    const orders = await this.dbGetUserOrders(userId, dbDelay + 100);
+                    this.cacheSet(cacheKey, orders, Math.max(20, cacheTTL - 40));
+                    return orders;
+                }
+
+                updateUser(userId, userData) {
+                    this.log(`📝 Updating user ${userId} in database...`);
+                    
+                    const cacheKeys = [
+                        `user:${userId}`,
+                        `user_orders:${userId}`
+                    ];
+                    
+                    cacheKeys.forEach(key => {
+                        this.cacheDelete(key);
+                    });
+                    
+                    this.log(`🔄 Invalidated ${cacheKeys.length} cache entries`);
+                }
+
+                getStats() {
+                    const totalRequests = this.hitCount + this.missCount;
+                    const hitRate = totalRequests > 0 ? (this.hitCount / totalRequests * 100) : 0;
+                    return {
+                        hits: this.hitCount,
+                        misses: this.missCount,
+                        hitRate: hitRate.toFixed(1) + '%',
+                        totalKeys: Object.keys(this.cache).length
+                    };
+                }
+
+                clear() {
+                    this.cache = {};
+                    this.expiryTimes = {};
+                    this.hitCount = 0;
+                    this.missCount = 0;
+                }
+
+                // Main Python performance test function
+                async runPerformanceTest(customParams = {}) {
+                    const {
+                        productId = 1,
+                        userId = 101,
+                        dbDelay = 100,
+                        cacheTTL = 60
+                    } = customParams;
+
+                    // Clear previous test data
+                    this.clear();
+                    
+                    const output = document.getElementById('demoOutput');
+                    output.textContent = '';
+                    
+                    this.log("🚀 E-COMMERCE CACHING PERFORMANCE TEST");
+                    this.log("=" + "=".repeat(59));
+                    this.log("");
+                    
+                    // Test cases with performance tracking
+                    const testCases = [
+                        {
+                            name: "Product Lookups",
+                            func: () => this.getProduct(productId, dbDelay, cacheTTL)
+                        },
+                        {
+                            name: "User Lookups", 
+                            func: () => this.getUser(userId, dbDelay, cacheTTL)
+                        },
+                        {
+                            name: "User Orders",
+                            func: () => this.getUserOrders(userId, dbDelay, cacheTTL)
+                        }
+                    ];
+                    
+                    const performanceResults = [];
+                    
+                    for (const testCase of testCases) {
+                        this.log(`📊 Testing: ${testCase.name}`);
+                        this.log("-".repeat(40));
+                        
+                        // First call (cache miss)
+                        const missStartTime = performance.now();
+                        const result1 = await testCase.func();
+                        const missTime = performance.now() - missStartTime;
+                        
+                        // Second call (cache hit)  
+                        const hitStartTime = performance.now();
+                        const result2 = await testCase.func();
+                        const hitTime = performance.now() - hitStartTime;
+                        
+                        const speedup = hitTime > 0 ? missTime / hitTime : Infinity;
+                        
+                        this.log(`⏱️ Cache MISS time: ${missTime.toFixed(1)}ms`);
+                        this.log(`⚡ Cache HIT time: ${hitTime.toFixed(1)}ms`);
+                        this.log(`🚀 Speedup: ${speedup.toFixed(1)}x faster`);
+                        this.log("");
+                        
+                        performanceResults.push({
+                            test: testCase.name,
+                            missTime,
+                            hitTime, 
+                            speedup
+                        });
+                    }
+
+                    // Simulate LRU cache test
+                    this.log(`📊 Testing: LRU Cache (Shipping Calculations)`);
+                    this.log("-".repeat(40));
+                    
+                    const calcStartTime = performance.now();
+                    this.log(`🧮 Computing shipping cost (weight=2.5, distance=100, type=express)`);
+                    await this.sleep(50); // Simulate calculation time
+                    const cost = 3.25;
+                    const calcTime = performance.now() - calcStartTime;
+                    
+                    this.log(`⏱️ First calculation: ${calcTime.toFixed(1)}ms (result: $${cost})`);
+                    this.log(`⚡ Cached calculation: 0.0ms (result: $${cost})`);
+                    this.log(`🚀 Speedup: ${(calcTime / 0.1).toFixed(1)}x faster`);
+                    this.log("");
+                    
+                    // Cache invalidation test
+                    this.log(`📊 Testing: Cache Invalidation`);
+                    this.log("-".repeat(40));
+                    this.updateUser(userId, {name: "John Updated"});
+                    this.log("");
+                    
+                    // Show final stats
+                    this.log(`📈 Final Cache Statistics:`);
+                    this.log("-".repeat(40));
+                    const stats = this.getStats();
+                    Object.entries(stats).forEach(([key, value]) => {
+                        const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                        this.log(`${formattedKey}: ${value}`);
+                    });
+                    
+                    this.log("");
+                    this.log("LRU Cache Info: CacheInfo(hits=1, misses=1, maxsize=100, currsize=1)");
+                    
+                    // Update performance metrics display
+                    this.updatePerformanceMetrics(stats, performanceResults);
+                    
+                    return {performanceResults, stats};
+                }
+
+                updatePerformanceMetrics(stats, performanceResults) {
+                    const metricsDiv = document.getElementById('performanceMetrics');
+                    metricsDiv.style.display = 'block';
+                    
+                    document.getElementById('cacheHits').textContent = stats.hits;
+                    document.getElementById('cacheMisses').textContent = stats.misses;
+                    document.getElementById('hitRate').textContent = stats.hitRate;
+                    
+                    const avgSpeedup = performanceResults.length > 0 
+                        ? (performanceResults.reduce((sum, result) => sum + (result.speedup === Infinity ? 1000 : result.speedup), 0) / performanceResults.length).toFixed(1)
+                        : '0';
+                    document.getElementById('avgSpeedup').textContent = avgSpeedup + 'x';
+                }
+            }
+
+            // Initialize Python code runner
+            let pythonRunner = new PythonCodeRunner();
+
+            // Event Listeners
+            document.addEventListener('DOMContentLoaded', function() {
+                const runDemoBtn = document.getElementById('runDemo');
+                const clearOutputBtn = document.getElementById('clearOutput');
+                const runCustomTestBtn = document.getElementById('runCustomTest');
+                const customControls = document.getElementById('customControls');
+
+                runDemoBtn.addEventListener('click', () => {
+                    runDemoBtn.disabled = true;
+                    runDemoBtn.style.background = '#6c757d';
+                    runDemoBtn.textContent = '🔄 Running Demo...';
+                    
+                    pythonRunner.runPerformanceTest().finally(() => {
+                        runDemoBtn.disabled = false;
+                        runDemoBtn.style.background = '#28a745';
+                        runDemoBtn.textContent = '🚀 Run Caching Demo';
+                    });
+                });
+
+                clearOutputBtn.addEventListener('click', () => {
+                    document.getElementById('demoOutput').textContent = 'Output cleared. Click "Run Caching Demo" to start! ✨';
+                    document.getElementById('performanceMetrics').style.display = 'none';
+                    pythonRunner.clear();
+                });
+
+                runCustomTestBtn.addEventListener('click', () => {
+                    if (customControls.style.display === 'none' || customControls.style.display === '') {
+                        // Show custom controls
+                        customControls.style.display = 'block';
+                        runCustomTestBtn.textContent = '🧪 Run Custom Test';
+                        runCustomTestBtn.style.background = '#28a745';
+                    } else {
+                        // Run custom test with user parameters
+                        const customParams = {
+                            productId: parseInt(document.getElementById('productId').value),
+                            userId: parseInt(document.getElementById('userId').value),
+                            dbDelay: parseInt(document.getElementById('dbDelay').value),
+                            cacheTTL: parseInt(document.getElementById('cacheTTL').value)
+                        };
+                        
+                        // Validate parameters
+                        const productIdInput = document.getElementById('productId');
+                        const userIdInput = document.getElementById('userId');
+                        const dbDelayInput = document.getElementById('dbDelay');
+                        const cacheTTLInput = document.getElementById('cacheTTL');
+                        
+                        const productId = parseInt(productIdInput.value);
+                        const userId = parseInt(userIdInput.value);
+                        const dbDelay = parseInt(dbDelayInput.value);
+                        const cacheTTL = parseInt(cacheTTLInput.value);
+                        
+                        // Check if values are within valid ranges
+                        if (productId < 1 || productId > 5) {
+                            alert('Product ID must be between 1 and 5');
+                            return;
+                        }
+                        if (userId < 101 || userId > 103) {
+                            alert('User ID must be between 101 and 103');
+                            return;
+                        }
+                        if (dbDelay < 10 || dbDelay > 1000) {
+                            alert('DB Delay must be between 10 and 1000 ms');
+                            return;
+                        }
+                        if (cacheTTL < 1 || cacheTTL > 300) {
+                            alert('Cache TTL must be between 1 and 300 seconds');
+                            return;
+                        }
+                        
+                        runCustomTestBtn.disabled = true;
+                        runCustomTestBtn.style.background = '#6c757d';
+                        runCustomTestBtn.textContent = '🔄 Running Custom Test...';
+                        
+                        // Log custom parameters being used
+                        const output = document.getElementById('demoOutput');
+                        output.textContent = '';
+                        pythonRunner.log("🧪 CUSTOM CACHING PERFORMANCE TEST");
+                        pythonRunner.log("=" + "=".repeat(59));
+                        pythonRunner.log(`📋 Custom Parameters:`);
+                        pythonRunner.log(`   Product ID: ${productId}`);
+                        pythonRunner.log(`   User ID: ${userId}`);
+                        pythonRunner.log(`   DB Delay: ${dbDelay}ms`);
+                        pythonRunner.log(`   Cache TTL: ${cacheTTL}s`);
+                        pythonRunner.log("");
+                        
+                        pythonRunner.runPerformanceTest({
+                            productId: productId,
+                            userId: userId,
+                            dbDelay: dbDelay,
+                            cacheTTL: cacheTTL
+                        }).finally(() => {
+                            runCustomTestBtn.disabled = false;
+                            runCustomTestBtn.style.background = '#007bff';
+                            runCustomTestBtn.textContent = '🧪 Show Custom Controls';
+                            customControls.style.display = 'none';
+                        });
+                    }
+                });
+
+                // Add a separate button to just run the test without hiding controls
+                const runTestWithParamsBtn = document.createElement('button');
+                runTestWithParamsBtn.textContent = '▶️ Execute Test';
+                runTestWithParamsBtn.style.cssText = 'background: #28a745; color: white; border: none; padding: 0.8rem 1rem; border-radius: 6px; cursor: pointer; margin-left: 1rem;';
+                
+                runTestWithParamsBtn.addEventListener('click', () => {
+                    const customParams = {
+                        productId: parseInt(document.getElementById('productId').value),
+                        userId: parseInt(document.getElementById('userId').value),
+                        dbDelay: parseInt(document.getElementById('dbDelay').value),
+                        cacheTTL: parseInt(document.getElementById('cacheTTL').value)
+                    };
+                    
+                    // Validate parameters
+                    if (customParams.productId < 1 || customParams.productId > 5) {
+                        alert('Product ID must be between 1 and 5');
+                        return;
+                    }
+                    if (customParams.userId < 101 || customParams.userId > 103) {
+                        alert('User ID must be between 101 and 103');
+                        return;
+                    }
+                    if (customParams.dbDelay < 10 || customParams.dbDelay > 1000) {
+                        alert('DB Delay must be between 10 and 1000 ms');
+                        return;
+                    }
+                    if (customParams.cacheTTL < 1 || customParams.cacheTTL > 300) {
+                        alert('Cache TTL must be between 1 and 300 seconds');
+                        return;
+                    }
+                    
+                    runTestWithParamsBtn.disabled = true;
+                    runTestWithParamsBtn.style.background = '#6c757d';
+                    runTestWithParamsBtn.textContent = '🔄 Testing...';
+                    
+                    // Clear output and show custom parameters
+                    const output = document.getElementById('demoOutput');
+                    output.textContent = '';
+                    pythonRunner.clear();
+                    
+                    pythonRunner.log("🧪 CUSTOM CACHING PERFORMANCE TEST");
+                    pythonRunner.log("=" + "=".repeat(59));
+                    pythonRunner.log(`📋 Custom Parameters:`);
+                    pythonRunner.log(`   Product ID: ${customParams.productId}`);
+                    pythonRunner.log(`   User ID: ${customParams.userId}`);
+                    pythonRunner.log(`   DB Delay: ${customParams.dbDelay}ms`);
+                    pythonRunner.log(`   Cache TTL: ${customParams.cacheTTL}s`);
+                    pythonRunner.log("");
+                    
+                    pythonRunner.runPerformanceTest(customParams).finally(() => {
+                        runTestWithParamsBtn.disabled = false;
+                        runTestWithParamsBtn.style.background = '#28a745';
+                        runTestWithParamsBtn.textContent = '▶️ Execute Test';
+                    });
+                });
+
+                // Add the execute button to the custom controls
+                customControls.appendChild(runTestWithParamsBtn);
+
+                // Add real-time parameter validation with better visual feedback
+                const inputs = ['productId', 'userId', 'dbDelay', 'cacheTTL'];
+                inputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    input.addEventListener('input', function() {
+                        const value = parseInt(this.value);
+                        const min = parseInt(this.min);
+                        const max = parseInt(this.max);
+                        
+                        if (isNaN(value) || value < min || value > max) {
+                            this.style.borderColor = '#dc3545';
+                            this.style.backgroundColor = '#f8d7da';
+                            this.title = `Value must be between ${min} and ${max}`;
+                        } else {
+                            this.style.borderColor = '#28a745';
+                            this.style.backgroundColor = '#d4edda';
+                            this.title = 'Valid value';
+                        }
+                    });
+                    
+                    // Trigger validation on page load
+                    input.dispatchEvent(new Event('input'));
+                });
+            });
+            </script>
+
+            <!-- Add Python code generation and display -->
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                <h4 style="color: #17a2b8; margin-top: 0;">🐍 Equivalent Python Code Being Executed</h4>
+                <p>The demo above simulates this Python code execution:</p>
+                
+<pre><code># This is the Python code structure being simulated in the demo above
+
+class ECommerceService:
+    def __init__(self, db_delay=0.1, cache_ttl=60):
+        self.db = DatabaseSimulator()
+        self.cache = InMemoryCache()
+        self.db_delay = db_delay
+        self.cache_ttl = cache_ttl
+    
+    def get_product(self, product_id):
+        cache_key = f"product:{product_id}"
+        
+        # Try cache first (Cache-Aside pattern)
+        cached_product = self.cache.get(cache_key)
+        if cached_product:
+            print(f"✅ Cache HIT: {cache_key}")
+            return cached_product
+        
+        print(f"❌ Cache MISS: {cache_key}")
+        print(f"🐌 DB Query: Fetching product {product_id}...")
+        
+        # Simulate database delay
+        time.sleep(self.db_delay)
+        product = self.db.get_product(product_id)
+        
+        if product:
+            self.cache.set(cache_key, product, ttl_seconds=self.cache_ttl)
+            print(f"💾 Cache SET: {cache_key} (TTL: {self.cache_ttl}s)")
+        
+        return product
+
+# Custom test execution
+def run_custom_test(product_id, user_id, db_delay, cache_ttl):
+    service = ECommerceService(db_delay/1000, cache_ttl)  # Convert ms to seconds
+    
+    # Test product lookup (miss then hit)
+    start_time = time.time()
+    product1 = service.get_product(product_id)  # Cache miss
+    miss_time = (time.time() - start_time) * 1000
+    
+    start_time = time.time();
+    product2 = service.get_product(product_id)  # Cache hit
+    hit_time = (time.time() - start_time) * 1000
+    
+    speedup = miss_time / hit_time if hit_time > 0 else float('inf');
+    console.log(`Cache MISS time: ${miss_time:.1f}ms`);
+    console.log(`Cache HIT time: ${hit_time:.1f}ms`) 
+    console.log(`Speedup: ${speedup:.1f}x faster`);
+    
+    return service.cache.get_stats()
+</code></pre>
+            </div>
+
+            <h2>💡 Real-World Applications</h2>
+            <div style="background: #f8f9fa; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+                <p>This example demonstrates patterns used in production systems:</p>
+                <ul>
+                    <li><strong>E-commerce platforms:</strong> Product catalogs, user sessions, shopping carts</li>
+                    <li><strong>Social media:</strong> User profiles, feeds, notification counts</li>
+                    <li><strong>Banking systems:</strong> Account balances, transaction history, user preferences</li>
+                    <li><strong>Content platforms:</strong> Article content, user comments, recommendation engines</li>
+                </ul>
+            </div>
+
+            <h2>⚠️ Common Caching Challenges & Solutions</h2>
+            
+            <h3>🚨 Cache Stampede (Thundering Herd)</h3>
+            <div class="flow-info">
+                <p><strong>Problem:</strong> Multiple requests simultaneously try to regenerate expired cache data.</p>
+                <p><strong>Solution:</strong> Use locks or probabilistic early expiration.</p>
+<pre><code># Lock-based solution
+import time
+import threading
+
+cache_locks = {}
+
+def get_with_lock(cache_key, fetch_fn, ttl=3600):
+    cached = redis_client.get(cache_key)
+    if cached:
+        return json.loads(cached)
+    
+    # Try to acquire lock
+    lock_key = f"lock:{cache_key}"
+    if cache_key not in cache_locks:
+        cache_locks[cache_key] = threading.Lock()
+    
+    with cache_locks[cache_key]:
+        # Double-check after acquiring lock
+        cached = redis_client.get(cache_key)
+        if cached:
+            return json.loads(cached)
+        
+        # Fetch and cache
+        data = fetch_fn()
+        redis_client.setex(cache_key, ttl, json.dumps(data))
+        return data
+</code></pre>
+            </div>
+
+            <h3>🔄 Cache Invalidation</h3>
+            <div class="flow-info">
+                <p><strong>Problem:</strong> Keeping cache synchronized with database changes.</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li><strong>TTL-based:</strong> Simple but may serve stale data</li>
+                    <li><strong>Event-driven:</strong> Invalidate on database changes</li>
+                    <li><strong>Tag-based:</strong> Group related cache entries</li>
+                </ul>
+<pre><code># Event-driven invalidation
+def update_user(user_id, user_data):
+    # Update database
+    database.update_user(user_id, user_data)
+    
+    # Invalidate related cache entries
+    cache_keys = [
+        f"user:{user_id}",
+        f"user_profile:{user_id}",
+        f"user_permissions:{user_id}"
+    ]
+    redis_client.delete(*cache_keys)
+</code></pre>
+            </div>
+
+            <h3>❄️ Cold Start Problem</h3>
+            <div class="flow-info">
+                <p><strong>Problem:</strong> Empty cache after restart leads to poor performance.</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li><strong>Cache warming:</strong> Pre-populate critical data</li>
+                    <li><strong>Gradual loading:</strong> Slowly build cache over time</li>
+                    <li><strong>Persistent cache:</strong> Use Redis with disk persistence</li>
+                </ul>
+<pre><code># Cache warming strategy
+def warm_cache():
+    """Pre-populate cache with frequently accessed data"""
+    # Popular products
+    popular_products = database.get_popular_products(limit=100)
+    for product in popular_products:
+        key = f"product:{product['id']}"
+        redis_client.setex(key, 3600, json.dumps(product))
+    
+    # Recent users
+    recent_users = database.get_recent_active_users(limit=50)
+    for user in recent_users:
+        key = f"user:{user['id']}"
+        redis_client.setex(key, 1800, json.dumps(user))
+
+# Run on application startup
+warm_cache()
+</code></pre>
+            </div>
+
+            <h2>📌 Why Use Caching?</h2>
+            <ul>
+                <li>Reduce latency by avoiding expensive computations</li>
+                <li>Minimize database load during peak traffic</li>
+                <li>Improve user experience and response time</li>
+            </ul>
+            
+            <h2>🧠 In-Memory Caching with <code>lru_cache</code></h2>
+            <p>Use Python's built-in <code>functools.lru_cache</code> to cache function calls.</p>
+            <pre><code>from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def get_user_profile(user_id):
+    print("Fetching from DB...")
+    return db.query_user(user_id)
+
+# First call: hits DB
+get_user_profile(42)
+
+# Second call: served from cache
+get_user_profile(42)
+</code></pre>
+            
+            <h2>🧩 Using Redis for Distributed Caching</h2>
+            <p>Redis is a high-performance in-memory cache often used in Python apps via the <code>redis</code> library.</p>
+            <pre><code>import redis
+import json
+
+r = redis.Redis(host='localhost', port=6379, db=0)
+
+def get_product(product_id):
+    key = f"product:{product_id}"
+    
+    # Try fetching from Redis cache
+    cached = r.get(key)
+    if cached:
+        print("Cache hit!")
+        return json.loads(cached)
+    
+    print("Cache miss. Fetching from DB...")
+    # Simulate DB fetch
+    product = {"id": product_id, "name": "Example Product"}
+    
+    # Write to cache with TTL of 60 seconds
+    r.setex(key, 60, json.dumps(product))
+    return product
+</code></pre>
+            
+            <h2>📚 Further Reading & Resources</h2>
+            <ul>
+                <li><a href="https://redis.io/docs/management/eviction/" target="_blank">Redis Eviction Policies</a></li>
+                <li><a href="https://redis.io/docs/management/caching/" target="_blank">Caching with Redis</a></li>
+                <li><a href="https://docs.python.org/3/library/functools.html#functools.lru_cache" target="_blank">Python lru_cache Documentation</a></li>
+                <li><a href="https://realpython.com/python-database-apis/" target="_blank">Python Database APIs - Real Python</a></li>
+            </ul>
+            
+            <h2>❓ Frequently Asked Questions</h2>
+            <div class="flow-info">
+                <h4>Q1: What is the difference between cache and session storage?</h4>
+                <p>A1: Cache is used for temporary storage of data to speed up repeated access, while session storage is used to store data for the duration of a user's session, typically for maintaining state across multiple requests.</p>
+                
+                <h4>Q2: How does cache expiration work?</h4>
+                <p>A2: Cache expiration is managed by setting a Time-To-Live (TTL) for each cache entry. Once the TTL expires, the cached data is considered stale and is removed or refreshed on the next access.</p>
+                
+                <h4>Q3: What are cache eviction policies?</h4>
+                <p>A3: Eviction policies determine how cache entries are removed to free up space for new data. Common policies include Least Recently Used (LRU), Most Recently Used (MRU), and First In First Out (FIFO).</p>
+            </div>
         </article>
     </main>
-    
-    <footer>
-        <p>&copy; 2025 Deepak Kumar Yadav</p>
-    </footer>
-    
-    <script src="../js/main.js"></script>
 </body>
 </html>
