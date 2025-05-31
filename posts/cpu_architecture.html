@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microprocessor & Architecture | My Blog</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .architecture-diagram {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .architecture-diagram:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .cpu-component {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            margin: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .cpu-component:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .cpu-component.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .component-details {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            display: none;
+            text-align: left;
+        }
+        
+        .component-details.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bus-line {
+            height: 4px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            margin: 10px 0;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bus-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: dataFlow 2s infinite;
+        }
+        
+        @keyframes dataFlow {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:hover {
+            background: var(--hover-bg);
+        }
+        
+        .interactive-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(255,255,0,0.3), rgba(255,255,0,0.1));
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .arch-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tech-specs {
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .performance-meter {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+
+        .performance-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .run-output {
+            background: #222;
+            color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            min-height: 30px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <span class="avatar">DKY</span>
+                <span class="brand-name">Deepak Kumar Yadav</span>
+            </div>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html">My Blog</a></li>
+            </ul>
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        </nav>
+    </header>
+
+    <main class="post-page">
+        <article class="blog-post-full">
+            <h1>⚡ Microprocessor & Architecture</h1>
+            
+
+            <section class="post-content">
+                <div class="interactive-section">
+                    <h2>🧠 What are Microprocessors?</h2>
+                    <p>A microprocessor is the <span class="highlight">central processing unit (CPU)</span> of a computer system, fabricated on a small chip (integrated circuit). It's essentially the "brain" that executes instructions and controls the entire computing system.</p>
+                    
+                    <p>Think of it like a highly efficient manager in a company:</p>
+                    <ul>
+                        <li><strong>📥 Fetching:</strong> Getting tasks (instructions) from the to-do list (memory)</li>
+                        <li><strong>🔍 Decoding:</strong> Understanding what each task actually means</li>
+                        <li><strong>⚡ Executing:</strong> Performing the actual work (calculations, data movement)</li>
+                        <li><strong>🚦 Controlling:</strong> Managing the flow of information between departments</li>
+                    </ul>
+
+                    <div class="tech-specs">
+                        <h4>🔧 Key Technical Components</h4>
+                        <ul>
+                            <li><strong>Transistors:</strong> Billions of microscopic switches (3nm-14nm process)</li>
+                            <li><strong>Clock Speed:</strong> Operations per second (3-5 GHz typical)</li>
+                            <li><strong>Cores:</strong> Independent processing units (2-128 cores)</li>
+                            <li><strong>Cache:</strong> High-speed memory (32KB L1 to 256MB L3)</li>
+                            <li><strong>TDP:</strong> Thermal Design Power (15W-300W)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="diagram" style="margin: 2rem 0;">
+                    <div class="diagram-title">📈 Microprocessor Evolution Timeline</div>
+                        <br>
+                    <div style="display: flex; flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                        <div style="flex:1; min-width:120px; text-align:center;">
+                            <div style="background:#e3f2fd; border-radius:50%; width:60px; height:60px; margin:0 auto; display:flex; align-items:center; justify-content:center; font-size:2rem;">🕰️</div>
+                            <div style="margin-top:0.5rem; font-weight:bold;">1971-1980</div>
+                            <div style="font-size:0.9rem; color:#666;">Intel 4004<br>8080<br>Motorola 6800</div>
+                        </div>
+                        <div style="flex:1; min-width:120px; text-align:center;">
+                            <div style="background:#d1c4e9; border-radius:50%; width:60px; height:60px; margin:0 auto; display:flex; align-items:center; justify-content:center; font-size:2rem;">🚀</div>
+                            <div style="margin-top:0.5rem; font-weight:bold;">1980-1990</div>
+                            <div style="font-size:0.9rem; color:#666;">8086<br>68000<br>80386</div>
+                        </div>
+                        <div style="flex:1; min-width:120px; text-align:center;">
+                            <div style="background:#ffe082; border-radius:50%; width:60px; height:60px; margin:0 auto; display:flex; align-items:center; justify-content:center; font-size:2rem;">💾</div>
+                            <div style="margin-top:0.5rem; font-weight:bold;">1990-2000</div>
+                            <div style="font-size:0.9rem; color:#666;">Pentium<br>AMD K6<br>Pentium Pro</div>
+                        </div>
+                        <div style="flex:1; min-width:120px; text-align:center;">
+                            <div style="background:#b2dfdb; border-radius:50%; width:60px; height:60px; margin:0 auto; display:flex; align-items:center; justify-content:center; font-size:2rem;">🔥</div>
+                            <div style="margin-top:0.5rem; font-weight:bold;">2000-2010</div>
+                            <div style="font-size:0.9rem; color:#666;">Athlon 64<br>Core 2<br>ARM Cortex-A8</div>
+                        </div>
+                        <div style="flex:1; min-width:120px; text-align:center;">
+                            <div style="background:#c8e6c9; border-radius:50%; width:60px; height:60px; margin:0 auto; display:flex; align-items:center; justify-content:center; font-size:2rem;">🌟</div>
+                            <div style="margin-top:0.5rem; font-weight:bold;">2010-Present</div>
+                            <div style="font-size:0.9rem; color:#666;">Apple M1<br>AMD Zen<br>RISC-V</div>
+                        </div>
+                        </div>
+                            <div style="height:4px; background:linear-gradient(90deg,#667eea,#00f2fe); margin:1.5rem 0 0.5rem 0; border-radius:2px;"></div>
+                        </div>
+
+                <div class="interactive-section">
+                    <h2>📊 Comprehensive Architecture Types</h2>
+                    
+                    <h3>Based on Data Width & Capability</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Generation</th>
+                                <th>Bit Width</th>
+                                <th>Address Space</th>
+                                <th>Examples</th>
+                                <th>Era</th>
+                                <th>Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1st Gen</strong></td>
+                                <td>4-bit</td>
+                                <td>16 bytes</td>
+                                <td>Intel 4004, 4040</td>
+                                <td>1971-1974</td>
+                                <td>Basic calculators</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2nd Gen</strong></td>
+                                <td>8-bit</td>
+                                <td>64 KB</td>
+                                <td>Intel 8080, Z80, 6502</td>
+                                <td>1974-1978</td>
+                                <td>Early PCs, gaming</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3rd Gen</strong></td>
+                                <td>16-bit</td>
+                                <td>1 MB</td>
+                                <td>8086, 68000, Z8000</td>
+                                <td>1978-1985</td>
+                                <td>Professional PCs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4th Gen</strong></td>
+                                <td>32-bit</td>
+                                <td>4 GB</td>
+                                <td>80386, 68020, ARM</td>
+                                <td>1985-1995</td>
+                                <td>Modern computing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5th Gen</strong></td>
+                                <td>64-bit</td>
+                                <td>16 EB</td>
+                                <td>x86-64, ARM64, SPARC64</td>
+                                <td>1995-Present</td>
+                                <td>High-performance</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>🏗️ Detailed Instruction Set Architectures</h3>
+                    <div class="arch-comparison">
+                        <div class="architecture-diagram">
+                            <h4>🔧 CISC (Complex Instruction Set)</h4>
+                            <div class="tech-specs">
+                                <p><strong>Philosophy:</strong> Hardware complexity, software simplicity</p>
+                                <p><strong>Instructions:</strong> 100-1000+ complex operations</p>
+                                <p><strong>Addressing:</strong> Multiple memory addressing modes</p>
+                                <p><strong>Execution:</strong> Variable instruction length & timing</p>
+                            </div>
+                            <div class="code-block">
+// CISC Example (x86)
+<br>
+MOVS [EDI], [ESI]       
+
+<br>// String copy instruction
+<br>
+// - Loads from memory
+<br>
+// - Stores to memory  
+<br>
+// - Updates pointers
+<br>
+// - Checks boundaries
+<br>
+// All in one instruction!
+
+LOOP label         // Decrement ECX, jump if not zero
+ENTER 16, 0       // Setup stack frame
+XLAT              // Table lookup translation
+                            </div>
+                            <div class="code-runner" style="margin-top:10px; text-align:left;">
+    <textarea id="cisc-input" style="width:100%;height:60px;">MOVS [EDI], [ESI]</textarea>
+    <button onclick="runExample('cisc')" style="margin:5px 0;">Run CISC Example</button>
+    <pre id="cisc-output" class="run-output"></pre>
+</div>
+                            <div class="performance-meter">
+                                <div class="performance-bar" style="width: 85%; background: linear-gradient(90deg, #f093fb, #f5576c);"></div>
+                            </div>
+                            <p><em>Examples: Intel x86/x64, IBM z/Architecture, VAX</em></p>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>⚡ RISC (Reduced Instruction Set)</h4>
+                            <div class="tech-specs">
+                                <p><strong>Philosophy:</strong> Software complexity, hardware simplicity</p>
+                                <p><strong>Instructions:</strong> ~50-200 simple operations</p>
+                                <p><strong>Addressing:</strong> Load/store architecture</p>
+                                <p><strong>Execution:</strong> Fixed instruction length, single cycle</p>
+                            </div>
+                            <div class="code-block">
+// RISC Example (ARM/MIPS)
+LDR R1, [R2]      // Load register from memory
+ADD R3, R1, #4    // Add immediate to register
+STR R3, [R4]      // Store register to memory
+
+// Each instruction:
+// - 32-bit fixed length
+// - Single operation
+// - Predictable timing
+// - Pipeline friendly
+                            </div>
+                            <div class="code-runner" style="margin-top:10px; text-align:left;">
+    <textarea id="risc-input" style="width:100%;height:60px;">LDR R1, [R2]</textarea>
+    <button onclick="runExample('risc')" style="margin:5px 0;">Run RISC Example</button>
+    <pre id="risc-output" class="run-output"></pre>
+</div>
+<script>
+function runRISC() {
+    const code = document.getElementById('risc-input').value.trim();
+    let output = '';
+    if (/LDR/i.test(code)) {
+        output = 'Simulated: Loaded value from memory address in R2 into R1.';
+    } else if (/ADD/i.test(code)) {
+        output = 'Simulated: Added values and stored result in destination register.';
+    } else if (/STR/i.test(code)) {
+        output = 'Simulated: Stored value from register into memory address.';
+    } else {
+        output = 'Unknown or unsupported RISC instruction.';
+    }
+    document.getElementById('risc-output').textContent = output;
+}
+</script>
+                            <div class="performance-meter">
+                                <div class="performance-bar" style="width: 92%; background: linear-gradient(90deg, #4facfe, #00f2fe);"></div>
+                            </div>
+                            <p><em>Examples: ARM, MIPS, RISC-V, PowerPC, SPARC</em></p>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>🎯 VLIW (Very Long Instruction Word)</h4>
+                            <div class="tech-specs">
+                                <p><strong>Philosophy:</strong> Compiler manages parallelism</p>
+                                <p><strong>Instructions:</strong> Multiple operations per word</p>
+                                <p><strong>Scheduling:</strong> Static (compile-time)</p>
+                                <p><strong>Execution:</strong> Explicit parallel execution</p>
+                            </div>
+                            <div class="code-block">
+// VLIW Example (Itanium)
+[.MMI]  // Memory, Memory, Integer bundle
+ld8 r4=[r5];;      // Load operation
+ld8 r6=[r7]        // Parallel load  
+add r8=r9,r10;;    // Integer operation
+
+[.MIB]  // Memory, Integer, Branch
+st8 [r11]=r12      // Store operation
+cmp.eq p1,p2=r13,r14  // Compare
+(p1) br.cond label // Conditional branch
+                            </div>
+                            <div class="code-runner" style="margin-top:10px; text-align:left;">
+    <textarea id="vliw-input" style="width:100%;height:60px;">ld8 r4=[r5];;</textarea>
+    <button onclick="runExample('vliw')" style="margin:5px 0;">Run VLIW Example</button>
+    <pre id="vliw-output" class="run-output"></pre>
+</div>
+                            <div class="performance-meter">
+                                <div class="performance-bar" style="width: 78%; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+                            </div>
+                            <p><em>Examples: Intel Itanium, TI TMS320C6x DSP</em></p>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>🔄 EPIC (Explicitly Parallel Instruction Computing)</h4>
+                            <div class="tech-specs">
+                                <p><strong>Philosophy:</strong> Hybrid VLIW with dynamic features</p>
+                                <p><strong>Instructions:</strong> Bundled with hints</p>
+                                <p><strong>Prediction:</strong> Advanced branch prediction</p>
+                                <p><strong>Speculation:</strong> Hardware speculation support</p>
+                            </div>
+                            <div class="code-block">
+// EPIC Features (Itanium)
+.explicit_bundling
+{.mii
+  ld8.s r32=[r33]    // Speculative load
+  add r34=r35,r36    // Integer add
+  mov.i ar.lc=r37    // Loop count setup
+}
+{.mmb  
+  ld8.c.clr r38=[r39] // Check & clear
+  st8 [r40]=r41      // Store
+  br.ctop.sptk.few loop // Branch top
+}
+                            </div>
+                            <div class="code-runner" style="margin-top:10px; text-align:left;">
+    <textarea id="epic-input" style="width:100%;height:60px;">ld8.s r32=[r33]</textarea>
+    <button onclick="runExample('epic')" style="margin:5px 0;">Run EPIC Example</button>
+    <pre id="epic-output" class="run-output"></pre>
+</div>
+                            <div class="performance-meter">
+                                <div class="performance-bar" style="width: 71%; background: linear-gradient(90deg, #38a169, #68d391);"></div>
+                            </div>
+                            <p><em>Examples: Intel Itanium IA-64</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-section">
+                    <h2>🏛️ Memory Architecture Models</h2>
+                    
+                    <h3>📚 Von Neumann Architecture (Stored Program)</h3>
+                    <div class="architecture-diagram">
+                        <p>🎯 <strong>Key Principle:</strong> Instructions and data share the same memory space</p>
+                        <div style="margin: 20px 0;">
+                            <div class="cpu-component" data-component="von-cu">Control Unit</div>
+                            <div class="cpu-component" data-component="von-alu">ALU</div>
+                            <div class="cpu-component" data-component="von-registers">Registers</div>
+                        </div>
+                        <div class="bus-line" title="Unified System Bus"></div>
+                        <div style="margin: 20px 0;">
+                            <div class="cpu-component" data-component="von-memory">Unified Memory</div>
+                            <div class="cpu-component" data-component="von-io">I/O Controller</div>
+                        </div>
+                        
+                        <div class="tech-specs">
+                            <h4>✅ Advantages:</h4>
+                            <ul>
+                                <li>Simpler hardware design and control logic</li>
+                                <li>Flexible memory allocation between code and data</li>
+                                <li>Self-modifying code possible</li>
+                                <li>Cost-effective implementation</li>
+                            </ul>
+                            <h4>❌ Disadvantages:</h4>
+                            <ul>
+                                <li><strong>Von Neumann Bottleneck:</strong> Single bus limits throughput</li>
+                                <li>Cannot fetch instruction and data simultaneously</li>
+                                <li>Security vulnerabilities (code injection attacks)</li>
+                                <li>Cache conflicts between instructions and data</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>📖 Harvard Architecture (Separate Storage)</h3>
+                    <div class="architecture-diagram">
+                        <p>🎯 <strong>Key Principle:</strong> Separate memory spaces for instructions and data</p>
+                        <div style="margin: 20px 0;">
+                            <div style="background: #4299e1; color: white; padding: 10px; border-radius: 5px; margin: 5px;">CPU Core</div>
+                            <div style="display: flex; gap: 20px; margin-top: 15px;">
+                                <div style="flex: 1; text-align: center;">
+                                    <div class="bus-line"></div>
+                                    <div style="background: #ed8936; color: white; padding: 10px; border-radius: 5px;">Instruction Memory</div>
+                                    <div style="font-size: 0.9em; margin-top: 5px;">ROM/Flash</div>
+                                </div>
+                                <div style="flex: 1; text-align: center;">
+                                    <div class="bus-line"></div>
+                                    <div style="background: #38a169; color: white; padding: 10px; border-radius: 5px;">Data Memory</div>
+                                    <div style="font-size: 0.9em; margin-top: 5px;">RAM/SRAM</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-specs">
+                            <h4>✅ Advantages:</h4>
+                            <ul>
+                                <li>Parallel access to instructions and data</li>
+                                <li>Higher memory bandwidth and performance</li>
+                                <li>Better security (code/data separation)</li>
+                                <li>Optimized memory types for each use</li>
+                            </ul>
+                            <h4>❌ Disadvantages:</h4>
+                            <ul>
+                                <li>More complex hardware design</li>
+                                <li>Fixed memory allocation (less flexible)</li>
+                                <li>Higher cost due to dual memory systems</li>
+                                <li>Cannot execute dynamically generated code</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>🔀 Modified Harvard Architecture (Modern Hybrid)</h3>
+                    <div class="architecture-diagram">
+                        <p>🎯 <strong>Key Principle:</strong> Harvard at cache level, Von Neumann at main memory</p>
+                        <div style="margin: 20px 0;">
+                            <div style="background: #4299e1; color: white; padding: 15px; border-radius: 8px;">
+                                <strong>CPU Core</strong>
+                                <div style="display: flex; gap: 10px; margin-top: 10px; font-size: 0.9em;">
+                                    <div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 4px;">L1 I-Cache</div>
+                                    <div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 4px;">L1 D-Cache</div>
+                                </div>
+                            </div>
+                            <div class="bus-line"></div>
+                            <div style="background: #9f7aea; color: white; padding: 10px; border-radius: 5px;">Unified L2/L3 Cache</div>
+                            <div class="bus-line"></div>
+                            <div style="background: #e53e3e; color: white; padding: 10px; border-radius: 5px;">Main Memory (DDR4/5)</div>
+                        </div>
+                        
+                        <div class="code-block">
+Modern CPU Memory Hierarchy:
+┌─────────────────────────────┐
+│ CPU Core (3-5 GHz)          │
+├─────────────────────────────┤
+│ L1 I-Cache | L1 D-Cache     │ ← Harvard (Separate)
+│   32-64KB  |   32-64KB      │   ~1-2 cycles
+├─────────────────────────────┤
+│ L2 Cache (Unified)          │ ← Von Neumann (Shared)
+│      256KB - 1MB            │   ~3-8 cycles  
+├─────────────────────────────┤
+│ L3 Cache (Unified)          │ ← Von Neumann (Shared)
+│      8MB - 256MB            │   ~12-40 cycles
+├─────────────────────────────┤
+│ Main Memory (Unified)       │ ← Von Neumann (Shared)
+│      4GB - 128GB            │   ~200-300 cycles
+└─────────────────────────────┘
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-section">
+                    <h2>🚀 Advanced Modern Architectures</h2>
+                    
+                    <h3>🎮 Heterogeneous Computing (SoC)</h3>
+                    <div class="arch-comparison">
+                        <div class="architecture-diagram">
+                            <h4>📱 Mobile SoC Architecture</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0;">
+                                <div style="background: #4299e1; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>big.LITTLE CPU</strong><br>
+                                    4x Performance<br>
+                                    4x Efficiency
+                                </div>
+                                <div style="background: #38a169; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>GPU</strong><br>
+                                    Mali/Adreno<br>
+                                    1000+ cores
+                                </div>
+                                <div style="background: #e53e3e; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>NPU/AI</strong><br>
+                                    Neural Engine<br>
+                                    26 TOPS
+                                </div>
+                                <div style="background: #9f7aea; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>ISP/DSP</strong><br>
+                                    Image/Signal<br>
+                                    Processing
+                                </div>
+                            </div>
+                            <p><em>Examples: Apple A17 Pro, Snapdragon 8 Gen 3</em></p>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>🖥️ Desktop/Server Architecture</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0;">
+                                <div style="background: #4299e1; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>CPU</strong><br>
+                                    8-64 cores<br>
+                                    x86/ARM
+                                </div>
+                                <div style="background: #38a169; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>GPU</strong><br>
+                                    5000+ cores<br>
+                                    CUDA/OpenCL
+                                </div>
+                                <div style="background: #e53e3e; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>Memory</strong><br>
+                                    DDR5/HBM<br>
+                                    128GB-2TB
+                                </div>
+                                <div style="background: #9f7aea; color: white; padding: 10px; border-radius: 5px; font-size: 0.85em;">
+                                    <strong>I/O</strong><br>
+                                    PCIe 5.0<br>
+                                    64 lanes
+                                </div>
+                            </div>
+                            <p><em>Examples: Intel Xeon, AMD EPYC, NVIDIA Grace</em></p>
+                        </div>
+                    </div>
+
+                    <h3>🧠 Specialized Processing Architectures</h3>
+                    <div class="arch-comparison">
+                        <div class="architecture-diagram">
+                            <h4>🎯 Vector Processors</h4>
+                            <div class="code-block">
+// Vector Operation Example
+Vector A: [1, 2, 3, 4, 5, 6, 7, 8]
+Vector B: [2, 3, 4, 5, 6, 7, 8, 9]
+Vector C = A + B  // Single instruction
+
+Traditional: 8 separate ADD operations
+Vector:      1 VADD operation (8 elements)
+
+// Modern AVX-512 (x86)
+VADDPS zmm0, zmm1, zmm2  // 16 floats in parallel
+                            </div>
+                            <p><strong>Applications:</strong> Scientific computing, AI/ML, image processing</p>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>🌊 Dataflow Architecture</h4>
+                            <div class="code-block">
+// Dataflow Execution Model
+Node A: input1, input2 → ADD → output
+Node B: output, input3 → MUL → result
+Node C: result → STORE
+
+Execution when data available:
+Time 1: A executes (inputs ready)
+Time 2: B executes (A output ready)  
+Time 3: C executes (B output ready)
+
+No program counter needed!
+                            </div>
+                            <p><strong>Applications:</strong> Signal processing, real-time systems</p>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>🔄 Systolic Arrays</h4>
+                            <div class="code-block">
+// Matrix Multiplication Systolic Array
+     a₁₁ a₁₂ a₁₃
+      ↓   ↓   ↓
+b₁₁→ PE  PE  PE → c₁₁
+b₁₂→ PE  PE  PE → c₁₂  
+b₁₃→ PE  PE  PE → c₁₃
+
+Each PE: multiply + accumulate
+Data flows through array
+Highly parallel computation
+                            </div>
+                            <p><strong>Applications:</strong> Neural networks (TPU), linear algebra</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-section">
+                    <h2>🏛️ Interactive CPU Architecture Explorer</h2>
+                    
+                    <h3>🔍 Von Neumann Architecture Deep Dive</h3>
+                    <p>Click on each component to explore its detailed functionality:</p>
+                    
+                    <div class="architecture-diagram">
+                        <div style="margin: 20px 0;">
+                            <div class="cpu-component" data-component="cu">Control Unit</div>
+                            <div class="cpu-component" data-component="alu">ALU</div>
+                            <div class="cpu-component" data-component="registers">Registers</div>
+                        </div>
+                        
+                        <div class="bus-line" title="System Bus - Click components above to learn more!"></div>
+                        
+                        <div style="margin: 20px 0;">
+                            <div class="cpu-component" data-component="memory">Memory</div>
+                            <div class="cpu-component" data-component="io">I/O Devices</div>
+                            <div class="cpu-component" data-component="cache">Cache System</div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed component explanations -->
+                    <div id="cu-details" class="component-details">
+                        <h4>🎯 Control Unit (CU) - The CPU's Conductor</h4>
+                        <p>The Control Unit orchestrates all CPU operations through a complex state machine:</p>
+                        
+                        <h5>🔄 Instruction Cycle (Fetch-Decode-Execute)</h5>
+                        <div class="code-block">
+1. FETCH Phase:
+   PC → MAR → Address Bus → Memory
+   Memory → Data Bus → MDR → IR
+   PC = PC + instruction_length
+
+2. DECODE Phase:
+   IR → Instruction Decoder
+   Opcode analysis → Control signals
+   Operand addressing → Effective address
+
+3. EXECUTE Phase:
+   Control signals → ALU/Memory/I/O
+   Data manipulation → Result storage
+   Status flags update → Next instruction
+                        </div>
+                        
+                        <h5>🎪 Control Unit Types</h5>
+                        <ul>
+                            <li><strong>Hardwired Control:</strong> Logic circuits, faster but inflexible</li>
+                            <li><strong>Microprogrammed Control:</strong> Microcode, flexible but slower</li>
+                            <li><strong>Hybrid Control:</strong> Combines both approaches</li>
+                        </ul>
+                        
+                        <h5>⚡ Modern Features</h5>
+                        <ul>
+                            <li><strong>Pipelining:</strong> Overlapping instruction phases</li>
+                            <li><strong>Branch Prediction:</strong> Speculative execution</li>
+                            <li><strong>Out-of-Order:</strong> Dynamic instruction scheduling</li>
+                            <li><strong>Superscalar:</strong> Multiple instructions per cycle</li>
+                        </ul>
+                    </div>
+
+                    <div id="alu-details" class="component-details">
+                        <h4>🧮 Arithmetic Logic Unit (ALU) - The Calculator</h4>
+                        <p>The ALU performs all computational operations:</p>
+                        
+                        <h5>🔢 Arithmetic Operations</h5>
+                        <div class="code-block">
+Binary Addition with Carry:
+  1101 (13)     Carry: 1110
++ 1010 (10)            ↓↓↓↓
+-------        Result: 10111 (23)
+ 10111 (23)
+
+Multiplication (Booth's Algorithm):
+Multiplier: 1010 (-6 in 2's complement)
+Multiplicand: 1101 (13)
+Result: 11111100010 (-62 in 2's complement)
+                        </div>
+                        
+                        <h5>🔗 Logic Operations</h5>
+                        <div class="code-block">
+Input A: 1101    Input B: 1010
+AND:     1000    NAND:    0111
+OR:      1111    NOR:     0000  
+XOR:     0111    XNOR:    1000
+NOT A:   0010    NOT B:   0101
+
+Shift Operations:
+LSL (Left):  1101 → 11010 (×2)
+LSR (Right): 1101 → 0110  (÷2)
+ASR (Arith): 1101 → 1110  (sign extend)
+ROR (Rotate):1101 → 1110  (circular)
+                        </div>
+                        
+                        <h5>🎯 Status Flags</h5>
+                        <ul>
+                            <li><strong>Zero (Z):</strong> Result is zero</li>
+                            <li><strong>Carry (C):</strong> Arithmetic carry/borrow</li>
+                            <li><strong>Negative (N):</strong> Result is negative</li>
+                            <li><strong>Overflow (V):</strong> Signed arithmetic overflow</li>
+                            <li><strong>Parity (P):</strong> Even/odd number of 1s</li>
+                        </ul>
+                    </div>
+
+                    <div id="registers-details" class="component-details">
+                        <h4>💾 Register File - High-Speed Storage</h4>
+                        <p>Registers provide the fastest data access in the CPU:</p>
+                        
+                        <h5>📋 Register Categories</h5>
+                        <div class="code-block">
+General Purpose Registers (x86-64):
+RAX, RBX, RCX, RDX    - Legacy 64-bit
+RSI, RDI              - String operations  
+R8-R15                - Additional 64-bit
+EAX, EBX, etc.        - 32-bit portions
+AX, BX, etc.          - 16-bit portions
+AL, AH, BL, BH        - 8-bit portions
+
+Special Purpose:
+RSP - Stack Pointer
+RBP - Base Pointer  
+RIP - Instruction Pointer
+RFLAGS - Status flags
+                        </div>
+                        
+                        <h5>⚡ Performance Hierarchy</h5>
+                        <div class="performance-meter">
+                            <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+                                <span>Speed</span>
+                                <span>Capacity</span>
+                            </div>
+                        </div>
+                        <div class="code-block">
+Storage Hierarchy (Access Time):
+Registers:    < 1 cycle   32-128 registers
+L1 Cache:     1-2 cycles  32-64 KB
+L2 Cache:     3-8 cycles  256KB-1MB  
+L3 Cache:     12-40 cycles 8-256MB
+Main Memory:  200+ cycles 4GB-1TB
+Storage:      1M+ cycles  500GB-100TB
+                        </div>
+                        
+                        <h5>🎪 Register Allocation</h5>
+                        <ul>
+                            <li><strong>Compiler:</strong> Static register allocation</li>
+                            <li><strong>Hardware:</strong> Register renaming (dynamic)</li>
+                            <li><strong>Spilling:</strong> Register-to-memory overflow</li>
+                            <li><strong>Banking:</strong> Multiple register sets</li>
+                        </ul>
+                    </div>
+
+                    <div id="memory-details" class="component-details">
+                        <h4>🗄️ Memory Subsystem - The Storage Hierarchy</h4>
+                        <p>Modern memory systems are highly sophisticated hierarchies:</p>
+                        
+                        <h5>🎯 Cache Architecture</h5>
+                        <div class="code-block">
+Cache Organization:
+┌─────────────────────────────────────┐
+│ Set 0: [Tag|Data] [Tag|Data] ... Way│
+│ Set 1: [Tag|Data] [Tag|Data] ... Way│  
+│ Set 2: [Tag|Data] [Tag|Data] ... Way│
+│  ...                               │
+│ Set N: [Tag|Data] [Tag|Data] ... Way│
+└─────────────────────────────────────┘
+
+Address Format:
+[Tag Bits][Set Index][Block Offset]
+    20        8           4
+                        </div>
+                        
+                        <h5>🔄 Cache Policies</h5>
+                        <ul>
+                            <li><strong>Write-Through:</strong> Update cache and memory</li>
+                            <li><strong>Write-Back:</strong> Update cache, memory later</li>
+                            <li><strong>LRU:</strong> Least Recently Used replacement</li>
+                            <li><strong>MESI:</strong> Cache coherence protocol</li>
+                        </ul>
+                        
+                        <h5>💨 Memory Access Patterns</h5>
+                        <div class="code-block">
+Access Pattern Analysis:
+Temporal Locality:  Recently accessed data likely reused
+Spatial Locality:   Nearby data likely accessed soon
+Sequential:         Linear memory access (best case)
+Random:             Unpredictable access (worst case)
+
+Cache Performance:
+Hit Rate = Cache Hits / Total Accesses
+Miss Penalty = Time to fetch from next level
+AMAT = Hit Time + (Miss Rate × Miss Penalty)
+                        </div>
+                    </div>
+
+                    <div id="io-details" class="component-details">
+                        <h4>🔌 I/O Subsystem - External Interface</h4>
+                        <p>Input/Output systems connect CPU to the external world:</p>
+                        
+                        <h5>🚀 I/O Methods</h5>
+                        <div class="code-block">
+1. Programmed I/O (Polling):
+   while (!device_ready()) {
+       // CPU waits, inefficient
+   }
+   data = read_device();
+
+2. Interrupt-Driven I/O:
+   setup_interrupt_handler();
+   start_io_operation();
+   // CPU continues other work
+   // Interrupt occurs when ready
+
+3. Direct Memory Access (DMA):
+   setup_dma_transfer(src, dest, size);
+   start_dma();
+   // DMA controller handles transfer
+   // CPU notification when complete
+                        </div>
+                        
+                        <h5>🌐 Modern I/O Architectures</h5>
+                        <ul>
+                            <li><strong>PCIe:</strong> High-speed serial interconnect</li>
+                            <li><strong>NVMe:</strong> Optimized storage protocol</li>
+                            <li><strong>USB4/Thunderbolt:</strong> Universal connectivity</li>
+                            <li><strong>Network:</strong> Ethernet, WiFi, 5G integration</li>
+                        </ul>
+                        
+                        <h5>⚡ Performance Optimization</h5>
+                        <div class="code-block">
+I/O Performance Metrics:
+Throughput:  GB/s sustained transfer rate
+Latency:     μs time to first byte  
+IOPS:        Operations per second
+Bandwidth:   Total data transfer capacity
+
+Modern NVMe SSD:
+Sequential Read:  7,000 MB/s
+Random Read:      1M IOPS
+Latency:          < 100μs
+Queue Depth:      64,000 commands
+                        </div>
+                    </div>
+
+                    <div id="cache-details" class="component-details">
+                        <h4>⚡ Cache System - Performance Accelerator</h4>
+                        <p>Cache systems bridge the speed gap between CPU and memory:</p>
+                        
+                        <h5>🏗️ Multi-Level Cache Hierarchy</h5>
+                        <div class="code-block">
+Modern Intel Core i9 Cache Structure:
+┌─────────────────────────────────────┐
+│ Per Core:                           │
+│ L1 I-Cache: 32KB (8-way)           │
+│ L1 D-Cache: 32KB (8-way)           │  
+│ L2 Cache:   1.25MB (10-way)        │
+├─────────────────────────────────────┤
+│ Shared:                             │
+│ L3 Cache:   24-36MB (12-way)       │
+│ (Smart Cache, inclusive)            │
+└─────────────────────────────────────┘
+
+Cache Line Size: 64 bytes
+Prefetching: Hardware + Software hints
+                        </div>
+                        
+                        <h5>🎯 Cache Optimization Techniques</h5>
+                        <ul>
+                            <li><strong>Prefetching:</strong> Predict future accesses</li>
+                            <li><strong>Victim Cache:</strong> Reduce conflict misses</li>
+                            <li><strong>Non-blocking:</strong> Handle multiple misses</li>
+                            <li><strong>Partitioning:</strong> Isolate critical data</li>
+                        </ul>
+                        
+                        <h5>📊 Cache Performance Analysis</h5>
+                        <div class="code-block">
+Cache Miss Categories:
+Compulsory (Cold):  First access to data
+Capacity:           Cache too small for working set
+Conflict:           Set associativity limitations  
+Coherence:          Multi-processor consistency
+
+Performance Tools:
+perf stat -e cache-misses,cache-references
+Intel VTune Profiler
+AMD μProf
+Hardware Performance Counters
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-section">
+                    <h2>💡 Performance Optimization Deep Dive</h2>
+                    <p>Understanding CPU architecture enables sophisticated performance optimization:</p>
+                    
+                    <h3>🎯 Cache-Optimized Programming</h3>
+                    <div class="code-block">
+// ❌ Cache-unfriendly: Column-major access (poor spatial locality)
+void matrix_multiply_bad(float A[N][N], float B[N][N], float C[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            C[i][j] = 0;
+            for (int k = 0; k < N; k++) {
+                C[i][j] += A[i][k] * B[k][j];  // B[k][j] cache miss!
+            }
+        }
+    }
+}
+
+// ✅ Cache-friendly: Blocked/tiled access
+void matrix_multiply_optimized(float A[N][N], float B[N][N], float C[N][N]) {
+    const int BLOCK = 64;  // Fit in L1 cache
+    for (int ii = 0; ii < N; ii += BLOCK) {
+        for (int jj = 0; jj < N; jj += BLOCK) {
+            for (int kk = 0; kk < N; kk += BLOCK) {
+                // Work on BLOCK×BLOCK submatrices
+                for (int i = ii; i < min(ii+BLOCK, N); i++) {
+                    for (int j = jj; j < min(jj+BLOCK, N); j++) {
+                        float sum = 0;
+                        for (int k = kk; k < min(kk+BLOCK, N); k++) {
+                            sum += A[i][k] * B[k][j];
+                        }
+                        C[i][j] += sum;
+                    }
+                }
+            }
+        }
+    }
+}
+                    </div>
+
+                    <h3>⚡ SIMD and Vectorization</h3>
+                    <div class="code-block">
+// ❌ Scalar processing
+void add_arrays_scalar(float *a, float *b, float *c, int n) {
+    for (int i = 0; i < n; i++) {
+        c[i] = a[i] + b[i];  // One operation per iteration
+    }
+}
+
+// ✅ SIMD processing (AVX-512)
+void add_arrays_simd(float *a, float *b, float *c, int n) {
+    for (int i = 0; i < n; i += 16) {  // 16 floats per instruction
+        __m512 va = _mm512_load_ps(&a[i]);
+        __m512 vb = _mm512_load_ps(&b[i]);
+        __m512 vc = _mm512_add_ps(va, vb);
+        _mm512_store_ps(&c[i], vc);
+    }
+}
+
+// Modern compiler auto-vectorization
+void add_arrays_auto(float * __restrict a, 
+                      float * __restrict b, 
+                      float * __restrict c, int n) {
+    #pragma omp simd
+    for (int i = 0; i < n; i++) {
+        c[i] = a[i] + b[i];  // Compiler vectorizes
+    }
+}
+                    </div>
+
+                    <h3>🔄 Branch Prediction Optimization</h3>
+                    <div class="code-block">
+// ❌ Unpredictable branches (random pattern)
+int count_positive_unpredictable(int *arr, int n) {
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] > 0) {  // Random branches = mispredictions
+            count++;
+        }
+    }
+    return count;
+}
+
+// ✅ Branchless optimization
+int count_positive_branchless(int *arr, int n) {
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        count += (arr[i] > 0);  // No branches!
+    }
+    return count;
+}
+
+// ✅ Sort-then-process (predictable branches)
+int count_positive_sorted(int *arr, int n) {
+    std::sort(arr, arr + n);  // Sort once
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] > 0) {  // Predictable: all negatives first
+            count = n - i;  // Then all positives
+            break;
+        }
+    }
+    return count;
+}
+                    </div>
+
+                    <div class="tech-specs">
+                        <h4>🎯 Key Optimization Principles</h4>
+                        <ul>
+                            <li><strong>🎪 Spatial Locality:</strong> Access contiguous memory locations</li>
+                            <li><strong>⏰ Temporal Locality:</strong> Reuse recently accessed data</li>
+                            <li><strong>🚀 Vectorization:</strong> Use SIMD instructions for parallel operations</li>
+                            <li><strong>🎯 Branch Prediction:</strong> Make branches predictable or eliminate them</li>
+                            <li><strong>🔄 Pipeline Efficiency:</strong> Minimize data dependencies</li>
+                            <li><strong>💾 Cache Blocking:</strong> Tile data to fit in cache levels</li>
+                            <li><strong>⚡ Prefetching:</strong> Hint upcoming memory accesses</li>
+                            <li><strong>🎪 False Sharing:</strong> Avoid cache line contention in multi-threading</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-section">
+                    <h2>🔮 Future of Processor Architecture</h2>
+                    
+                    <h3>🌟 Emerging Technologies</h3>
+                    <div class="arch-comparison">
+                        <div class="architecture-diagram">
+                            <h4>🧠 Neuromorphic Computing</h4>
+                            <p>Brain-inspired architectures with spiking neurons</p>
+                            <div class="tech-specs">
+                                <ul>
+                                    <li><strong>Intel Loihi:</strong> 131,072 neurons</li>
+                                    <li><strong>IBM TrueNorth:</strong> 1M neurons</li>
+                                    <li><strong>Power:</strong> Ultra-low (~1mW)</li>
+                                    <li><strong>Learning:</strong> Online adaptation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>⚛️ Quantum Computing</h4>
+                            <p>Quantum bits (qubits) with superposition and entanglement</p>
+                            <div class="tech-specs">
+                                <ul>
+                                    <li><strong>IBM Quantum:</strong> 1000+ qubits</li>
+                                    <li><strong>Google Sycamore:</strong> Quantum supremacy</li>
+                                    <li><strong>Algorithms:</strong> Shor's, Grover's</li>
+                                    <li><strong>Applications:</strong> Cryptography, optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>💡 Photonic Computing</h4>
+                            <p>Light-based processing for ultra-high speed</p>
+                            <div class="tech-specs">
+                                <ul>
+                                    <li><strong>Speed:</strong> Light-speed operations</li>
+                                    <li><strong>Bandwidth:</strong> Wavelength multiplexing</li>
+                                    <li><strong>Power:</strong> Low electrical consumption</li>
+                                    <li><strong>Heat:</strong> Minimal thermal generation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="architecture-diagram">
+                            <h4>🧬 DNA Computing</h4>
+                            <p>Biological computing using DNA sequences</p>
+                            <div class="tech-specs">
+                                <ul>
+                                    <li><strong>Density:</strong> Extreme information storage</li>
+                                    <li><strong>Parallelism:</strong> Massive parallel processing</li>
+                                    <li><strong>Applications:</strong> Bioinformatics, optimization</li>
+                                    <li><strong>Speed:</strong> Slow but massively parallel</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>📈 Industry Trends</h3>
+                    <ul>
+                        <li><strong>🎯 Specialization:</strong> Domain-specific accelerators (AI, crypto, networking)</li>
+                        <li><strong>🔗 Heterogeneous:</strong> CPU+GPU+NPU+DSP integration</li>
+                        <li><strong>📦 Chiplets:</strong> Modular processor design</li>
+                        <li><strong>🌡️ Near-Threshold:</strong> Ultra-low voltage operation</li>
+                        <li><strong>🎪 3D Stacking:</strong> Vertical integration for density</li>
+                        <li><strong>⚡ Processing-in-Memory:</strong> Compute where data resides</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="post-navigation">
+                <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Deepak Kumar Yadav | <a href="../index.html">Back to Home</a></p>
+    </footer>
+
+    <script>
+        // Interactive component functionality
+        document.querySelectorAll('.cpu-component').forEach(component => {
+            component.addEventListener('click', function() {
+                // Remove active class from all components and details
+                document.querySelectorAll('.cpu-component').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.component-details').forEach(d => d.classList.remove('active'));
+                
+                // Add active class to clicked component
+                this.classList.add('active');
+                
+                // Show corresponding details
+                const componentType = this.getAttribute('data-component');
+                const details = document.getElementById(componentType + '-details');
+                if (details) {
+                    details.classList.add('active');
+                }
+            });
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-theme');
+                this.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+            });
+        }
+
+        // Animate performance bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.performance-bar');
+                    bars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.architecture-diagram').forEach(diagram => {
+            observer.observe(diagram);
+        });
+    </script>
+    <script>
+function runExample(type) {
+    let code = document.getElementById(type + '-input').value.trim();
+    let output = '';
+    if (type === 'cisc') {
+        if (/MOVS/i.test(code)) output = 'Simulated: Copied value from [ESI] to [EDI], pointers updated.';
+        else if (/LOOP/i.test(code)) output = 'Simulated: Decremented ECX and jumped if not zero.';
+        else if (/ENTER/i.test(code)) output = 'Simulated: Set up stack frame for procedure.';
+        else if (/XLAT/i.test(code)) output = 'Simulated: Table lookup translation performed.';
+        else output = 'Unknown or unsupported CISC instruction.';
+    } else if (type === 'risc') {
+        if (/LDR/i.test(code)) output = 'Simulated: Loaded value from memory address in R2 into R1.';
+        else if (/ADD/i.test(code)) output = 'Simulated: Added values and stored result in destination register.';
+        else if (/STR/i.test(code)) output = 'Simulated: Stored value from register into memory address.';
+        else output = 'Unknown or unsupported RISC instruction.';
+    } else if (type === 'vliw') {
+        if (/ld8/i.test(code)) output = 'Simulated: Loaded 8 bytes from memory in parallel.';
+        else if (/add/i.test(code)) output = 'Simulated: Performed integer addition in parallel bundle.';
+        else if (/st8/i.test(code)) output = 'Simulated: Stored 8 bytes to memory.';
+        else if (/cmp\.eq/i.test(code)) output = 'Simulated: Compared registers for equality.';
+        else output = 'Unknown or unsupported VLIW instruction.';
+    } else if (type === 'epic') {
+        if (/ld8\.s/i.test(code)) output = 'Simulated: Speculative load performed.';
+        else if (/add/i.test(code)) output = 'Simulated: Integer addition executed.';
+        else if (/mov\.i/i.test(code)) output = 'Simulated: Loop count setup.';
+        else if (/br\.ctop/i.test(code)) output = 'Simulated: Conditional branch to loop top.';
+        else output = 'Unknown or unsupported EPIC instruction.';
+    }
+    document.getElementById(type + '-output').textContent = output;
+}
+</script>
+</body>    <script src="../js/main.js"></script>
+</body>
+</html>
