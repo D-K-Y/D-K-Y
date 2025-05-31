@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Guide to Database Sharding</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .blog-post-content {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--background, #f8f9fa);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .diagram {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e3e6ea;
+        }
+
+        .shard-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .shard-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .shard-header {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .shard-data {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+
+        .client-box {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .router-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: #667eea;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .methodology-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .methodology-card.range {
+            border-left-color: #28a745;
+        }
+
+        .methodology-card.directory {
+            border-left-color: #ffc107;
+        }
+
+        .methodology-card.hash {
+            border-left-color: #dc3545;
+        }
+
+        .interactive-demo {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .demo-controls {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 2px solid #dee2e6;
+        }
+
+        .control-group {
+            margin: 1rem 0;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #495057;
+        }
+
+        .control-group input, .control-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .demo-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        .demo-button:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .demo-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .benefits-issues {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .benefits-card {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .issues-card {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .benefits-issues {
+                grid-template-columns: 1fr;
+            }
+            
+            .methodology-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .shard-diagram {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <span class="avatar">DKY</span>
+                <span class="brand-name">Deepak Kumar Yadav</span>
+            </div>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html">My Blog</a></li>
+            </ul>
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        </nav>
+    </header>
+    
+    <main>
+        <article class="blog-post-content">
+            <h1>🗂️ Complete Guide to Database Sharding</h1>
+            <p style="font-size: 1.1rem; color: #6c757d; margin-bottom: 2rem;">
+                Database sharding is a critical technique for scaling databases horizontally across multiple servers. 
+                This comprehensive guide covers sharding methodologies, challenges, benefits, and practical implementations with interactive examples.
+            </p>
+
+            <h2>📊 What is Database Sharding?</h2>
+            <p>
+                <strong>Database sharding</strong> is a database architecture pattern that involves splitting a large database 
+                into smaller, more manageable pieces called "shards." Each shard is a separate database that contains 
+                a subset of the total data, distributed across multiple database servers.
+            </p>
+
+            <div class="diagram">
+                <h3 style="text-align: center; color: #667eea; margin-bottom: 1.5rem;">🏗️ Sharding Architecture Overview</h3>
+                
+                <div class="client-box">
+                    <strong>📱 Client Application</strong><br>
+                    <small>Sends queries and data requests</small>
+                </div>
+                
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="router-box">
+                    <strong>🎯 Shard Router/Proxy</strong><br>
+                    <small>Determines which shard to query based on sharding key</small>
+                </div>
+                
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="shard-diagram">
+                    <div class="shard-box">
+                        <div class="shard-header">🗄️ Shard 1</div>
+                        <div class="shard-data">Users 1-1000</div>
+                        <div class="shard-data">Orders 1-5000</div>
+                        <div class="shard-data">Server: db1.company.com</div>
+                    </div>
+                    
+                    <div class="shard-box">
+                        <div class="shard-header">🗄️ Shard 2</div>
+                        <div class="shard-data">Users 1001-2000</div>
+                        <div class="shard-data">Orders 5001-10000</div>
+                        <div class="shard-data">Server: db2.company.com</div>
+                    </div>
+                    
+                    <div class="shard-box">
+                        <div class="shard-header">🗄️ Shard 3</div>
+                        <div class="shard-data">Users 2001-3000</div>
+                        <div class="shard-data">Orders 10001-15000</div>
+                        <div class="shard-data">Server: db3.company.com</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>🛠️ Sharding Methodologies</h2>
+            <p>There are several approaches to sharding data. Each method has its own advantages and use cases:</p>
+
+            <div class="methodology-grid">
+                <div class="methodology-card hash">
+                    <h4 style="color: #dc3545; margin-top: 0;">🔢 Hash-Based Sharding</h4>
+                    <p><strong>How it works:</strong> Apply a hash function to the sharding key and use modulo operation to determine the shard.</p>
+                    <div class="code-block">
+                        <pre><code># Hash-based sharding example
+shard_id = hash(user_id) % num_shards
+
+# Example:
+user_id = 12345
+num_shards = 4
+shard_id = hash(12345) % 4  # Result: 2</code></pre>
+                    </div>
+                    <p><strong>Best for:</strong> Even data distribution, simple implementation</p>
+                    <p><strong>Drawback:</strong> Difficult to add/remove shards</p>
+                </div>
+
+                <div class="methodology-card range">
+                    <h4 style="color: #28a745; margin-top: 0;">📏 Range-Based Sharding</h4>
+                    <p><strong>How it works:</strong> Divide data based on ranges of the sharding key values.</p>
+                    <div class="code-block">
+                        <pre><code># Range-based sharding example
+if user_id <= 1000:
+    shard_id = 1
+elif user_id <= 2000:
+    shard_id = 2
+else:
+    shard_id = 3</code></pre>
+                    </div>
+                    <p><strong>Best for:</strong> Range queries, time-series data</p>
+                    <p><strong>Drawback:</strong> Potential for uneven distribution</p>
+                </div>
+
+                <div class="methodology-card directory">
+                    <h4 style="color: #ffc107; margin-top: 0;">📋 Directory-Based Sharding</h4>
+                    <p><strong>How it works:</strong> Use a lookup service to determine which shard contains specific data.</p>
+                    <div class="code-block">
+                        <pre><code># Directory-based sharding
+shard_directory = {
+    "users_1000": "shard_1",
+    "users_2000": "shard_2",
+    "orders_east": "shard_3",
+    "orders_west": "shard_4"
+}
+
+shard_id = shard_directory.get(key)</code></pre>
+                    </div>
+                    <p><strong>Best for:</strong> Complex sharding logic, flexibility</p>
+                    <p><strong>Drawback:</strong> Additional lookup overhead</p>
+                </div>
+            </div>
+
+            <h2>🎮 Interactive Sharding Demo</h2>
+            <p>Try different sharding strategies with real data to see how they work:</p>
+
+            <div class="demo-controls">
+                <h4 style="margin-top: 0; color: #495057;">🎛️ Sharding Configuration</h4>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div class="control-group">
+                        <label>Sharding Method:</label>
+                        <select id="shardingMethod">
+                            <option value="hash">Hash-Based</option>
+                            <option value="range">Range-Based</option>
+                            <option value="directory">Directory-Based</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Number of Shards:</label>
+                        <input type="number" id="numShards" value="3" min="2" max="8">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Data to Insert:</label>
+                        <input type="text" id="dataValue" placeholder="e.g., user_12345" value="user_12345">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Query Type:</label>
+                        <select id="queryType">
+                            <option value="single">Single Record</option>
+                            <option value="range">Range Query</option>
+                            <option value="cross">Cross-Shard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button class="demo-button" onclick="insertData()">📝 Insert Data</button>
+                    <button class="demo-button" onclick="queryData()">🔍 Query Data</button>
+                    <button class="demo-button" onclick="reshardData()">🔄 Reshard</button>
+                    <button class="demo-button" onclick="clearDemo()">🗑️ Clear</button>
+                    <button class="demo-button" onclick="loadSampleData()">📊 Load Sample</button>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div style="color: #888; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+                    🎮 Interactive Sharding Console
+                </div>
+                <div id="shardingOutput" style="white-space: pre-wrap; line-height: 1.4; min-height: 200px;">
+Click "Load Sample" to see sharding in action! 🚀
+                </div>
+            </div>
+
+            <h2>✅ Benefits of Sharding</h2>
+            <div class="benefits-issues">
+                <div class="benefits-card">
+                    <h4 style="color: #28a745; margin-top: 0;">🚀 Key Benefits</h4>
+                    <ul>
+                        <li><strong>Horizontal Scalability:</strong> Add more servers to handle increased load</li>
+                        <li><strong>Improved Performance:</strong> Smaller datasets mean faster queries</li>
+                        <li><strong>Fault Isolation:</strong> Failure in one shard doesn't affect others</li>
+                        <li><strong>Geographic Distribution:</strong> Place data closer to users</li>
+                        <li><strong>Cost Efficiency:</strong> Use commodity hardware instead of expensive upgrades</li>
+                        <li><strong>Parallel Processing:</strong> Queries can run simultaneously across shards</li>
+                    </ul>
+                </div>
+
+                <div class="issues-card">
+                    <h4 style="color: #dc3545; margin-top: 0;">⚠️ Challenges & Issues</h4>
+                    <ul>
+                        <li><strong>Complexity:</strong> Application logic becomes more complex</li>
+                        <li><strong>Cross-Shard Queries:</strong> Joins across shards are expensive</li>
+                        <li><strong>Rebalancing:</strong> Adding/removing shards requires data migration</li>
+                        <li><strong>Hot Spots:</strong> Uneven data distribution can create bottlenecks</li>
+                        <li><strong>Transactions:</strong> ACID properties harder to maintain across shards</li>
+                        <li><strong>Operational Overhead:</strong> More databases to monitor and maintain</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>🔄 Dynamic Sharding Control Flow</h2>
+            <p>Here's how a modern sharding system handles different scenarios dynamically:</p>
+
+            <div class="diagram">
+                <h3 style="text-align: center; color: #667eea; margin-bottom: 1.5rem;">⚡ Dynamic Query Routing Flow</h3>
+                
+                <div id="dynamicFlow" style="text-align: center;">
+                    <!-- This will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <h2>💻 Practical Implementation Example</h2>
+            <p>Here's a Python implementation of a sharding system with different strategies:</p>
+
+            <div class="code-block">
+                <pre><code>import hashlib
+import json
+from typing import Dict, List, Any, Optional
+
+class ShardManager:
+    def __init__(self, num_shards: int = 3):
+        self.num_shards = num_shards
+        self.shards = {i: {} for i in range(num_shards)}
+        self.directory = {}
+        self.range_config = {}
+        
+    def hash_shard(self, key: str) -> int:
+        """Hash-based sharding using MD5"""
+        hash_object = hashlib.md5(key.encode())
+        return int(hash_object.hexdigest(), 16) % self.num_shards
+    
+    def range_shard(self, key: str) -> int:
+        """Range-based sharding using numeric values"""
+        try:
+            numeric_key = int(''.join(filter(str.isdigit, key)))
+            if numeric_key <= 1000:
+                return 0
+            elif numeric_key <= 2000:
+                return 1
+            else:
+                return 2
+        except:
+            return self.hash_shard(key)  # Fallback to hash
+    
+    def directory_shard(self, key: str) -> int:
+        """Directory-based sharding with custom routing"""
+        if key in self.directory:
+            return self.directory[key]
+        
+        # Auto-assign for new keys
+        shard_id = len(self.directory) % self.num_shards
+        self.directory[key] = shard_id
+        return shard_id
+    
+    def insert(self, key: str, value: Any, method: str = "hash") -> dict:
+        """Insert data using specified sharding method"""
+        if method == "hash":
+            shard_id = self.hash_shard(key)
+        elif method == "range":
+            shard_id = self.range_shard(key)
+        else:  # directory
+            shard_id = self.directory_shard(key)
+        
+        self.shards[shard_id][key] = value
+        
+        return {
+            "key": key,
+            "shard_id": shard_id,
+            "method": method,
+            "success": True
+        }
+    
+    def query(self, key: str, method: str = "hash") -> dict:
+        """Query data using specified sharding method"""
+        if method == "hash":
+            shard_id = self.hash_shard(key)
+        elif method == "range":
+            shard_id = self.range_shard(key)
+        else:  # directory
+            shard_id = self.directory_shard(key)
+        
+        value = self.shards[shard_id].get(key)
+        
+        return {
+            "key": key,
+            "shard_id": shard_id,
+            "value": value,
+            "found": value is not None
+        }
+    
+    def cross_shard_query(self, pattern: str) -> List[dict]:
+        """Query across all shards - expensive operation"""
+        results = []
+        for shard_id, shard_data in self.shards.items():
+            for key, value in shard_data.items():
+                if pattern in key:
+                    results.append({
+                        "key": key,
+                        "value": value,
+                        "shard_id": shard_id
+                    })
+        return results
+    
+    def get_shard_stats(self) -> dict:
+        """Get statistics about data distribution"""
+        stats = {}
+        for shard_id, shard_data in self.shards.items():
+            stats[f"shard_{shard_id}"] = {
+                "count": len(shard_data),
+                "keys": list(shard_data.keys())[:5],  # First 5 keys
+                "size_kb": len(json.dumps(shard_data)) / 1024
+            }
+        return stats
+
+# Example usage and testing
+def demonstrate_sharding():
+    # Initialize shard manager
+    sm = ShardManager(num_shards=3)
+    
+    # Sample data
+    users = [
+        ("user_123", {"name": "Alice", "age": 25}),
+        ("user_456", {"name": "Bob", "age": 30}),
+        ("user_789", {"name": "Charlie", "age": 35}),
+        ("user_1001", {"name": "Diana", "age": 28}),
+        ("user_1500", {"name": "Eve", "age": 32}),
+        ("user_2500", {"name": "Frank", "age": 29})
+    ]
+    
+    print("🗂️ SHARDING DEMONSTRATION")
+    print("=" * 50)
+    
+    # Test different sharding methods
+    for method in ["hash", "range", "directory"]:
+        print(f"\n📊 {method.upper()} SHARDING:")
+        print("-" * 30)
+        
+        # Insert data
+        for key, value in users:
+            result = sm.insert(key, value, method)
+            print(f"Inserted {key} → Shard {result['shard_id']}")
+        
+        # Show distribution
+        stats = sm.get_shard_stats()
+        for shard_name, shard_stats in stats.items():
+            print(f"{shard_name}: {shard_stats['count']} records")
+        
+        # Clear for next method
+        sm = ShardManager(num_shards=3)
+
+if __name__ == "__main__":
+    demonstrate_sharding()
+</code></pre>
+            </div>
+
+            <h2>📈 Performance Comparison</h2>
+            <p>Let's see how different sharding methods perform under various scenarios:</p>
+
+            <div class="demo-controls">
+                <h4 style="margin-top: 0; color: #495057;">📊 Performance Test Configuration</h4>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div class="control-group">
+                        <label>Data Size:</label>
+                        <select id="dataSize">
+                            <option value="100">100 records</option>
+                            <option value="1000" selected>1,000 records</option>
+                            <option value="10000">10,000 records</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Query Pattern:</label>
+                        <select id="queryPattern">
+                            <option value="random">Random Access</option>
+                            <option value="sequential">Sequential</option>
+                            <option value="range">Range Queries</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Number of Shards:</label>
+                        <input type="number" id="perfShards" value="4" min="2" max="16">
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button class="demo-button" onclick="runPerformanceTest()">🏃‍♂️ Run Performance Test</button>
+                    <button class="demo-button" onclick="clearPerformanceResults()">🗑️ Clear Results</button>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div style="color: #888; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+                    📊 Performance Test Results
+                </div>
+                <div id="performanceOutput" style="white-space: pre-wrap; line-height: 1.4; min-height: 150px;">
+Click "Run Performance Test" to compare sharding methods! ⚡
+                </div>
+            </div>
+
+            <h2>🎯 Best Practices for Sharding</h2>
+            <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2196f3; margin: 2rem 0;">
+                <h4 style="color: #1976d2; margin-top: 0;">💡 Key Recommendations</h4>
+                <ol>
+                    <li><strong>Choose the right sharding key:</strong> Select a key that distributes data evenly and aligns with query patterns</li>
+                    <li><strong>Plan for growth:</strong> Design your sharding strategy to accommodate future scaling needs</li>
+                    <li><strong>Monitor shard health:</strong> Track data distribution, query performance, and resource usage</li>
+                    <li><strong>Implement proper routing:</strong> Use connection pooling and smart routing to optimize performance</li>
+                    <li><strong>Handle failures gracefully:</strong> Plan for shard failures and implement proper failover mechanisms</li>
+                    <li><strong>Consider consistency requirements:</strong> Understand trade-offs between consistency and performance</li>
+                    <li><strong>Test resharding strategies:</strong> Plan and test data migration procedures before you need them</li>
+                </ol>
+            </div>
+
+            <h2>🔮 Advanced Sharding Concepts</h2>
+            <div class="methodology-grid">
+                <div class="methodology-card">
+                    <h4 style="color: #6f42c1; margin-top: 0;">🔀 Consistent Hashing</h4>
+                    <p>A technique that minimizes data movement when adding or removing shards.</p>
+                    <ul>
+                        <li>Uses a hash ring concept</li>
+                        <li>Only affects adjacent shards during resharding</li>
+                        <li>Popular in distributed systems like Cassandra</li>
+                    </ul>
+                </div>
+                
+                <div class="methodology-card">
+                    <h4 style="color: #e83e8c; margin-top: 0;">🎯 Auto-Sharding</h4>
+                    <p>Automated sharding that adapts to data growth and access patterns.</p>
+                    <ul>
+                        <li>Monitors shard performance metrics</li>
+                        <li>Automatically splits hot shards</li>
+                        <li>Rebalances data based on usage</li>
+                    </ul>
+                </div>
+                
+                <div class="methodology-card">
+                    <h4 style="color: #fd7e14; margin-top: 0;">🌍 Geo-Sharding</h4>
+                    <p>Distributing shards based on geographic regions for reduced latency.</p>
+                    <ul>
+                        <li>Data closer to users</li>
+                        <li>Compliance with data residency laws</li>
+                        <li>Network latency optimization</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>🎓 Conclusion</h2>
+            <p>
+                Database sharding is a powerful technique for scaling applications horizontally, but it comes with complexity that must be carefully managed. 
+                The choice of sharding method depends on your specific use case, data access patterns, and scalability requirements.
+            </p>
+            <p>
+                Start with simpler solutions like read replicas and vertical scaling before moving to sharding. When you do implement sharding, 
+                choose your sharding key carefully, plan for operational complexity, and always test your strategy thoroughly.
+            </p>
+            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; border-left: 4px solid #ffc107; margin: 2rem 0;">
+                <strong>💡 Remember:</strong> Sharding is not a silver bullet. Consider alternatives like read replicas, caching, 
+                and database optimization before implementing a sharding strategy.
+            </div>
+
+        </article>
+    </main>
+
+    <script>
+        // Sharding demonstration system
+        class ShardingDemo {
+            constructor() {
+                this.shards = {};
+                this.directory = {};
+                this.numShards = 3;
+                this.stats = {
+                    operations: 0,
+                    crossShardQueries: 0,
+                    redistributions: 0
+                };
+                this.initializeShards();
+            }
+
+            initializeShards() {
+                this.shards = {};
+                for (let i = 0; i < this.numShards; i++) {
+                    this.shards[i] = {};
+                }
+            }
+
+            hashFunction(key) {
+                let hash = 0;
+                for (let i = 0; i < key.length; i++) {
+                    const char = key.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32-bit integer
+                }
+                return Math.abs(hash) % this.numShards;
+            }
+
+            rangeSharding(key) {
+                const numericPart = parseInt(key.replace(/\D/g, '')) || 0;
+                if (numericPart <= 1000) return 0;
+                if (numericPart <= 2000) return 1;
+                return Math.min(2, this.numShards - 1);
+            }
+
+            directorySharding(key) {
+                if (this.directory[key] !== undefined) {
+                    return this.directory[key];
+                }
+                // Auto-assign new keys
+                const shardId = Object.keys(this.directory).length % this.numShards;
+                this.directory[key] = shardId;
+                return shardId;
+            }
+
+            getShardId(key, method) {
+                switch (method) {
+                    case 'hash':
+                        return this.hashFunction(key);
+                    case 'range':
+                        return this.rangeSharding(key);
+                    case 'directory':
+                        return this.directorySharding(key);
+                    default:
+                        return this.hashFunction(key);
+                }
+            }
+
+            insertData(key, value, method) {
+                const shardId = this.getShardId(key, method);
+                this.shards[shardId][key] = value;
+                this.stats.operations++;
+                
+                return {
+                    success: true,
+                    shardId: shardId,
+                    key: key,
+                    method: method
+                };
+            }
+
+            queryData(key, method) {
+                const shardId = this.getShardId(key, method);
+                const value = this.shards[shardId][key];
+                this.stats.operations++;
+                
+                return {
+                    found: value !== undefined,
+                    shardId: shardId,
+                    key: key,
+                    value: value
+                };
+            }
+
+            crossShardQuery(pattern) {
+                const results = [];
+                this.stats.crossShardQueries++;
+                
+                for (let shardId = 0; shardId < this.numShards; shardId++) {
+                    for (const [key, value] of Object.entries(this.shards[shardId])) {
+                        if (key.includes(pattern)) {
+                            results.push({ key, value, shardId });
+                        }
+                    }
+                }
+                
+                return results;
+            }
+
+            getShardStats() {
+                const stats = {};
+                for (let i = 0; i < this.numShards; i++) {
+                    const shardData = this.shards[i];
+                    stats[`shard_${i}`] = {
+                        count: Object.keys(shardData).length,
+                        keys: Object.keys(shardData).slice(0, 5),
+                        percentage: (Object.keys(shardData).length / this.getTotalRecords() * 100).toFixed(1)
+                    };
+                }
+                return stats;
+            }
+
+            getTotalRecords() {
+                let total = 0;
+                for (let i = 0; i < this.numShards; i++) {
+                    total += Object.keys(this.shards[i]).length;
+                }
+                return total;
+            }
+
+            reshard(newNumShards) {
+                const oldData = [];
+                
+                // Collect all data
+                for (let i = 0; i < this.numShards; i++) {
+                    for (const [key, value] of Object.entries(this.shards[i])) {
+                        oldData.push({ key, value });
+                    }
+                }
+                
+                // Reinitialize with new shard count
+                this.numShards = newNumShards;
+                this.initializeShards();
+                this.directory = {};
+                
+                // Redistribute data
+                const method = document.getElementById('shardingMethod').value;
+                for (const { key, value } of oldData) {
+                    this.insertData(key, value, method);
+                }
+                
+                this.stats.redistributions++;
+                return oldData.length;
+            }
+
+            clear() {
+                this.initializeShards();
+                this.directory = {};
+                this.stats = {
+                    operations: 0,
+                    crossShardQueries: 0,
+                    redistributions: 0
+                };
+            }
+        }
+
+        // Initialize demo
+        let shardingDemo = new ShardingDemo();
+
+        // Logging functions
+        function logSharding(message) {
+            const output = document.getElementById('shardingOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            output.textContent += `[${timestamp}] ${message}\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearShardingOutput() {
+            document.getElementById('shardingOutput').textContent = '';
+        }
+
+        // Demo functions
+        function insertData() {
+            const method = document.getElementById('shardingMethod').value;
+            const dataValue = document.getElementById('dataValue').value.trim();
+            
+            if (!dataValue) {
+                alert('Please enter data to insert');
+                return;
+            }
+            
+            const result = shardingDemo.insertData(dataValue, { 
+                id: dataValue, 
+                timestamp: new Date().toISOString(),
+                data: `Sample data for ${dataValue}`
+            }, method);
+            
+            logSharding(`📝 INSERT: "${dataValue}" → Shard ${result.shardId} (${method} method)`);
+            
+            // Update shard count
+            updateShardDisplay();
+            
+            // Clear input
+            document.getElementById('dataValue').value = '';
+        }
+
+        function queryData() {
+            const method = document.getElementById('shardingMethod').value;
+            const queryType = document.getElementById('queryType').value;
+            
+            if (queryType === 'single') {
+                const dataValue = document.getElementById('dataValue').value.trim();
+                if (!dataValue) {
+                    alert('Please enter data to query');
+                    return;
+                }
+                
+                const result = shardingDemo.queryData(dataValue, method);
+                logSharding(`🔍 QUERY: "${dataValue}" → Shard ${result.shardId} - ${result.found ? 'FOUND' : 'NOT FOUND'}`);
+                
+            } else if (queryType === 'range') {
+                // Simulate range query
+                logSharding(`📊 RANGE QUERY: Searching for users in range...`);
+                const results = shardingDemo.crossShardQuery('user_');
+                logSharding(`   Found ${results.length} users across ${new Set(results.map(r => r.shardId)).size} shards`);
+                
+            } else if (queryType === 'cross') {
+                // Cross-shard query
+                logSharding(`🌐 CROSS-SHARD QUERY: Searching across all shards...`);
+                const results = shardingDemo.crossShardQuery('user_');
+                logSharding(`   Scanned ${shardingDemo.numShards} shards, found ${results.length} records`);
+                logSharding(`   ⚠️ Performance impact: High (cross-shard operation)`);
+            }
+        }
+
+        function reshardData() {
+            const newNumShards = parseInt(document.getElementById('numShards').value);
+            
+            if (newNumShards === shardingDemo.numShards) {
+                logSharding(`⚠️ Already using ${newNumShards} shards`);
+                return;
+            }
+            
+            logSharding(`🔄 RESHARDING: ${shardingDemo.numShards} → ${newNumShards} shards`);
+            const redistributedCount = shardingDemo.reshard(newNumShards);
+            logSharding(`   ✅ Redistributed ${redistributedCount} records`);
+            logSharding(`   ⚠️ Operation impact: High (data movement required)`);
+            
+            updateShardDisplay();
+        }
+
+        function clearDemo() {
+            shardingDemo.clear();
+            clearShardingOutput();
+            logSharding('🗑️ Demo cleared - ready for new operations!');
+            updateShardDisplay();
+        }
+
+        function loadSampleData() {
+            clearShardingOutput();
+            logSharding('📊 LOADING SAMPLE DATA');
+            logSharding('=' + '='.repeat(30));
+            
+            const sampleUsers = [
+                'user_123', 'user_456', 'user_789', 'user_1001', 'user_1234',
+                'user_1500', 'user_2000', 'user_2500', 'user_3000', 'user_999'
+            ];
+            
+            const method = document.getElementById('shardingMethod').value;
+            
+            logSharding(`🎯 Using ${method} sharding method with ${shardingDemo.numShards} shards`);
+            logSharding('');
+            
+            sampleUsers.forEach(user => {
+                const result = shardingDemo.insertData(user, {
+                    id: user,
+                    name: `Name for ${user}`,
+                    email: `${user}@example.com`,
+                    timestamp: new Date().toISOString()
+                }, method);
+                
+                logSharding(`📝 ${user} → Shard ${result.shardId}`);
+            });
+            
+            logSharding('');
+            updateShardDisplay();
+            showDataDistribution();
+        }
+
+        function updateShardDisplay() {
+            const stats = shardingDemo.getShardStats();
+            const totalRecords = shardingDemo.getTotalRecords();
+            
+            if (totalRecords > 0) {
+                logSharding(`📊 Current distribution (${totalRecords} total records):`);
+                for (const [shardName, shardStats] of Object.entries(stats)) {
+                    logSharding(`   ${shardName}: ${shardStats.count} records (${shardStats.percentage}%)`);
+                }
+                logSharding('');
+            }
+        }
+
+        function showDataDistribution() {
+            const stats = shardingDemo.getShardStats();
+            logSharding('📈 DATA DISTRIBUTION ANALYSIS:');
+            
+            let maxCount = 0;
+            let minCount = Infinity;
+            
+            for (const shardStats of Object.values(stats)) {
+                maxCount = Math.max(maxCount, shardStats.count);
+                minCount = Math.min(minCount, shardStats.count);
+            }
+            
+            const distribution = maxCount === 0 ? 0 : ((maxCount - minCount) / maxCount * 100);
+            
+            logSharding(`   Distribution variance: ${distribution.toFixed(1)}%`);
+            if (distribution < 20) {
+                logSharding('   ✅ Good distribution (variance < 20%)');
+            } else if (distribution < 50) {
+                logSharding('   ⚠️ Moderate imbalance (variance 20-50%)');
+            } else {
+                logSharding('   ❌ Poor distribution (variance > 50%)');
+            }
+            logSharding('');
+        }
+
+        // Performance testing
+        function runPerformanceTest() {
+            const dataSize = parseInt(document.getElementById('dataSize').value);
+            const queryPattern = document.getElementById('queryPattern').value;
+            const numShards = parseInt(document.getElementById('perfShards').value);
+            
+            clearPerformanceOutput();
+            logPerformance('🏃‍♂️ PERFORMANCE TEST STARTING');
+            logPerformance('=' + '='.repeat(40));
+            logPerformance(`📊 Configuration:`);
+            logPerformance(`   Data Size: ${dataSize} records`);
+            logPerformance(`   Query Pattern: ${queryPattern}`);
+            logPerformance(`   Shards: ${numShards}`);
+            logPerformance('');
+            
+            // Test each sharding method
+            const methods = ['hash', 'range', 'directory'];
+            const results = {};
+            
+            methods.forEach(method => {
+                logPerformance(`🧪 Testing ${method} sharding...`);
+                const testDemo = new ShardingDemo();
+                testDemo.numShards = numShards;
+                testDemo.initializeShards();
+                
+                // Insert data
+                const insertStart = performance.now();
+                for (let i = 0; i < dataSize; i++) {
+                    const key = `record_${i}`;
+                    testDemo.insertData(key, { id: i, data: `data_${i}` }, method);
+                }
+                const insertTime = performance.now() - insertStart;
+                
+                // Query data
+                const queryStart = performance.now();
+                if (queryPattern === 'random') {
+                    for (let i = 0; i < 100; i++) {
+                        const randomKey = `record_${Math.floor(Math.random() * dataSize)}`;
+                        testDemo.queryData(randomKey, method);
+                    }
+                } else if (queryPattern === 'sequential') {
+                    for (let i = 0; i < 100; i++) {
+                        testDemo.queryData(`record_${i}`, method);
+                    }
+                } else { // range
+                    for (let i = 0; i < 10; i++) {
+                        testDemo.crossShardQuery('record_');
+                    }
+                }
+                const queryTime = performance.now() - queryStart;
+                
+                // Analyze distribution
+                const stats = testDemo.getShardStats();
+                const counts = Object.values(stats).map(s => s.count);
+                const maxCount = Math.max(...counts);
+                const minCount = Math.min(...counts);
+                const variance = maxCount === 0 ? 0 : ((maxCount - minCount) / maxCount * 100);
+                
+                results[method] = {
+                    insertTime,
+                    queryTime,
+                    variance,
+                    totalTime: insertTime + queryTime
+                };
+                
+                logPerformance(`   Insert: ${insertTime.toFixed(1)}ms`);
+                logPerformance(`   Query: ${queryTime.toFixed(1)}ms`);
+                logPerformance(`   Distribution variance: ${variance.toFixed(1)}%`);
+                logPerformance('');
+            });
+            
+            // Show comparison
+            logPerformance('🏆 PERFORMANCE COMPARISON:');
+            const fastest = Object.keys(results).reduce((a, b) => 
+                results[a].totalTime < results[b].totalTime ? a : b
+            );
+            
+            Object.entries(results).forEach(([method, result]) => {
+                const isFastest = method === fastest;
+                logPerformance(`${isFastest ? '🥇' : '  '} ${method}: ${result.totalTime.toFixed(1)}ms total`);
+            });
+            
+            logPerformance('');
+            logPerformance(`✅ Test completed! ${fastest} sharding performed best for this scenario.`);
+        }
+
+        function logPerformance(message) {
+            const output = document.getElementById('performanceOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            output.textContent += `[${timestamp}] ${message}\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearPerformanceOutput() {
+            document.getElementById('performanceOutput').textContent = '';
+        }
+
+        // Dynamic flow visualization
+        function createDynamicFlowDiagram() {
+            const flowContainer = document.getElementById('dynamicFlow');
+            
+            const scenarios = [
+                {
+                    title: "📱 Single Record Query",
+                    steps: [
+                        "Client sends query for user_12345",
+                        "Router calculates shard using hash(user_12345) % 3 = 2",
+                        "Query routed to Shard 2",
+                        "Shard 2 returns user data",
+                        "Client receives response"
+                    ]
+                },
+                {
+                    title: "🌐 Cross-Shard Query",
+                    steps: [
+                        "Client requests all users with status='active'",
+                        "Router identifies query requires all shards",
+                        "Parallel queries sent to Shards 1, 2, 3",
+                        "Results aggregated from all shards",
+                        "Combined result returned to client"
+                    ]
+                },
+                {
+                    title: "🔄 Resharding Operation",
+                    steps: [
+                        "System detects Shard 2 is overloaded",
+                        "Decision made to split into 4 shards",
+                        "Data migration begins from Shard 2",
+                        "Hash function updated to mod 4",
+                        "Traffic gradually shifted to new layout"
+                    ]
+                }
+            ];
+            
+            let currentScenario = 0;
+            
+            function renderScenario(index) {
+                const scenario = scenarios[index];
+                flowContainer.innerHTML = `
+                    <h4 style="color: #667eea; margin-bottom: 1rem;">${scenario.title}</h4>
+                    <div style="display: grid; gap: 1rem; text-align: left;">
+                        ${scenario.steps.map((step, i) => `
+                            <div style="background: #f8f9fa; padding: 1rem; border-left: 4px solid #007bff; border-radius: 4px;">
+                                <strong>Step ${i + 1}:</strong> ${step}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button onclick="previousScenario()" ${index === 0 ? 'disabled' : ''} 
+                                style="background: #6c757d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-right: 0.5rem;">
+                            ← Previous
+                        </button>
+                        <button onclick="nextScenario()" ${index === scenarios.length - 1 ? 'disabled' : ''} 
+                                style="background: #007bff; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px;">
+                            Next →
+                        </button>
+                    </div>
+                `;
+            }
+            
+            window.nextScenario = function() {
+                if (currentScenario < scenarios.length - 1) {
+                    currentScenario++;
+                    renderScenario(currentScenario);
+                }
+            };
+            
+            window.previousScenario = function() {
+                if (currentScenario > 0) {
+                    currentScenario--;
+                    renderScenario(currentScenario);
+                }
+            };
+            
+            renderScenario(0);
+        }
+
+        // Initialize dynamic flow diagram when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createDynamicFlowDiagram();
+            
+            // Initialize shard count
+            shardingDemo.numShards = parseInt(document.getElementById('numShards').value);
+            shardingDemo.initializeShards();
+            
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-theme');
+                    themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

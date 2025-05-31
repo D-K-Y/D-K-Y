@@ -309,63 +309,9 @@
             margin-bottom: 0.3rem;
         }
 
-        /* Like Button Styles */
-        #likeButton:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-            background: linear-gradient(45deg, #ff5252, #ff7979);
-        }
+        /* Remove these 4 CSS rule blocks */
 
-        #likeButton:active {
-            transform: translateY(0);
-        }
 
-        #likeButton.liked {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
-        }
-
-        #likeButton.liked:hover {
-            background: linear-gradient(45deg, #45b7b8, #3d8b85);
-            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-        }
-
-        .like-animation {
-            animation: likeAnimation 0.6s ease-in-out;
-        }
-
-        @keyframes likeAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .heart-float {
-            position: absolute;
-            font-size: 1.5rem;
-            color: #ff6b6b;
-            pointer-events: none;
-            animation: heartFloat 2s ease-out forwards;
-            z-index: 1000;
-        }
-
-        @keyframes heartFloat {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100px) scale(1.5);
-            }
-        }
-
-        @media (max-width: 600px) {
-            #likeButton {
-                padding: 0.8rem 1.2rem;
-                font-size: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -384,24 +330,8 @@
     </header>
     <main>
         <article class="blog-post-content">
-            
-            <!-- Like Button Section -->
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 1.2rem; font-weight: bold;">❤️ This post has</span>
-                        <span id="likeCount" style="font-size: 2rem; font-weight: bold; color: #ff6b6b; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">0</span>
-                        <span style="font-size: 1.2rem; font-weight: bold;">likes</span>
-                    </div>
-                    <button id="likeButton" style="background: linear-gradient(45deg, #ff6b6b, #ff8e8e); color: white; border: none; padding: 1rem 1.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3); display: flex; align-items: center; gap: 0.5rem;">
-                        <span class="like-icon">👍</span>
-                        <span class="like-text">Like this post</span>
-                    </button>
-                </div>
-                <div id="likeMessage" style="margin-top: 1rem; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s ease; color: #ffd93d;">
-                </div>
-            </div>
 
+            <!-- THEN CONTINUE WITH YOUR MAIN BLOG CONTENT -->
             <h1>🚀 Ultimate Guide to Caching in Python</h1>
             <p>Caching is essential for optimizing performance and scalability in Python applications. In this guide, we explore caching architectures, eviction strategies, and real Python implementations using in-memory and distributed caches like Redis.</p>
             
@@ -1023,23 +953,23 @@ def run_performance_test(product_id: int = 1, user_id: int = 101,
     
     for test_name, test_func in test_cases:
         print(f"\n📊 Testing: {test_name}")
-        print("-" * 40)
+        print("-" * 40);
         
-        # First call (cache miss)
+        // First call (cache miss)
         start_time = time.time()
         result1 = test_func()
         miss_time = time.time() - start_time
         
-        # Second call (cache hit)
+        // Second call (cache hit)
         start_time = time.time()
         result2 = test_func()
         hit_time = time.time() - start_time
         
-        # Performance comparison
-        speedup = miss_time / hit_time if hit_time > 0 else float('inf')
-        print(f"⏱️ Cache MISS time: {miss_time*1000:.1f}ms")
-        print(f"⚡ Cache HIT time: {hit_time*1000:.1f}ms")
-        print(f"🚀 Speedup: {speedup:.1f}x faster")
+        // Performance comparison
+        speedup = miss_time / hit_time if hit_time > 0 : float('inf');
+        console.log(`Cache MISS time: ${miss_time*1000:.1f}ms`);
+        console.log(`Cache HIT time: ${hit_time*1000:.1f}ms`);
+        console.log(`Speedup: ${speedup:.1f}x faster`);
         
         performance_results.append({
             'test': test_name,
@@ -1049,8 +979,8 @@ def run_performance_test(product_id: int = 1, user_id: int = 101,
         })
     
     # Test LRU Cache
-    print(f"\n📊 Testing: LRU Cache (Shipping Calculations)")
-    print("-" * 40)
+    console.log(`📊 Testing: LRU Cache (Shipping Calculations)`);
+    console.log("-" * 40);
     
     # First calculation (cache miss)
     start_time = time.time()
@@ -1062,25 +992,25 @@ def run_performance_test(product_id: int = 1, user_id: int = 101,
     cost2 = calculate_shipping_cost(2.5, 100, "express")
     hit_time = time.time() - start_time
     
-    speedup = miss_time / hit_time if hit_time > 0 else float('inf')
-    print(f"⏱️ First calculation: {miss_time*1000:.1f}ms (result: ${cost1})")
-    console.log(f"Cache HIT time: {hit_time:.1f}ms") 
+    speedup = miss_time / hit_time if hit_time > 0 : float('inf');
+    console.log(`First calculation: ${miss_time*1000:.1f}ms (result: $${cost1})`);
+    console.log(`Cache HIT time: ${hit_time:.1f}ms`); 
     console.log(`Speedup: ${speedup:.1f}x faster`);
     
-    # Cache invalidation test
-    print(f"\n📊 Testing: Cache Invalidation")
-    print("-" * 40)
+    // Cache invalidation test
+    console.log(`📊 Testing: Cache Invalidation`);
+    console.log("-" * 40);
     service.update_user(user_id, {"name": "John Updated"})
     
-    # Show cache statistics
-    print(f"\n📈 Final Cache Statistics:");
+    // Show cache statistics
+    console.log(`📈 Final Cache Statistics:`);
     console.log("-" * 40);
     stats = service.cache.get_stats();
     for (key, value) in stats.items():
-        print(f"{key.replace('_', ' ').title()}: {value}");
+        console.log(`${key.replace('_', ' ').title()}: ${value}`);
     
-    # LRU Cache info
-    print(f"\nLRU Cache Info: CacheInfo(hits=1, misses=1, maxsize=100, currsize=1)");
+    // LRU Cache info
+    console.log(`LRU Cache Info: CacheInfo(hits=1, misses=1, maxsize=100, currsize=1)`);
     
     return performance_results, stats
 
@@ -1177,789 +1107,352 @@ if __name__ == "__main__":
                 </div>
             </div>
 
-            <h2>🧪 Python Experiments to Try</h2>
-            <div class="flow-info">
-                <p>Modify the Python code to experiment with different scenarios:</p>
-                <ol>
-                    <li><strong>Test TTL Expiration:</strong> Set TTL to 2 seconds, run tests, wait 3 seconds, run again</li>
-                    <li><strong>Compare Different Delays:</strong> Try <code>db_delay=0.001</code> vs <code>db_delay=1.0</code></li>
-                    <li><strong>Memory Usage:</strong> Add thousands of cache entries and monitor memory</li>
-                    <li><strong>Concurrent Access:</strong> Use <code>threading</code> to simulate multiple users</li>
-                </ol>
+            <!-- Interactive Python Experiments -->
+            <h2>🧪 Interactive Python Experiments</h2>
+            <p>
+                Explore how different caching strategies work! Each example below includes:
+                <ul>
+                    <li><b>Explanation</b> of the caching concept</li>
+                    <li><b>Python code</b> (click to view)</li>
+                    <li><b>Interactive controls</b> to simulate cache behavior</li>
+                    <li><b>Live output</b> showing what happens step by step</li>
+                </ul>
+            </p>
+
+            <!-- Example 1: TTL Expiration -->
+            <div style="margin-bottom:2rem; padding:1.5rem; border:2px solid #17a2b8; border-radius:10px; background:#f8f9fa;">
+                <h3 style="color:#17a2b8;">🕐 Example 1: TTL Expiration</h3>
+                <p>
+                    <b>Concept:</b> <i>Time-to-live (TTL)</i> means a cache entry is only valid for a certain time. After that, it expires and is removed.<br>
+                    <b>Try it:</b> Set a TTL and see how cache hits turn into misses as time passes.
+                </p>
+                <button onclick="toggleCode('ttlCode')" style="margin-bottom:1rem;">📋 Show/Hide Python Code</button>
+                <pre id="ttlCode" style="display:none; background:#222; color:#eee; padding:1rem; border-radius:6px; overflow-x:auto;">
+class TTLCache:
+    def __init__(self):
+        self.cache = {}
+        self.expiry = {}
+    def set(self, key, value, ttl):
+        self.cache[key] = value
+        self.expiry[key] = time.time() + ttl
+    def get(self, key):
+        if key in self.cache and time.time() < self.expiry[key]:
+            return self.cache[key]
+        self.cache.pop(key, None)
+        self.expiry.pop(key, None)
+        return None
+    </pre>
+                <div style="margin:1rem 0;">
+                    <label>TTL (seconds): <input type="number" id="ttlInput" value="3" min="1" max="30"></label>
+                    <label style="margin-left:1rem;">Wait (seconds): <input type="number" id="ttlWait" value="4" min="1" max="30"></label>
+                    <button onclick="runTTLExample()" style="margin-left:1rem;">⏱️ Run TTL Example</button>
+                </div>
+                <pre id="ttlOutput" style="background:#111; color:#0f0; padding:1rem; border-radius:6px; min-height:60px;"></pre>
             </div>
 
-<pre><code># Experiment: Test cache expiration in Python
-import time
+            <!-- Example 2: LRU Cache -->
+            <div style="margin-bottom:2rem; padding:1.5rem; border:2px solid #28a745; border-radius:10px; background:#f8f9fa;">
+                <h3 style="color:#28a745;">🔄 Example 2: LRU (Least Recently Used) Cache</h3>
+                <p>
+                    <b>Concept:</b> <i>LRU</i> caches evict the least recently accessed item when full.<br>
+                    <b>Try it:</b> Set cache size, access items, and see which get evicted!
+                </p>
+                <button onclick="toggleCode('lruCode')" style="margin-bottom:1rem;">📋 Show/Hide Python Code</button>
+                <pre id="lruCode" style="display:none; background:#222; color:#eee; padding:1rem; border-radius:6px; overflow-x:auto;">
+from collections import OrderedDict
+class LRUCache:
+    def __init__(self, size):
+        self.cache = OrderedDict()
+        self.size = size
+    def get(self, key):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+            return self.cache[key]
+        return None
+    def set(self, key, value):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.size:
+            self.cache.popitem(last=False)
+    </pre>
+                <div style="margin:1rem 0;">
+                    <label>Cache Size: <input type="number" id="lruSize" value="3" min="1" max="10"></label>
+                    <label style="margin-left:1rem;">Access Sequence (comma): <input id="lruSeq" value="A,B,C,A,D"></label>
+                    <button onclick="runLRUExample()" style="margin-left:1rem;">🔄 Run LRU Example</button>
+                </div>
+                <pre id="lruOutput" style="background:#111; color:#0f0; padding:1rem; border-radius:6px; min-height:60px;"></pre>
+            </div>
 
-def test_ttl_expiration():
-    """Test TTL expiration with real timing"""
-    service = ECommerceService(db_delay=0.1, cache_ttl=2)  # 2 second TTL
-    
-    print("🧪 Testing TTL Expiration")
-    print("-" * 30)
-    
-    # Get product (cache miss)
-    product = service.get_product(1)
-    print(f"Got product: {product['name']}")
-    
-    # Immediately get again (cache hit)
-    product = service.get_product(1)
-    print(f"Got product: {product['name']}")
-    
-    # Wait for TTL expiration
-    print("⏳ Waiting 3 seconds for cache expiration...")
-    time.sleep(3)
-    
-    # Get again (should be cache miss due to expiration)
-    product = service.get_product(1)
-    print(f"Got product: {product['name']}")
-    
-    # Show final stats
-    stats = service.cache.get_stats()
-    print(f"Final stats: {stats}")
+            <!-- Example 3: LFU Cache -->
+            <div style="margin-bottom:2rem; padding:1.5rem; border:2px solid #ffc107; border-radius:10px; background:#fffbe6;">
+                <h3 style="color:#ffc107;">🔥 Example 3: LFU (Least Frequently Used) Cache</h3>
+                <p>
+                    <b>Concept:</b> <i>LFU</i> caches evict the least frequently accessed item.<br>
+                    <b>Try it:</b> Access some items more than others and see which get evicted!
+                </p>
+                <button onclick="toggleCode('lfuCode')" style="margin-bottom:1rem;">📋 Show/Hide Python Code</button>
+                <pre id="lfuCode" style="display:none; background:#222; color:#eee; padding:1rem; border-radius:6px; overflow-x:auto;">
+class LFUCache:
+    def __init__(self, size):
+        self.cache = {}
+        self.freq = {}
+        self.size = size
+    def get(self, key):
+        if key in self.cache:
+            self.freq[key] += 1
+            return self.cache[key]
+        return None
+    def set(self, key, value):
+        if key in self.cache:
+            self.freq[key] += 1
+        else:
+            if len(self.cache) >= self.size:
+                lfu = min(self.freq, key=self.freq.get)
+                self.cache.pop(lfu)
+                self.freq.pop(lfu)
+            self.cache[key] = value
+            self.freq[key] = 1
+    </pre>
+                <div style="margin:1rem 0;">
+                    <label>Cache Size: <input type="number" id="lfuSize" value="3" min="1" max="10"></label>
+                    <label style="margin-left:1rem;">Access Sequence (comma): <input id="lfuSeq" value="A,B,A,C,A,D"></label>
+                    <button onclick="runLFUExample()" style="margin-left:1rem;">🔥 Run LFU Example</button>
+                </div>
+                <pre id="lfuOutput" style="background:#111; color:#0a0; padding:1rem; border-radius:6px; min-height:60px;"></pre>
+            </div>
 
-# Run the TTL test
-if __name__ == "__main__":
-    test_ttl_expiration()
-</code></pre>
+            <!-- Example 4: Cache Hit Rate Simulation -->
+            <div style="margin-bottom:2rem; padding:1.5rem; border:2px solid #dc3545; border-radius:10px; background:#f8d7da;">
+                <h3 style="color:#dc3545;">📊 Example 4: Cache Hit Rate Simulation</h3>
+                <p>
+                    <b>Concept:</b> See how cache size and access patterns affect the <i>hit rate</i>.<br>
+                    <b>Try it:</b> Simulate random or sequential access and see the hit/miss ratio.
+                </p>
+                <button onclick="toggleCode('hitCode')" style="margin-bottom:1rem;">📋 Show/Hide Python Code</button>
+                <pre id="hitCode" style="display:none; background:#222; color:#eee; padding:1rem; border-radius:6px; overflow-x:auto;">
+import random
+class SimpleCache:
+    def __init__(self, size):
+        self.cache = []
+        self.size = size
+    def access(self, key):
+        if key in self.cache:
+            return True
+        if len(self.cache) >= self.size:
+            self.cache.pop(0)
+        self.cache.append(key)
+        return False
+    </pre>
+                <div style="margin:1rem 0;">
+                    <label>Cache Size: <input type="number" id="hitSize" value="5" min="1" max="20"></label>
+                    <label style="margin-left:1rem;">Pattern:
+                        <select id="hitPattern">
+                            <option value="sequential">Sequential</option>
+                            <option value="random">Random</option>
+                        </select>
+                    </label>
+                    <label style="margin-left:1rem;">Requests: <input type="number" id="hitReq" value="20" min="5" max="100"></label>
+                    <button onclick="runHitExample()" style="margin-left:1rem;">📊 Run Hit Rate</button>
+                </div>
+                <pre id="hitOutput" style="background:#111; color:#a00; padding:1rem; border-radius:6px; min-height:60px;"></pre>
+            </div>
 
-            <!-- JavaScript Implementation for Web Demo Functionality -->
             <script>
-            // Python code execution simulation for the web demo
-            class PythonCodeRunner {
-                constructor() {
-                    this.cache = {};
-                    this.expiryTimes = {};
-                    this.hitCount = 0;
-                    this.missCount = 0;
-                    this.products = {
-                        1: {id: 1, name: "iPhone 14", price: 999, category: "phones"},
-                        2: {id: 2, name: "MacBook Pro", price: 2399, category: "laptops"}, 
-                        3: {id: 3, name: "AirPods", price: 249, category: "accessories"},
-                        4: {id: 4, name: "iPad Pro", price: 1099, category: "tablets"},
-                        5: {id: 5, name: "Apple Watch", price: 399, category: "watches"}
-                    };
-                    this.users = {
-                        101: {id: 101, name: "John Doe", email: "john@example.com", tier: "premium"},
-                        102: {id: 102, name: "Jane Smith", email: "jane@example.com", tier: "basic"},
-                        103: {id: 103, name: "Bob Wilson", email: "bob@example.com", tier: "premium"}
-                    };
-                }
-
-                log(message) {
-                    const output = document.getElementById('demoOutput');
-                    const timestamp = new Date().toLocaleTimeString();
-                    output.textContent += `[${timestamp}] ${message}\n`;
-                    output.scrollTop = output.scrollHeight;
-                }
-
-                async sleep(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
-                }
-
-                // Simulate Python cache operations
-                async cacheGet(key) {
-                    if (key in this.cache) {
-                        if (Date.now() < this.expiryTimes[key]) {
-                            this.hitCount++;
-                            this.log(`✅ Cache HIT: ${key}`);
-                            return this.cache[key];
-                        } else {
-                            delete this.cache[key];
-                            delete this.expiryTimes[key];
-                        }
-                    }
-                    this.missCount++;
-                    this.log(`❌ Cache MISS: ${key}`);
-                    return null;
-                }
-
-                cacheSet(key, value, ttlSeconds = 60) {
-                    this.cache[key] = value;
-                    this.expiryTimes[key] = Date.now() + (ttlSeconds * 1000);
-                    this.log(`💾 Cache SET: ${key} (TTL: ${ttlSeconds}s)`);
-                }
-
-                cacheDelete(key) {
-                    if (key in this.cache) {
-                        delete this.cache[key];
-                        delete this.expiryTimes[key];
-                        this.log(`🗑️ Cache DELETE: ${key}`);
-                    }
-                }
-
-                // Simulate Python database operations
-                async dbGetProduct(productId, delay) {
-                    this.log(`🐌 DB Query: Fetching product ${productId}...`);
-                    await this.sleep(delay);
-                    return this.products[productId] || null;
-                }
-
-                async dbGetUser(userId, delay) {
-                    this.log(`🐌 DB Query: Fetching user ${userId}...`);
-                    await this.sleep(delay);
-                    return this.users[userId] || null;
-                }
-
-                async dbGetUserOrders(userId, delay) {
-                    this.log(`🐌 DB Query: Fetching orders for user ${userId}...`);
-                    await this.sleep(delay);
-                    
-                    const orders = [];
-                    const numOrders = Math.floor(Math.random() * 5) + 1;
-                    for (let i = 0; i < numOrders; i++) {
-                        orders.push({
-                            id: `order_${userId}_${i}`,
-                            product_id: Math.floor(Math.random() * 5) + 1,
-                            quantity: Math.floor(Math.random() * 3) + 1,
-                            total: Math.floor(Math.random() * 900) + 100
-                        });
-                    }
-                    return orders;
-                }
-
-                // Python-style cache-aside pattern
-                async getProduct(productId, dbDelay, cacheTTL) {
-                    const cacheKey = `product:${productId}`;
-                    
-                    const cached = await this.cacheGet(cacheKey);
-                    if (cached) {
-                        return cached;
-                    }
-
-                    const product = await this.dbGetProduct(productId, dbDelay);
-                    if (product) {
-                        this.cacheSet(cacheKey, product, cacheTTL);
-                    }
-                    return product;
-                }
-
-                async getUser(userId, dbDelay, cacheTTL) {
-                    const cacheKey = `user:${userId}`;
-                    
-                    const cached = await this.cacheGet(cacheKey);
-                    if (cached) {
-                        return cached;
-                    }
-
-                    const user = await this.dbGetUser(userId, dbDelay + 50);
-                    if (user) {
-                        this.cacheSet(cacheKey, user, Math.max(30, cacheTTL - 30));
-                    }
-                    return user;
-                }
-
-                async getUserOrders(userId, dbDelay, cacheTTL) {
-                    const cacheKey = `user_orders:${userId}`;
-                    
-                    const cached = await this.cacheGet(cacheKey);
-                    if (cached) {
-                        return cached;
-                    }
-
-                    const orders = await this.dbGetUserOrders(userId, dbDelay + 100);
-                    this.cacheSet(cacheKey, orders, Math.max(20, cacheTTL - 40));
-                    return orders;
-                }
-
-                updateUser(userId, userData) {
-                    this.log(`📝 Updating user ${userId} in database...`);
-                    
-                    const cacheKeys = [
-                        `user:${userId}`,
-                        `user_orders:${userId}`
-                    ];
-                    
-                    cacheKeys.forEach(key => {
-                        this.cacheDelete(key);
-                    });
-                    
-                    this.log(`🔄 Invalidated ${cacheKeys.length} cache entries`);
-                }
-
-                getStats() {
-                    const totalRequests = this.hitCount + this.missCount;
-                    const hitRate = totalRequests > 0 ? (this.hitCount / totalRequests * 100) : 0;
-                    return {
-                        hits: this.hitCount,
-                        misses: this.missCount,
-                        hitRate: hitRate.toFixed(1) + '%',
-                        totalKeys: Object.keys(this.cache).length
-                    };
-                }
-
-                clear() {
-                    this.cache = {};
-                    this.expiryTimes = {};
-                    this.hitCount = 0;
-                    this.missCount = 0;
-                }
-
-                // Main Python performance test function
-                async runPerformanceTest(customParams = {}) {
-                    const {
-                        productId = 1,
-                        userId = 101,
-                        dbDelay = 100,
-                        cacheTTL = 60
-                    } = customParams;
-
-                    // Clear previous test data
-                    this.clear();
-                    
-                    const output = document.getElementById('demoOutput');
-                    output.textContent = '';
-                    
-                    this.log("🚀 E-COMMERCE CACHING PERFORMANCE TEST");
-                    this.log("=" + "=".repeat(59));
-                    this.log("");
-                    
-                    // Test cases with performance tracking
-                    const testCases = [
-                        {
-                            name: "Product Lookups",
-                            func: () => this.getProduct(productId, dbDelay, cacheTTL)
-                        },
-                        {
-                            name: "User Lookups", 
-                            func: () => this.getUser(userId, dbDelay, cacheTTL)
-                        },
-                        {
-                            name: "User Orders",
-                            func: () => this.getUserOrders(userId, dbDelay, cacheTTL)
-                        }
-                    ];
-                    
-                    const performanceResults = [];
-                    
-                    for (const testCase of testCases) {
-                        this.log(`📊 Testing: ${testCase.name}`);
-                        this.log("-".repeat(40));
-                        
-                        // First call (cache miss)
-                        const missStartTime = performance.now();
-                        const result1 = await testCase.func();
-                        const missTime = performance.now() - missStartTime;
-                        
-                        // Second call (cache hit)  
-                        const hitStartTime = performance.now();
-                        const result2 = await testCase.func();
-                        const hitTime = performance.now() - hitStartTime;
-                        
-                        const speedup = hitTime > 0 ? missTime / hitTime : Infinity;
-                        
-                        this.log(`⏱️ Cache MISS time: ${missTime.toFixed(1)}ms`);
-                        this.log(`⚡ Cache HIT time: ${hitTime.toFixed(1)}ms`);
-                        this.log(`🚀 Speedup: ${speedup.toFixed(1)}x faster`);
-                        this.log("");
-                        
-                        performanceResults.push({
-                            test: testCase.name,
-                            missTime,
-                            hitTime, 
-                            speedup
-                        });
-                    }
-
-                    // Simulate LRU cache test
-                    this.log(`📊 Testing: LRU Cache (Shipping Calculations)`);
-                    this.log("-".repeat(40));
-                    
-                    const calcStartTime = performance.now();
-                    this.log(`🧮 Computing shipping cost (weight=2.5, distance=100, type=express)`);
-                    await this.sleep(50); // Simulate calculation time
-                    const cost = 3.25;
-                    const calcTime = performance.now() - calcStartTime;
-                    
-                    this.log(`⏱️ First calculation: ${calcTime.toFixed(1)}ms (result: $${cost})`);
-                    this.log(`⚡ Cached calculation: 0.0ms (result: $${cost})`);
-                    this.log(`🚀 Speedup: ${(calcTime / 0.1).toFixed(1)}x faster`);
-                    this.log("");
-                    
-                    // Cache invalidation test
-                    this.log(`📊 Testing: Cache Invalidation`);
-                    this.log("-".repeat(40));
-                    this.updateUser(userId, {name: "John Updated"});
-                    this.log("");
-                    
-                    // Show final stats
-                    this.log(`📈 Final Cache Statistics:`);
-                    this.log("-".repeat(40));
-                    const stats = this.getStats();
-                    Object.entries(stats).forEach(([key, value]) => {
-                        const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-                        this.log(`${formattedKey}: ${value}`);
-                    });
-                    
-                    this.log("");
-                    this.log("LRU Cache Info: CacheInfo(hits=1, misses=1, maxsize=100, currsize=1)");
-                    
-                    // Update performance metrics display
-                    this.updatePerformanceMetrics(stats, performanceResults);
-                    
-                    return {performanceResults, stats};
-                }
-
-                updatePerformanceMetrics(stats, performanceResults) {
-                    const metricsDiv = document.getElementById('performanceMetrics');
-                    metricsDiv.style.display = 'block';
-                    
-                    document.getElementById('cacheHits').textContent = stats.hits;
-                    document.getElementById('cacheMisses').textContent = stats.misses;
-                    document.getElementById('hitRate').textContent = stats.hitRate;
-                    
-                    const avgSpeedup = performanceResults.length > 0 
-                        ? (performanceResults.reduce((sum, result) => sum + (result.speedup === Infinity ? 1000 : result.speedup), 0) / performanceResults.length).toFixed(1)
-                        : '0';
-                    document.getElementById('avgSpeedup').textContent = avgSpeedup + 'x';
-                }
+            function toggleCode(id) {
+                const el = document.getElementById(id);
+                el.style.display = (el.style.display === "none") ? "block" : "none";
             }
 
-            // Like Button Functionality
-            class LikeSystem {
-                constructor() {
-                    this.postId = 'caching-guide'; // Unique identifier for this post
-                    this.likeButton = document.getElementById('likeButton');
-                    this.likeCount = document.getElementById('likeCount');
-                    this.likeMessage = document.getElementById('likeMessage');
-                    this.hasUserLiked = false;
-                    
-                    this.init();
-                }
-
-                init() {
-                    // Load likes from localStorage
-                    this.loadLikes();
-                    
-                    // Check if user has already liked this post
-                    this.checkUserLikeStatus();
-                    
-                    // Add event listener
-                    this.likeButton.addEventListener('click', () => this.handleLike());
-                    
-                    // Update button appearance based on like status
-                    this.updateButtonAppearance();
-                }
-
-                loadLikes() {
-                    const likes = localStorage.getItem(`likes_${this.postId}`);
-                    const currentLikes = likes ? parseInt(likes) : 0;
-                    this.likeCount.textContent = this.formatLikeCount(currentLikes);
-                }
-
-                checkUserLikeStatus() {
-                    const userLiked = localStorage.getItem(`user_liked_${this.postId}`);
-                    this.hasUserLiked = userLiked === 'true';
-                }
-
-                formatLikeCount(count) {
-                    if (count >= 1000000) {
-                        return (count / 1000000).toFixed(1) + 'M';
-                    } else if (count >= 1000) {
-                        return (count / 1000).toFixed(1) + 'k';
-                    } else {
-                        return count.toString();
-                    }
-                }
-
-                updateButtonAppearance() {
-                    const likeIcon = this.likeButton.querySelector('.like-icon');
-                    const likeText = this.likeButton.querySelector('.like-text');
-                    
-                    if (this.hasUserLiked) {
-                        this.likeButton.classList.add('liked');
-                        likeIcon.textContent = '❤️';
-                        likeText.textContent = 'Liked!';
-                    } else {
-                        this.likeButton.classList.remove('liked');
-                        likeIcon.textContent = '👍';
-                        likeText.textContent = 'Like this post';
-                    }
-                }
-
-                handleLike() {
-                    const currentLikes = parseInt(localStorage.getItem(`likes_${this.postId}`) || '0');
-                    
-                    if (!this.hasUserLiked) {
-                        // User is liking the post
-                        const newLikes = currentLikes + 1;
-                        localStorage.setItem(`likes_${this.postId}`, newLikes.toString());
-                        localStorage.setItem(`user_liked_${this.postId}`, 'true');
-                        this.hasUserLiked = true;
-                        
-                        // Update display
-                        this.likeCount.textContent = this.formatLikeCount(newLikes);
-                        this.showMessage('Thanks for liking this post! ❤️', 'success');
-                        
-                        // Animation effects
-                        this.animateLike();
-                        this.createHeartEffect();
-                        
-                    } else {
-                        // User is unliking the post
-                        const newLikes = Math.max(0, currentLikes - 1);
-                        localStorage.setItem(`likes_${this.postId}`, newLikes.toString());
-                        localStorage.setItem(`user_liked_${this.postId}`, 'false');
-                        this.hasUserLiked = false;
-                        
-                        // Update display
-                        this.likeCount.textContent = this.formatLikeCount(newLikes);
-                        this.showMessage('Like removed', 'info');
-                    }
-                    
-                    this.updateButtonAppearance();
-                }
-
-                animateLike() {
-                    this.likeButton.classList.add('like-animation');
-                    setTimeout(() => {
-                        this.likeButton.classList.remove('like-animation');
-                    }, 600);
-                }
-
-                createHeartEffect() {
-                    const hearts = ['❤️', '💖', '💕', '💝', '🧡', '💛', '💚', '💙', '💜'];
-                    const randomHeart = hearts[Math.floor(Math.random() * hearts.length)];
-                    
-                    const heart = document.createElement('div');
-                    heart.textContent = randomHeart;
-                    heart.className = 'heart-float';
-                    
-                    // Position relative to button
-                    const buttonRect = this.likeButton.getBoundingClientRect();
-                    heart.style.position = 'fixed';
-                    heart.style.left = (buttonRect.left + buttonRect.width / 2 - 12) + 'px';
-                    heart.style.top = (buttonRect.top - 10) + 'px';
-                    
-                    document.body.appendChild(heart);
-                    
-                    // Remove heart after animation
-                    setTimeout(() => {
-                        if (heart.parentNode) {
-                            heart.parentNode.removeChild(heart);
-                        }
-                    }, 2000);
-                }
-
-                showMessage(message, type = 'success') {
-                    this.likeMessage.textContent = message;
-                    this.likeMessage.style.opacity = '1';
-                    
-                    if (type === 'success') {
-                        this.likeMessage.style.color = '#ffd93d';
-                    } else {
-                        this.likeMessage.style.color = '#a8e6cf';
-                    }
-                    
-                    setTimeout(() => {
-                        this.likeMessage.style.opacity = '0';
-                    }, 3000);
-                }
-
-                // Method to get total likes (useful for analytics)
-                getTotalLikes() {
-                    return parseInt(localStorage.getItem(`likes_${this.postId}`) || '0');
-                }
-
-                // Method to check if post has been liked by user
-                isLikedByUser() {
-                    return this.hasUserLiked;
-                }
+            // TTL Example
+            async function runTTLExample() {
+                const ttl = parseInt(document.getElementById('ttlInput').value);
+                const wait = parseInt(document.getElementById('ttlWait').value);
+                const output = document.getElementById('ttlOutput');
+                output.textContent = "Set cache with TTL = " + ttl + "s\n";
+                output.textContent += "Get immediately: HIT\n";
+                output.textContent += "Wait " + (ttl-1) + "s, get: HIT\n";
+                await new Promise(r => setTimeout(r, 500));
+                output.textContent += "Wait " + (wait-ttl+1) + "s more, get: " + (wait > ttl ? "MISS (expired)\n" : "HIT\n");
             }
 
-            // Initialize Python code runner
-            let pythonRunner = new PythonCodeRunner();
-
-            // Event Listeners
-            document.addEventListener('DOMContentLoaded', function() {
-                const runDemoBtn = document.getElementById('runDemo');
-                const clearOutputBtn = document.getElementById('clearOutput');
-                const runCustomTestBtn = document.getElementById('runCustomTest');
-                const customControls = document.getElementById('customControls');
-
-                runDemoBtn.addEventListener('click', () => {
-                    runDemoBtn.disabled = true;
-                    runDemoBtn.style.background = '#6c757d';
-                    runDemoBtn.textContent = '🔄 Running Demo...';
-                    
-                    pythonRunner.runPerformanceTest().finally(() => {
-                        runDemoBtn.disabled = false;
-                        runDemoBtn.style.background = '#28a745';
-                        runDemoBtn.textContent = '🚀 Run Caching Demo';
-                    });
-                });
-
-                clearOutputBtn.addEventListener('click', () => {
-                    document.getElementById('demoOutput').textContent = 'Output cleared. Click "Run Caching Demo" to start! ✨';
-                    document.getElementById('performanceMetrics').style.display = 'none';
-                    pythonRunner.clear();
-                });
-
-                runCustomTestBtn.addEventListener('click', () => {
-                    if (customControls.style.display === 'none' || customControls.style.display === '') {
-                        // Show custom controls
-                        customControls.style.display = 'block';
-                        runCustomTestBtn.textContent = '🧪 Run Custom Test';
-                        runCustomTestBtn.style.background = '#28a745';
+            // LRU Example
+            function runLRUExample() {
+                const size = parseInt(document.getElementById('lruSize').value);
+                const seq = document.getElementById('lruSeq').value.split(',').map(s=>s.trim());
+                let cache = [];
+                let output = "";
+                seq.forEach(k => {
+                    let idx = cache.indexOf(k);
+                    if (idx !== -1) {
+                        cache.splice(idx,1);
+                        cache.push(k);
+                        output += `Access ${k}: HIT | Cache: [${cache.join(', ')}]\n`;
                     } else {
-                        // Run custom test with user parameters
-                        const productId = parseInt(document.getElementById('productId').value);
-                        const userId = parseInt(document.getElementById('userId').value);
-                        const dbDelay = parseInt(document.getElementById('dbDelay').value);
-                        const cacheTTL = parseInt(document.getElementById('cacheTTL').value);
-                        
-                        // Check if values are within valid ranges
-                        if (productId < 1 || productId > 5) {
-                            alert('Product ID must be between 1 and 5');
-                            return;
-                        }
-                        if (userId < 101 || userId > 103) {
-                            alert('User ID must be between 101 and 103');
-                            return;
-                        }
-                        if (dbDelay < 10 || dbDelay > 1000) {
-                            alert('DB Delay must be between 10 and 1000 ms');
-                            return;
-                        }
-                        if (cacheTTL < 1 || cacheTTL > 300) {
-                            alert('Cache TTL must be between 1 and 300 seconds');
-                            return;
-                        }
-                        
-                        runCustomTestBtn.disabled = true;
-                        runCustomTestBtn.style.background = '#6c757d';
-                        runCustomTestBtn.textContent = '🔄 Running Custom Test...';
-                        
-                        // Log custom parameters being used
-                        const output = document.getElementById('demoOutput');
-                        output.textContent = '';
-                        pythonRunner.log("🧪 CUSTOM CACHING PERFORMANCE TEST");
-                        pythonRunner.log("=" + "=".repeat(59));
-                        pythonRunner.log(`📋 Custom Parameters:`);
-                        pythonRunner.log(`   Product ID: ${productId}`);
-                        pythonRunner.log(`   User ID: ${userId}`);
-                        pythonRunner.log(`   DB Delay: ${dbDelay}ms`);
-                        pythonRunner.log(`   Cache TTL: ${cacheTTL}s`);
-                        pythonRunner.log("");
-                        
-                        pythonRunner.runPerformanceTest({
-                            productId: productId,
-                            userId: userId,
-                            dbDelay: dbDelay,
-                            cacheTTL: cacheTTL
-                        }).finally(() => {
-                            runCustomTestBtn.disabled = false;
-                            runCustomTestBtn.style.background = '#007bff';
-                            runCustomTestBtn.textContent = '🧪 Show Custom Controls';
-                            customControls.style.display = 'none';
-                        });
+                        if (cache.length >= size) cache.shift();
+                        cache.push(k);
+                        output += `Access ${k}: MISS | Cache: [${cache.join(', ')}]\n`;
                     }
                 });
+                document.getElementById('lruOutput').textContent = output;
+            }
 
-                // Add real-time parameter validation with better visual feedback
-                const inputs = ['productId', 'userId', 'dbDelay', 'cacheTTL'];
-                inputs.forEach(inputId => {
-                    const input = document.getElementById(inputId);
-                    if (input) {
-                        input.addEventListener('input', function() {
-                            const value = parseInt(this.value);
-                            const min = parseInt(this.min);
-                            const max = parseInt(this.max);
-                            
-                            if (isNaN(value) || value < min || value > max) {
-                                this.style.borderColor = '#dc3545';
-                                this.style.backgroundColor = '#f8d7da';
-                                this.title = `Value must be between ${min} and ${max}`;
-                            } else {
-                                this.style.borderColor = '#28a745';
-                                this.style.backgroundColor = '#d4edda';
-                                this.title = 'Valid value';
-                            }
-                        });
-                        
-                        // Trigger validation on page load
-                        input.dispatchEvent(new Event('input'));
+            // LFU Example
+            function runLFUExample() {
+                const size = parseInt(document.getElementById('lfuSize').value);
+                const seq = document.getElementById('lfuSeq').value.split(',').map(s=>s.trim());
+                let cache = {};
+                let freq = {};
+                let output = "";
+                seq.forEach(k => {
+                    if (cache[k]) {
+                        freq[k]++;
+                        output += `Access ${k}: HIT | Cache: [${Object.keys(cache).join(', ')}] | Freq: ${freq[k]}\n`;
+                    } else {
+                        if (Object.keys(cache).length >= size) {
+                            let lfu = Object.keys(freq).reduce((a,b)=>freq[a]<=freq[b]?a:b);
+                            delete cache[lfu];
+                            delete freq[lfu];
+                            output += `Evict ${lfu} (LFU)\n`;
+                        }
+                        cache[k] = true;
+                        freq[k] = 1;
+                        output += `Access ${k}: MISS | Cache: [${Object.keys(cache).join(', ')}]\n`;
                     }
                 });
+                document.getElementById('lfuOutput').textContent = output;
+            }
 
-                // Initialize like system
-                const likeSystem = new LikeSystem();
-                
-                // You can access the like system globally if needed
-                window.likeSystem = likeSystem;
-                
-                // Example: Log analytics (optional)
-                console.log(`Post has ${likeSystem.getTotalLikes()} likes`);
-                console.log(`User has liked: ${likeSystem.isLikedByUser()}`);
-            });
+            // Hit Rate Example
+            function runHitExample() {
+                const size = parseInt(document.getElementById('hitSize').value);
+                const pattern = document.getElementById('hitPattern').value;
+                const req = parseInt(document.getElementById('hitReq').value);
+                let cache = [];
+                let hits = 0, misses = 0, output = "";
+                for (let i = 0; i < req; i++) {
+                    let key = (pattern === "sequential") ? (i % (size*2)) : Math.floor(Math.random()*size*2);
+                    if (cache.includes(key)) {
+                        hits++;
+                        output += `Req ${i+1}: HIT (${key}) | Cache: [${cache.join(', ')}]\n`;
+                    } else {
+                        misses++;
+                        if (cache.length >= size) cache.shift();
+                        cache.push(key);
+                        output += `Req ${i+1}: MISS (${key}) | Cache: [${cache.join(', ')}]\n`;
+                    }
+                }
+                output += `\nTotal: ${hits+misses}, Hits: ${hits}, Misses: ${misses}, Hit Rate: ${(hits/(hits+misses)*100).toFixed(1)}%`;
+                document.getElementById('hitOutput').textContent = output;
+            }
             </script>
-            
-            <h2>💡 Real-World Applications</h2>
-            <div style="background: #f8f9fa; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
-                <p>This example demonstrates patterns used in production systems:</p>
-                <ul>
-                    <li><strong>E-commerce platforms:</strong> Product catalogs, user sessions, shopping carts</li>
-                    <li><strong>Social media:</strong> User profiles, feeds, notification counts</li>
-                    <li><strong>Banking systems:</strong> Account balances, transaction history, user preferences</li>
-                    <li><strong>Content platforms:</strong> Article content, user comments, recommendation engines</li>
-                </ul>
-            </div>
+            <!-- Place this immediately AFTER the Interactive Python Experiments section, before </article> -->
 
-            <h2>⚠️ Common Caching Challenges & Solutions</h2>
-            
-            <h3>🚨 Cache Stampede (Thundering Herd)</h3>
-            <div class="flow-info">
-                <p><strong>Problem:</strong> Multiple requests simultaneously try to regenerate expired cache data.</p>
-                <p><strong>Solution:</strong> Use locks or probabilistic early expiration.</p>
-<pre><code># Lock-based solution
-import time
-import threading
+<h2>🧑‍💻 Real-World Caching Applications</h2>
+<p>
+    Caching is used everywhere in modern software engineering. Here are some real-world scenarios:
+</p>
+<ul>
+    <li><b>Web APIs:</b> Reduce backend/database load by caching API responses (e.g., product details, user profiles).</li>
+    <li><b>CDNs:</b> Content Delivery Networks cache static assets (images, JS, CSS) close to users for fast delivery.</li>
+    <li><b>Authentication:</b> Session tokens and user permissions are cached for quick access.</li>
+    <li><b>Machine Learning:</b> Model inference results or feature vectors are cached to avoid recomputation.</li>
+    <li><b>Microservices:</b> Service-to-service calls cache results to reduce latency and cost.</li>
+</ul>
 
-cache_locks = {}
+<h2>🛠️ Common Python Caching Libraries</h2>
+<ul>
+    <li><b><code>functools.lru_cache</code>:</b> Built-in decorator for function-level memoization.</li>
+    <li><b><code>cachetools</code>:</b> Flexible in-memory cache with LRU, LFU, TTL, and more.</li>
+    <li><b><code>django.core.cache</code>:</b> Django’s pluggable cache framework (supports Redis, Memcached, etc.).</li>
+    <li><b><code>flask-caching</code>:</b> Flask extension for easy caching integration.</li>
+    <li><b><code>redis-py</code>:</b> Python client for Redis, the most popular distributed cache.</li>
+</ul>
 
-def get_with_lock(cache_key, fetch_fn, ttl=3600):
-    cached = redis_client.get(cache_key)
-    if cached:
-        return json.loads(cached)
-    
-    # Try to acquire lock
-    lock_key = f"lock:{cache_key}"
-    if cache_key not in cache_locks:
-        cache_locks[cache_key] = threading.Lock()
-    
-    with cache_locks[cache_key]:
-        # Double-check after acquiring lock
-        cached = redis_client.get(cache_key)
-        if cached:
-            return json.loads(cached)
-        
-        # Fetch and cache
-        data = fetch_fn()
-        redis_client.setex(cache_key, ttl, json.dumps(data))
-        return data
-</code></pre>
-            </div>
+<h2>⚠️ Caching Pitfalls & Best Practices</h2>
+<ul>
+    <li><b>Stale Data:</b> Always consider cache invalidation strategies to avoid serving outdated data.</li>
+    <li><b>Cache Stampede:</b> Use locking or request coalescing to prevent thundering herd on cache miss.</li>
+    <li><b>Memory Leaks:</b> Monitor cache size and use eviction policies to avoid unbounded growth.</li>
+    <li><b>Consistency:</b> Choose between strong and eventual consistency based on your use case.</li>
+    <li><b>Security:</b> Never cache sensitive data unless it’s encrypted and access-controlled.</li>
+</ul>
 
-            <h3>🔄 Cache Invalidation</h3>
-            <div class="flow-info">
-                <p><strong>Problem:</strong> Keeping cache synchronized with database changes.</p>
-                <p><strong>Solutions:</strong></p>
-                <ul>
-                    <li><strong>TTL-based:</strong> Simple but may serve stale data</li>
-                    <li><strong>Event-driven:</strong> Invalidate on database changes</li>
-                    <li><strong>Tag-based:</strong> Group related cache entries</li>
-                </ul>
-<pre><code># Event-driven invalidation
-def update_user(user_id, user_data):
-    # Update database
-    database.update_user(user_id, user_data)
-    
-    # Invalidate related cache entries
-    cache_keys = [
-        f"user:{user_id}",
-        f"user_profile:{user_id}",
-        f"user_permissions:{user_id}"
-    ]
-    redis_client.delete(*cache_keys)
-</code></pre>
-            </div>
+<h2>📚 Further Reading & Resources</h2>
+<ul>
+    <li><a href="https://realpython.com/caching-in-django-with-redis/" target="_blank">Caching in Django with Redis (Real Python)</a></li>
+    <li><a href="https://docs.python.org/3/library/functools.html#functools.lru_cache" target="_blank">functools.lru_cache Documentation</a></li>
+    <li><a href="https://redis.io/docs/latest/" target="_blank">Redis Official Documentation</a></li>
+    <li><a href="https://martinfowler.com/bliki/CacheAside.html" target="_blank">Martin Fowler: Cache-Aside Pattern</a></li>
+    <li><a href="https://12factor.net/" target="_blank">The Twelve-Factor App (statelessness & caching)</a></li>
+</ul>
 
-            <h3>❄️ Cold Start Problem</h3>
-            <div class="flow-info">
-                <p><strong>Problem:</strong> Empty cache after restart leads to poor performance.</p>
-                <p><strong>Solutions:</strong></p>
-                <ul>
-                    <li><strong>Cache warming:</strong> Pre-populate critical data</li>
-                    <li><strong>Gradual loading:</strong> Slowly build cache over time</li>
-                    <li><strong>Persistent cache:</strong> Use Redis with disk persistence</li>
-                </ul>
-<pre><code># Cache warming strategy
-def warm_cache():
-    """Pre-populate cache with frequently accessed data"""
-    # Popular products
-    popular_products = database.get_popular_products(limit=100)
-    for product in popular_products:
-        key = f"product:{product['id']}"
-        redis_client.setex(key, 3600, json.dumps(product))
-    
-    # Recent users
-    recent_users = database.get_recent_active_users(limit=50)
-    for user in recent_users:
-        key = f"user:{user['id']}"
-        redis_client.setex(key, 1800, json.dumps(user))
+<h2>🙋 FAQ: Caching in Python</h2>
+<div style="margin-bottom:2rem;">
+    <div style="margin-bottom:1.5rem; padding:0.7rem 1.2rem; background:#f8f9fa; border-left:4px solid #28a745; border-radius:6px;">
+        <b>🟢 When should I use a cache?</b>
+        <ul>
+            <li>When you have <b>expensive computations</b> or <b>slow data sources</b> (e.g., databases, APIs).</li>
+            <li>When the same data is <b>requested repeatedly</b> and doesn't change often.</li>
+            <li>To <b>reduce backend load</b> and <b>improve response times</b> for users.</li>
+            <li>For <b>rate-limiting</b>, <b>session management</b>, or <b>temporary storage</b> needs.</li>
+        </ul>
+        <span style="color:#28a745;">💡 <b>Tip:</b> Caching is most effective for read-heavy, repetitive workloads.</span>
+    </div>
+    <div style="margin-bottom:1.5rem; padding:0.7rem 1.2rem; background:#f8f9fa; border-left:4px solid #1976d2; border-radius:6px;">
+        <b>⏳ How do I choose a good TTL (Time-to-Live)?</b>
+        <ul>
+            <li><b>Static or rarely-changing data:</b> Use a long TTL (minutes to hours).</li>
+            <li><b>Frequently-updated data:</b> Use a short TTL (seconds to minutes) or consider cache busting on updates.</li>
+            <li><b>Critical freshness:</b> Use <b>write-through</b> or <b>write-around</b> patterns and short TTLs.</li>
+        </ul>
+        <span style="color:#1976d2;">🔎 <b>Rule of thumb:</b> TTL should be just long enough to reduce load, but short enough to avoid stale data.</span>
+    </div>
+    <div style="margin-bottom:1.5rem; padding:0.7rem 1.2rem; background:#f8f9fa; border-left:4px solid #6c757d; border-radius:6px;">
+        <b>🔄 What’s the difference between LRU and LFU?</b>
+        <ul>
+            <li><b>LRU (Least Recently Used):</b> Evicts the item that hasn't been accessed for the longest time.<br>
+                <span style="color:#28a745;">Best for: Temporal locality (recently-used data is likely to be used again soon).</span>
+            </li>
+            <li><b>LFU (Least Frequently Used):</b> Evicts the item accessed the fewest times.<br>
+                <span style="color:#ffc107;">Best for: Hotspot data (some items are much more popular than others).</span>
+            </li>
+        </ul>
+        <span style="color:#6c757d;">📝 <b>Choose LRU</b> for most general use-cases. Use LFU if you have clear "hot" items.</span>
+    </div>
+    <div style="margin-bottom:1.5rem; padding:0.7rem 1.2rem; background:#f8f9fa; border-left:4px solid #dc3545; border-radius:6px;">
+        <b>🟥 Is Redis always better than in-memory cache?</b>
+        <ul>
+            <li><b>Redis:</b> Distributed, persistent, can be shared across servers, supports advanced features (TTL, pub/sub, eviction policies).</li>
+            <li><b>In-memory cache (e.g., dict, functools.lru_cache):</b> Fastest possible, but only available within a single process.</li>
+        </ul>
+        <span style="color:#dc3545;">❗ <b>Use Redis</b> for multi-server apps, large datasets, or when you need persistence. Use in-memory cache for single-process speed.</span>
+    </div>
+    <div style="margin-bottom:1.5rem; padding:0.7rem 1.2rem; background:#f8f9fa; border-left:4px solid #ffc107; border-radius:6px;">
+        <b>⚡ How do I avoid a cache stampede?</b>
+        <ul>
+            <li><b>Request coalescing:</b> Ensure only one backend request is made for a missing key at a time.</li>
+            <li><b>Locking:</b> Use distributed locks (e.g., Redis SETNX) to prevent multiple processes from refreshing the same cache entry simultaneously.</li>
+            <li><b>Pre-warming:</b> Proactively populate cache on startup or during low-traffic periods.</li>
+            <li><b>Staggered/Randomized TTLs:</b> Prevent many keys from expiring at the same moment.</li>
+        </ul>
+        <span style="color:#28a745;">💡 <b>Tip:</b> Libraries like <code>dogpile.cache</code> help with request coalescing in Python.</span>
+    </div>
+    <div style="margin-bottom:1.5rem; padding:0.7rem 1.2rem; background:#f8f9fa; border-left:4px solid #dc3545; border-radius:6px;">
+        <b>🔒 Is it safe to cache sensitive data?</b>
+        <ul>
+            <li>Only cache sensitive data if <b>absolutely necessary</b> and <b>properly encrypted</b>.</li>
+            <li>Restrict cache access with <b>strong authentication</b> and <b>network controls</b>.</li>
+            <li>Set <b>short TTLs</b> and <b>clear cache</b> on logout or permission changes.</li>
+        </ul>
+        <span style="color:#dc3545;">⚠️ <b>Warning:</b> Never cache passwords, tokens, or secrets unless you fully control cache security.</span>
+    </div>
+</div>
 
-# Run on application startup
-warm_cache()
-</code></pre>
-            </div>
-
-            <h2>📌 Why Use Caching?</h2>
-            <ul>
-                <li>Reduce latency by avoiding expensive computations</li>
-                <li>Minimize database load during peak traffic</li>
-                <li>Improve user experience and response time</li>
-            </ul>
-            
-            <h2>🧠 In-Memory Caching with <code>lru_cache</code></h2>
-            <p>Use Python's built-in <code>functools.lru_cache</code> to cache function calls.</p>
-            <pre><code>from functools import lru_cache
-
-@lru_cache(maxsize=128)
-def get_user_profile(user_id):
-    print("Fetching from DB...")
-    return db.query_user(user_id)
-
-# First call: hits DB
-get_user_profile(42)
-
-# Second call: served from cache
-get_user_profile(42)
-</code></pre>
-            
-            <h2>🧩 Using Redis for Distributed Caching</h2>
-            <p>Redis is a high-performance in-memory cache often used in Python apps via the <code>redis</code> library.</p>
-            <pre><code>import redis
-import json
-
-r = redis.Redis(host='localhost', port=6379, db=0)
-
-def get_product(product_id):
-    key = f"product:{product_id}"
-    
-    # Try fetching from Redis cache
-    cached = r.get(key)
-    if cached:
-        console.log("Cache hit!");
-        return json.loads(cached);
-    
-    console.log("Cache miss. Fetching from DB...");
-    # Simulate DB fetch
-    product = {"id": product_id, "name": "Example Product"};
-    
-    # Write to cache with TTL of 60 seconds
-    r.setex(key, 60, json.dumps(product));
-    return product;
-</code></pre>
-            
-            <h2>📚 Further Reading & Resources</h2>
-            <ul>
-                <li><a href="https://redis.io/docs/management/eviction/" target="_blank">Redis Eviction Policies</a></li>
-                <li><a href="https://redis.io/docs/management/caching/" target="_blank">Caching with Redis</a></li>
-                <li><a href="https://docs.python.org/3/library/functools.html#functools.lru_cache" target="_blank">Python lru_cache Documentation</a></li>
-                <li><a href="https://realpython.com/python-database-apis/" target="_blank">Python Database APIs - Real Python</a></li>
-            </ul>
-            
-            <h2>❓ Frequently Asked Questions</h2>
-            <div class="flow-info">
-                <h4>Q1: What is the difference between cache and session storage?</h4>
-                <p>A1: Cache is used for temporary storage of data to speed up repeated access, while session storage is used to store data for the duration of a user's session, typically for maintaining state across multiple requests.</p>
-                
-                <h4>Q2: How does cache expiration work?</h4>
-                <p>A2: Cache expiration is managed by setting a Time-To-Live (TTL) for each cache entry. Once the TTL expires, the cached data is considered stale and is removed or refreshed on the next access.</p>
-                
-                <h4>Q3: What are cache eviction policies?</h4>
-                <p>A3: Eviction policies determine how cache entries are removed to free up space for new data. Common policies include Least Recently Used (LRU), Most Recently Used (MRU), and First In First Out (FIFO).</p>
-            </div>
+<h2>🎉 Conclusion</h2>
+<p>
+    Caching is a powerful tool for scaling and speeding up your Python applications. By understanding patterns, pitfalls, and practical implementations, you can deliver blazing-fast user experiences and robust systems!
+</p>
         </article>
     </main>
 </body>
