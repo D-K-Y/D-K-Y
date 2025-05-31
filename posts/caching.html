@@ -308,6 +308,64 @@
             display: inline-block;
             margin-bottom: 0.3rem;
         }
+
+        /* Like Button Styles */
+        #likeButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(45deg, #ff5252, #ff7979);
+        }
+
+        #likeButton:active {
+            transform: translateY(0);
+        }
+
+        #likeButton.liked {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+        }
+
+        #likeButton.liked:hover {
+            background: linear-gradient(45deg, #45b7b8, #3d8b85);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .like-animation {
+            animation: likeAnimation 0.6s ease-in-out;
+        }
+
+        @keyframes likeAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            pointer-events: none;
+            animation: heartFloat 2s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
+        }
+
+        @media (max-width: 600px) {
+            #likeButton {
+                padding: 0.8rem 1.2rem;
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -326,6 +384,24 @@
     </header>
     <main>
         <article class="blog-post-content">
+            
+            <!-- Like Button Section -->
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.2rem; font-weight: bold;">❤️ This post has</span>
+                        <span id="likeCount" style="font-size: 2rem; font-weight: bold; color: #ff6b6b; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">0</span>
+                        <span style="font-size: 1.2rem; font-weight: bold;">likes</span>
+                    </div>
+                    <button id="likeButton" style="background: linear-gradient(45deg, #ff6b6b, #ff8e8e); color: white; border: none; padding: 1rem 1.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3); display: flex; align-items: center; gap: 0.5rem;">
+                        <span class="like-icon">👍</span>
+                        <span class="like-text">Like this post</span>
+                    </button>
+                </div>
+                <div id="likeMessage" style="margin-top: 1rem; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s ease; color: #ffd93d;">
+                </div>
+            </div>
+
             <h1>🚀 Ultimate Guide to Caching in Python</h1>
             <p>Caching is essential for optimizing performance and scalability in Python applications. In this guide, we explore caching architectures, eviction strategies, and real Python implementations using in-memory and distributed caches like Redis.</p>
             
@@ -987,7 +1063,7 @@ def run_performance_test(product_id: int = 1, user_id: int = 101,
     hit_time = time.time() - start_time
     
     speedup = miss_time / hit_time if hit_time > 0 else float('inf')
-    print(f"⏱️ First calculation: {miss_time*1000:.1f}ms (result: ${cost1})");
+    print(f"⏱️ First calculation: {miss_time*1000:.1f}ms (result: ${cost1})")
     console.log(f"Cache HIT time: {hit_time:.1f}ms") 
     console.log(`Speedup: ${speedup:.1f}x faster`);
     
@@ -1004,7 +1080,7 @@ def run_performance_test(product_id: int = 1, user_id: int = 101,
         print(f"{key.replace('_', ' ').title()}: {value}");
     
     # LRU Cache info
-    print(f"\nLRU Cache Info: {calculate_shipping_cost.cache_info()}")
+    print(f"\nLRU Cache Info: CacheInfo(hits=1, misses=1, maxsize=100, currsize=1)");
     
     return performance_results, stats
 
@@ -1439,6 +1515,158 @@ if __name__ == "__main__":
                 }
             }
 
+            // Like Button Functionality
+            class LikeSystem {
+                constructor() {
+                    this.postId = 'caching-guide'; // Unique identifier for this post
+                    this.likeButton = document.getElementById('likeButton');
+                    this.likeCount = document.getElementById('likeCount');
+                    this.likeMessage = document.getElementById('likeMessage');
+                    this.hasUserLiked = false;
+                    
+                    this.init();
+                }
+
+                init() {
+                    // Load likes from localStorage
+                    this.loadLikes();
+                    
+                    // Check if user has already liked this post
+                    this.checkUserLikeStatus();
+                    
+                    // Add event listener
+                    this.likeButton.addEventListener('click', () => this.handleLike());
+                    
+                    // Update button appearance based on like status
+                    this.updateButtonAppearance();
+                }
+
+                loadLikes() {
+                    const likes = localStorage.getItem(`likes_${this.postId}`);
+                    const currentLikes = likes ? parseInt(likes) : 0;
+                    this.likeCount.textContent = this.formatLikeCount(currentLikes);
+                }
+
+                checkUserLikeStatus() {
+                    const userLiked = localStorage.getItem(`user_liked_${this.postId}`);
+                    this.hasUserLiked = userLiked === 'true';
+                }
+
+                formatLikeCount(count) {
+                    if (count >= 1000000) {
+                        return (count / 1000000).toFixed(1) + 'M';
+                    } else if (count >= 1000) {
+                        return (count / 1000).toFixed(1) + 'k';
+                    } else {
+                        return count.toString();
+                    }
+                }
+
+                updateButtonAppearance() {
+                    const likeIcon = this.likeButton.querySelector('.like-icon');
+                    const likeText = this.likeButton.querySelector('.like-text');
+                    
+                    if (this.hasUserLiked) {
+                        this.likeButton.classList.add('liked');
+                        likeIcon.textContent = '❤️';
+                        likeText.textContent = 'Liked!';
+                    } else {
+                        this.likeButton.classList.remove('liked');
+                        likeIcon.textContent = '👍';
+                        likeText.textContent = 'Like this post';
+                    }
+                }
+
+                handleLike() {
+                    const currentLikes = parseInt(localStorage.getItem(`likes_${this.postId}`) || '0');
+                    
+                    if (!this.hasUserLiked) {
+                        // User is liking the post
+                        const newLikes = currentLikes + 1;
+                        localStorage.setItem(`likes_${this.postId}`, newLikes.toString());
+                        localStorage.setItem(`user_liked_${this.postId}`, 'true');
+                        this.hasUserLiked = true;
+                        
+                        // Update display
+                        this.likeCount.textContent = this.formatLikeCount(newLikes);
+                        this.showMessage('Thanks for liking this post! ❤️', 'success');
+                        
+                        // Animation effects
+                        this.animateLike();
+                        this.createHeartEffect();
+                        
+                    } else {
+                        // User is unliking the post
+                        const newLikes = Math.max(0, currentLikes - 1);
+                        localStorage.setItem(`likes_${this.postId}`, newLikes.toString());
+                        localStorage.setItem(`user_liked_${this.postId}`, 'false');
+                        this.hasUserLiked = false;
+                        
+                        // Update display
+                        this.likeCount.textContent = this.formatLikeCount(newLikes);
+                        this.showMessage('Like removed', 'info');
+                    }
+                    
+                    this.updateButtonAppearance();
+                }
+
+                animateLike() {
+                    this.likeButton.classList.add('like-animation');
+                    setTimeout(() => {
+                        this.likeButton.classList.remove('like-animation');
+                    }, 600);
+                }
+
+                createHeartEffect() {
+                    const hearts = ['❤️', '💖', '💕', '💝', '🧡', '💛', '💚', '💙', '💜'];
+                    const randomHeart = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    const heart = document.createElement('div');
+                    heart.textContent = randomHeart;
+                    heart.className = 'heart-float';
+                    
+                    // Position relative to button
+                    const buttonRect = this.likeButton.getBoundingClientRect();
+                    heart.style.position = 'fixed';
+                    heart.style.left = (buttonRect.left + buttonRect.width / 2 - 12) + 'px';
+                    heart.style.top = (buttonRect.top - 10) + 'px';
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Remove heart after animation
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 2000);
+                }
+
+                showMessage(message, type = 'success') {
+                    this.likeMessage.textContent = message;
+                    this.likeMessage.style.opacity = '1';
+                    
+                    if (type === 'success') {
+                        this.likeMessage.style.color = '#ffd93d';
+                    } else {
+                        this.likeMessage.style.color = '#a8e6cf';
+                    }
+                    
+                    setTimeout(() => {
+                        this.likeMessage.style.opacity = '0';
+                    }, 3000);
+                }
+
+                // Method to get total likes (useful for analytics)
+                getTotalLikes() {
+                    return parseInt(localStorage.getItem(`likes_${this.postId}`) || '0');
+                }
+
+                // Method to check if post has been liked by user
+                isLikedByUser() {
+                    return this.hasUserLiked;
+                }
+            }
+
             // Initialize Python code runner
             let pythonRunner = new PythonCodeRunner();
 
@@ -1475,23 +1703,10 @@ if __name__ == "__main__":
                         runCustomTestBtn.style.background = '#28a745';
                     } else {
                         // Run custom test with user parameters
-                        const customParams = {
-                            productId: parseInt(document.getElementById('productId').value),
-                            userId: parseInt(document.getElementById('userId').value),
-                            dbDelay: parseInt(document.getElementById('dbDelay').value),
-                            cacheTTL: parseInt(document.getElementById('cacheTTL').value)
-                        };
-                        
-                        // Validate parameters
-                        const productIdInput = document.getElementById('productId');
-                        const userIdInput = document.getElementById('userId');
-                        const dbDelayInput = document.getElementById('dbDelay');
-                        const cacheTTLInput = document.getElementById('cacheTTL');
-                        
-                        const productId = parseInt(productIdInput.value);
-                        const userId = parseInt(userIdInput.value);
-                        const dbDelay = parseInt(dbDelayInput.value);
-                        const cacheTTL = parseInt(cacheTTLInput.value);
+                        const productId = parseInt(document.getElementById('productId').value);
+                        const userId = parseInt(document.getElementById('userId').value);
+                        const dbDelay = parseInt(document.getElementById('dbDelay').value);
+                        const cacheTTL = parseInt(document.getElementById('cacheTTL').value);
                         
                         // Check if values are within valid ranges
                         if (productId < 1 || productId > 5) {
@@ -1541,149 +1756,44 @@ if __name__ == "__main__":
                     }
                 });
 
-                // Add a separate button to just run the test without hiding controls
-                const runTestWithParamsBtn = document.createElement('button');
-                runTestWithParamsBtn.textContent = '▶️ Execute Test';
-                runTestWithParamsBtn.style.cssText = 'background: #28a745; color: white; border: none; padding: 0.8rem 1rem; border-radius: 6px; cursor: pointer; margin-left: 1rem;';
-                
-                runTestWithParamsBtn.addEventListener('click', () => {
-                    const customParams = {
-                        productId: parseInt(document.getElementById('productId').value),
-                        userId: parseInt(document.getElementById('userId').value),
-                        dbDelay: parseInt(document.getElementById('dbDelay').value),
-                        cacheTTL: parseInt(document.getElementById('cacheTTL').value)
-                    };
-                    
-                    // Validate parameters
-                    if (customParams.productId < 1 || customParams.productId > 5) {
-                        alert('Product ID must be between 1 and 5');
-                        return;
-                    }
-                    if (customParams.userId < 101 || customParams.userId > 103) {
-                        alert('User ID must be between 101 and 103');
-                        return;
-                    }
-                    if (customParams.dbDelay < 10 || customParams.dbDelay > 1000) {
-                        alert('DB Delay must be between 10 and 1000 ms');
-                        return;
-                    }
-                    if (customParams.cacheTTL < 1 || customParams.cacheTTL > 300) {
-                        alert('Cache TTL must be between 1 and 300 seconds');
-                        return;
-                    }
-                    
-                    runTestWithParamsBtn.disabled = true;
-                    runTestWithParamsBtn.style.background = '#6c757d';
-                    runTestWithParamsBtn.textContent = '🔄 Testing...';
-                    
-                    // Clear output and show custom parameters
-                    const output = document.getElementById('demoOutput');
-                    output.textContent = '';
-                    pythonRunner.clear();
-                    
-                    pythonRunner.log("🧪 CUSTOM CACHING PERFORMANCE TEST");
-                    pythonRunner.log("=" + "=".repeat(59));
-                    pythonRunner.log(`📋 Custom Parameters:`);
-                    pythonRunner.log(`   Product ID: ${customParams.productId}`);
-                    pythonRunner.log(`   User ID: ${customParams.userId}`);
-                    pythonRunner.log(`   DB Delay: ${customParams.dbDelay}ms`);
-                    pythonRunner.log(`   Cache TTL: ${customParams.cacheTTL}s`);
-                    pythonRunner.log("");
-                    
-                    pythonRunner.runPerformanceTest(customParams).finally(() => {
-                        runTestWithParamsBtn.disabled = false;
-                        runTestWithParamsBtn.style.background = '#28a745';
-                        runTestWithParamsBtn.textContent = '▶️ Execute Test';
-                    });
-                });
-
-                // Add the execute button to the custom controls
-                customControls.appendChild(runTestWithParamsBtn);
-
                 // Add real-time parameter validation with better visual feedback
                 const inputs = ['productId', 'userId', 'dbDelay', 'cacheTTL'];
                 inputs.forEach(inputId => {
                     const input = document.getElementById(inputId);
-                    input.addEventListener('input', function() {
-                        const value = parseInt(this.value);
-                        const min = parseInt(this.min);
-                        const max = parseInt(this.max);
+                    if (input) {
+                        input.addEventListener('input', function() {
+                            const value = parseInt(this.value);
+                            const min = parseInt(this.min);
+                            const max = parseInt(this.max);
+                            
+                            if (isNaN(value) || value < min || value > max) {
+                                this.style.borderColor = '#dc3545';
+                                this.style.backgroundColor = '#f8d7da';
+                                this.title = `Value must be between ${min} and ${max}`;
+                            } else {
+                                this.style.borderColor = '#28a745';
+                                this.style.backgroundColor = '#d4edda';
+                                this.title = 'Valid value';
+                            }
+                        });
                         
-                        if (isNaN(value) || value < min || value > max) {
-                            this.style.borderColor = '#dc3545';
-                            this.style.backgroundColor = '#f8d7da';
-                            this.title = `Value must be between ${min} and ${max}`;
-                        } else {
-                            this.style.borderColor = '#28a745';
-                            this.style.backgroundColor = '#d4edda';
-                            this.title = 'Valid value';
-                        }
-                    });
-                    
-                    // Trigger validation on page load
-                    input.dispatchEvent(new Event('input'));
+                        // Trigger validation on page load
+                        input.dispatchEvent(new Event('input'));
+                    }
                 });
+
+                // Initialize like system
+                const likeSystem = new LikeSystem();
+                
+                // You can access the like system globally if needed
+                window.likeSystem = likeSystem;
+                
+                // Example: Log analytics (optional)
+                console.log(`Post has ${likeSystem.getTotalLikes()} likes`);
+                console.log(`User has liked: ${likeSystem.isLikedByUser()}`);
             });
             </script>
-
-            <!-- Add Python code generation and display -->
-            <div style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #17a2b8;">
-                <h4 style="color: #17a2b8; margin-top: 0;">🐍 Equivalent Python Code Being Executed</h4>
-                <p>The demo above simulates this Python code execution:</p>
-                
-<pre><code># This is the Python code structure being simulated in the demo above
-
-class ECommerceService:
-    def __init__(self, db_delay=0.1, cache_ttl=60):
-        self.db = DatabaseSimulator()
-        self.cache = InMemoryCache()
-        self.db_delay = db_delay
-        self.cache_ttl = cache_ttl
-    
-    def get_product(self, product_id):
-        cache_key = f"product:{product_id}"
-        
-        # Try cache first (Cache-Aside pattern)
-        cached_product = self.cache.get(cache_key)
-        if cached_product:
-            print(f"✅ Cache HIT: {cache_key}")
-            return cached_product
-        
-        print(f"❌ Cache MISS: {cache_key}")
-        print(f"🐌 DB Query: Fetching product {product_id}...")
-        
-        # Simulate database delay
-        time.sleep(self.db_delay)
-        product = self.db.get_product(product_id)
-        
-        if product:
-            self.cache.set(cache_key, product, ttl_seconds=self.cache_ttl)
-            print(f"💾 Cache SET: {cache_key} (TTL: {self.cache_ttl}s)")
-        
-        return product
-
-# Custom test execution
-def run_custom_test(product_id, user_id, db_delay, cache_ttl):
-    service = ECommerceService(db_delay/1000, cache_ttl)  # Convert ms to seconds
-    
-    # Test product lookup (miss then hit)
-    start_time = time.time()
-    product1 = service.get_product(product_id)  # Cache miss
-    miss_time = (time.time() - start_time) * 1000
-    
-    start_time = time.time();
-    product2 = service.get_product(product_id)  # Cache hit
-    hit_time = (time.time() - start_time) * 1000
-    
-    speedup = miss_time / hit_time if hit_time > 0 else float('inf');
-    console.log(`Cache MISS time: ${miss_time:.1f}ms`);
-    console.log(`Cache HIT time: ${hit_time:.1f}ms`) 
-    console.log(`Speedup: ${speedup:.1f}x faster`);
-    
-    return service.cache.get_stats()
-</code></pre>
-            </div>
-
+            
             <h2>💡 Real-World Applications</h2>
             <div style="background: #f8f9fa; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
                 <p>This example demonstrates patterns used in production systems:</p>
@@ -1819,16 +1929,16 @@ def get_product(product_id):
     # Try fetching from Redis cache
     cached = r.get(key)
     if cached:
-        print("Cache hit!")
-        return json.loads(cached)
+        console.log("Cache hit!");
+        return json.loads(cached);
     
-    print("Cache miss. Fetching from DB...")
+    console.log("Cache miss. Fetching from DB...");
     # Simulate DB fetch
-    product = {"id": product_id, "name": "Example Product"}
+    product = {"id": product_id, "name": "Example Product"};
     
     # Write to cache with TTL of 60 seconds
-    r.setex(key, 60, json.dumps(product))
-    return product
+    r.setex(key, 60, json.dumps(product));
+    return product;
 </code></pre>
             
             <h2>📚 Further Reading & Resources</h2>
