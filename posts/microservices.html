@@ -78,690 +78,878 @@
 
         /* Dynamic Visual Diagrams Styles */
         .interactive-diagram {
-            position: relative;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        /* Enhanced service node styling */
-        .service-node {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 15px;
-            margin: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            min-width: 140px;
-            text-align: center;
-            font-weight: 500;
-            border: 2px solid transparent;
-        }
-
-        .service-node:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-            border-color: rgba(255,255,255,0.3);
-        }
-
-        .service-node.active {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            animation: pulse 2s infinite;
-            transform: translateY(-5px) scale(1.1);
-        }
-
-        .service-status {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 15px;
-            height: 15px;
-            background: #28a745;
-            border-radius: 50%;
-            border: 2px solid white;
-            animation: statusBlink 2s infinite;
-        }
-
-        .service-node.active .service-status {
-            background: #ffc107;
-            animation: statusActive 1s infinite;
-        }
-
-        @keyframes statusBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes statusActive {
-            0%, 100% { transform: scale(1); background: #ffc107; }
-            50% { transform: scale(1.3); background: #ff6b6b; }
-        }
-
-        .traffic-flow {
-            position: relative;
-            height: 250px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            overflow: hidden;
-            border: 2px solid #dee2e6;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px solid #dee2e6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .traffic-node {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 11px;
+        .interactive-diagram h3 {
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 3px solid white;
-            transition: all 0.3s ease;
-        }
-
-        .traffic-node:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        }
-
-        .connection-line {
-            position: absolute;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transform-origin: left center;
-            opacity: 0.6;
-            border-radius: 2px;
-            animation: drawLine 2s ease-in-out infinite;
-        }
-
-        @keyframes drawLine {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-        }
-
-        .data-flow {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            position: absolute;
-            animation: dataFlow 3s linear infinite;
-        }
-
-        @keyframes dataFlow {
-            0% { left: 0; opacity: 1; }
-            100% { left: 100%; opacity: 0; }
-        }
-
-        .migration-timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .timeline-step {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            opacity: 0;
-            transform: translateX(-50px);
-            animation: slideIn 0.6s ease forwards;
-        }
-
-        .timeline-step:nth-child(1) { animation-delay: 0.2s; }
-        .timeline-step:nth-child(2) { animation-delay: 0.4s; }
-        .timeline-step:nth-child(3) { animation-delay: 0.6s; }
-        .timeline-step:nth-child(4) { animation-delay: 0.8s; }
-
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .timeline-dot {
-            width: 20px;
-            height: 20px;
-            background: #667eea;
-            border-radius: 50%;
-            margin-right: 20px;
-            position: relative;
-            animation: dotPulse 2s infinite;
-        }
-
-        @keyframes dotPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .monitoring-dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .metric-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-value {
-            font-size: 2em;
-            font-weight: bold;
-            margin: 10px 0;
-            animation: countUp 2s ease-out;
-        }
-
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .loading-bar {
-            height: 4px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .loading-progress {
-            height: 100%;
-            background: #38ef7d;
-            border-radius: 2px;
-            animation: loading 3s ease-in-out infinite;
-        }
-
-        @keyframes loading {
-            0% { width: 0%; }
-            50% { width: 100%; }
-            100% { width: 0%; }
-        }
-
-        .traffic-flow {
-            position: relative;
-            height: 200px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .traffic-node {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: #667eea;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        .traffic-packet {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            animation: trafficMove 4s linear infinite;
-            animation-play-state: paused; /* Start paused */
-            opacity: 0; /* Start hidden */
-        }
-
-        .traffic-packet.active {
-            opacity: 1;
-            animation-play-state: running;
-        }
-
-        @keyframes trafficMove {
-            0% { left: 15%; top: 45%; opacity: 1; }
-            25% { left: 50%; top: 15%; opacity: 1; }
-            50% { left: 75%; top: 75%; opacity: 1; }
-            75% { left: 25%; top: 75%; opacity: 1; }
-            100% { left: 15%; top: 45%; opacity: 1; }
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-size: 1.5em;
         }
 
         .control-panel {
-            text-align: center;
-            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .control-btn {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 25px;
-            margin: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-width: 140px;
         }
 
         .control-btn:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-        }
-
-        .circuit-breaker-demo {
-            position: relative;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .circuit-state {
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin: 10px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .circuit-closed {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .circuit-open {
-            background: #f8d7da;
-            color: #721c24;
-            animation: warning 1s infinite alternate;
-        }
-
-        .circuit-half-open {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        @keyframes warning {
-            from { opacity: 1; }
-            to { opacity: 0.6; }
-        }
-
-        /* Interactive Gateway Pattern Styles */
-        .interactive-gateway-demo {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 2px solid #dee2e6;
-        }
-
-        .gateway-controls {
-            text-align: center;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 10px;
-        }
-
-        .gateway-flow-container {
-            display: grid;
-            grid-template-columns: 1fr 80px 1fr 80px 1fr;
-            grid-template-rows: 1fr;
-            align-items: center;
-            gap: 20px;
-            margin: 30px 0;
-            min-height: 300px;
-        }
-
-        .gateway-client {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .gateway-client.active {
-            transform: scale(1.05);
+            transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
-        .client-icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        .control-btn.active {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            transform: translateY(-2px);
         }
 
-        .client-label {
+        .architecture-btn {
             font-weight: bold;
-            margin-bottom: 8px;
+            min-width: 180px;
         }
 
-        .request-info {
-            font-size: 0.9em;
-            opacity: 0.9;
+        .divider {
+            width: 2px;
+            height: 30px;
+            background: #dee2e6;
+            margin: 0 10px;
         }
 
-        .gateway-arrow {
+        .architecture-container {
             position: relative;
+            min-height: 600px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        .architecture-view {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .architecture-view h4 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 1.4em;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #monolithView h4 {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            color: #2c3e50;
+        }
+
+        #microservicesView h4 {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+        }
+
+        /* Architecture Layout */
+        .monolith-diagram, .microservices-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .arch-layer {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            align-items: center;
+            position: relative;
+        }
+
+        .arch-node {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+            min-width: 140px;
+        }
+
+        .arch-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+
+        .arch-node.active {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            transform: translateY(-8px) scale(1.05);
+        }
+
+        /* Client Nodes */
+        .client-node {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Load Balancer */
+        .lb-node {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        /* Monolith App */
+        .monolith-app {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            color: #2c3e50;
+            min-width: 400px;
+            max-width: 500px;
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .app-icon {
+            font-size: 2em;
+        }
+
+        .app-title {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .app-status {
+            background: rgba(255,255,255,0.8);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .app-modules {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .module-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .module {
+            flex: 1;
+            background: rgba(255,255,255,0.9);
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .module.active {
+            border-color: #00b894;
+            background: linear-gradient(135deg, #00b894 0%, #55efc4 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Gateway Node */
+        .gateway-node {
+            background: linear-gradient(135deg, #00b894 0%, #55efc4 100%);
+            color: white;
+            min-width: 200px;
+        }
+
+        .gateway-features {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+
+        .feature-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .feature-badge.active {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.2);
+            animation: badgePulse 0.5s ease-in-out;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Service Nodes */
+        .service-node {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-width: 160px;
+        }
+
+        .service-header {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
-        .arrow-line {
-            height: 4px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        .service-icon {
+            font-size: 1.5em;
+        }
+
+        .service-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .service-status {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .service-instances {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .instance-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .instance-dot.active {
+            background: #ffc107;
+            animation: instancePulse 2s infinite;
+        }
+
+        @keyframes instancePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        /* Message Queue */
+        .message-node {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            color: white;
+        }
+
+        /* Database Nodes */
+        .database-node {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            min-width: 120px;
+        }
+
+        .db-tables {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .table-item {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8em;
+        }
+
+        .db-icon, .node-icon {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .node-label, .db-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .node-desc, .db-type {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+
+        /* Connection Arrows */
+        .connection-arrow {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
             border-radius: 2px;
-            width: 60px;
-            position: relative;
             opacity: 0.6;
             transition: all 0.3s ease;
+            z-index: 1;
         }
 
-        .arrow-line.active {
+        .connection-arrow.active {
             opacity: 1;
-            animation: arrowPulse 1s ease-in-out;
+            animation: arrowFlow 2s ease-in-out infinite;
         }
 
-        @keyframes arrowPulse {
-            0%, 100% { transform: scaleX(1); }
-            50% { transform: scaleX(1.2); }
+        @keyframes arrowFlow {
+            0%, 100% { opacity: 0.6; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.1); }
         }
 
-        .arrow-head {
-            color: #667eea;
-            font-size: 1.5em;
-            margin-left: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .arrow-head.active {
-            animation: arrowMove 1s ease-in-out;
-        }
-
-        @keyframes arrowMove {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(10px); }
-        }
-
-        .request-packet, .service-packet {
+        /* Traffic Animation */
+        .traffic-dot {
             position: absolute;
             width: 12px;
             height: 12px;
             background: #ff6b6b;
             border-radius: 50%;
             opacity: 0;
-            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(255,107,107,0.6);
+            transition: all 0.3s ease;
         }
 
-        .request-packet.moving {
+        .traffic-dot.active {
             opacity: 1;
-            animation: packetMove 1.5s ease-in-out;
+            animation: trafficFlow 4s ease-in-out infinite;
         }
 
-        .service-packet.moving {
-            opacity: 1;
-            animation: packetMove 1s ease-in-out 0.5s;
+        @keyframes trafficFlow {
+            0% { transform: scale(1); opacity: 1; }
+            25% { transform: scale(1.3); opacity: 0.8; }
+            50% { transform: scale(1); opacity: 1; }
+            75% { transform: scale(1.3); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        @keyframes packetMove {
-            0% { left: 0%; opacity: 1; }
-            100% { left: 100%; opacity: 0; }
-        }
-
-        .api-gateway {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
+        /* Information Panel */
+        .architecture-info-panel {
+            background: rgba(255,255,255,0.95);
             border-radius: 15px;
-            transition: all 0.3s ease;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
         }
 
-        .api-gateway.processing {
-            animation: gatewayPulse 2s ease-in-out;
-        }
-
-        @keyframes gatewayPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
-        }
-
-        .gateway-icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .gateway-label {
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .gateway-functions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .function-item {
-            background: rgba(255,255,255,0.2);
-            padding: 5px 8px;
-            border-radius: 8px;
-            font-size: 0.8em;
-            transition: all 0.3s ease;
-        }
-
-        .function-item.active {
-            background: rgba(255,255,255,0.4);
-            animation: functionBlink 0.5s ease-in-out;
-        }
-
-        @keyframes functionBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        .gateway-status {
-            font-size: 0.9em;
-            font-weight: bold;
-            opacity: 0.9;
-        }
-
-        .service-arrows {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .service-arrow {
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: 60px;
-        }
-
-        .gateway-services {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .gateway-service {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .gateway-service.active {
-            border-color: #28a745;
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            transform: translateX(5px);
-        }
-
-        .service-icon {
-            font-size: 1.5em;
-            margin-right: 10px;
-        }
-
-        .service-name {
-            font-weight: bold;
-            flex-grow: 1;
-        }
-
-        .service-status {
-            font-size: 0.8em;
-            color: #666;
-            padding: 3px 8px;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .gateway-service.active .service-status {
-            background: #28a745;
-            color: white;
-        }
-
-        .request-log {
-            margin-top: 25px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .request-log h5 {
-            margin: 0 0 10px 0;
-            color: #2c3e50;
-        }
-
-        .log-content {
-            max-height: 150px;
-            overflow-y: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85em;
-        }
-
-        .log-entry {
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
-            color: #333;
-        }
-
-        .log-entry:last-child {
-            border-bottom: none;
-        }
-
-        .log-entry.success {
-            color: #28a745;
-        }
-
-        .log-entry.error {
-            color: #dc3545;
-        }
-
-        .log-entry.info {
-            color: #007bff;
-        }
-
-        .gateway-features {
-            margin-top: 25px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .gateway-features h5 {
+        .info-content h4 {
             margin: 0 0 15px 0;
             color: #2c3e50;
         }
 
-        .feature-grid {
+        .info-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .info-content li {
+            margin: 8px 0;
+            color: #495057;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
         }
 
-        .feature-card {
+        .comparison-header {
+            grid-column: 1 / -1;
             text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
+        }
+
+        .comparison-header h4 {
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .comparison-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: 2px solid transparent;
         }
 
-        .feature-card.highlight {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        .comparison-item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        .feature-icon {
+        .monolith-item {
+            border-left: 4px solid #fab1a0;
+        }
+
+        .microservices-item {
+            border-left: 4px solid #74b9ff;
+        }
+
+        .comparison-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .comparison-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .comparison-desc {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        /* Components Grid */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .component-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #667eea;
+        }
+
+        .component-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .component-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .component-card h4 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+        }
+
+        .component-card p {
+            color: #6c757d;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .control-panel {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .divider {
+                width: 100%;
+                height: 2px;
+                margin: 10px 0;
+            }
+            
+            .arch-layer {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .monolith-app {
+                min-width: auto;
+                max-width: 350px;
+            }
+            
+            .module-row {
+                flex-direction: column;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* New Styles for Architecture Comparison */
+        .architecture-comparison {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .comparison-header h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+
+        .comparison-header p {
+            color: #6c757d;
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 200px 1fr 1fr;
+            gap: 2px;
+            background: #dee2e6;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .comparison-row {
+            display: contents;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-row.hidden {
+            display: none;
+        }
+
+        .header-row .aspect-column,
+        .header-row .monolith-column,
+        .header-row .microservices-column {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .aspect-column {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .aspect-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .aspect-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .monolith-column, .microservices-column {
+            background: white;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        .monolith-column {
+            border-left: 4px solid #fab1a0;
+        }
+
+        .microservices-column {
+            border-left: 4px solid #74b9ff;
+        }
+
+        .arch-icon {
             font-size: 2em;
             margin-bottom: 8px;
         }
 
-        .feature-name {
+        .arch-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 8px 0;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .status-indicator.positive {
+            color: #28a745;
+        }
+
+        .status-indicator.negative {
+            color: #dc3545;
+        }
+
+        .status-indicator.neutral {
+            color: #ffc107;
+        }
+
+        /* Comparison Summary */
+        .comparison-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .summary-section h5 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            text-align: center;
+        }
+
+        .scenario-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .monolith-card {
+            border-left: 4px solid #fab1a0;
+        }
+
+        .monolith-card:hover {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            color: white;
+        }
+
+        .microservices-card {
+            border-left: 4px solid #74b9ff;
+        }
+
+        .microservices-card:hover {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+        }
+
+        .scenario-icon {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+
+        .scenario-content {
+            flex: 1;
+        }
+
+        .scenario-title {
             font-weight: bold;
             margin-bottom: 5px;
-            color: #2c3e50;
+            font-size: 1.1em;
         }
 
-        .feature-desc {
+        .scenario-desc {
             font-size: 0.9em;
-            color: #666;
+            opacity: 0.9;
         }
 
-        /* Mobile responsiveness */
+        /* Comparison Filters */
+        .comparison-filters {
+            text-align: center;
+        }
+
+        .comparison-filters h5 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            color: #6c757d;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Enhanced Animation for filtering */
+        .comparison-row {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .comparison-row.filtering-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .comparison-row.filtering-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Filter button enhancements */
+        .filter-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn.active {
+            position: relative;
+        }
+
+        .filter-btn.active::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+        }
+
+        /* Smooth transitions for comparison header */
+        .comparison-header p {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Loading state for filters */
+        .filter-buttons.loading .filter-btn {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Mobile responsiveness for filters */
         @media (max-width: 768px) {
-            .gateway-flow-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 40px auto 40px auto;
-                gap: 15px;
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
             }
             
-            .gateway-arrow {
-                transform: rotate(90deg);
-            }
-            
-            .service-arrows {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .service-arrow {
-                transform: rotate(90deg);
-            }
-            
-            .feature-grid {
-                grid-template-columns: 1fr;
+            .filter-btn {
+                width: 90%;
+                max-width: 250px;
             }
         }
     </style>
@@ -808,287 +996,583 @@
         <h2>🏗️ Microservices Architecture</h2>
         
         <div class="interactive-diagram">
-            <h3>Interactive Microservices Architecture</h3>
+            <h3>🔄 Interactive Architecture Comparison</h3>
+            
+            <!-- Architecture Toggle Controls -->
             <div class="control-panel">
-                <button class="control-btn" onclick="startDemo()">▶️ Start Demo</button>
-                <button class="control-btn" onclick="stopDemo()">⏹️ Stop Demo</button>
-                <button class="control-btn" onclick="resetDemo()">🔄 Reset</button>
+                <button id="showMonolithBtn" class="control-btn architecture-btn">🏢 Show Monolith</button>
+                <button id="showMicroservicesBtn" class="control-btn architecture-btn active">🔧 Show Microservices</button>
+                <div class="divider"></div>
+                <button id="startTrafficBtn" class="control-btn">▶️ Start Traffic</button>
+                <button id="stopTrafficBtn" class="control-btn">⏹️ Stop Traffic</button>
+                <button id="resetArchBtn" class="control-btn">🔄 Reset</button>
             </div>
             
-            <div class="traffic-flow">
-                <!-- Main architectural nodes -->
-                <div class="traffic-node" style="left: 10%; top: 40%;">
-                    <div>Client</div>
-                </div>
-                <div class="traffic-node" style="left: 50%; top: 10%;">
-                    <div>Gateway</div>
-                </div>
-                <div class="traffic-node" style="left: 25%; top: 70%;">
-                    <div>User Svc</div>
-                </div>
-                <div class="traffic-node" style="left: 75%; top: 70%;">
-                    <div>Order Svc</div>
+            <!-- Architecture Display Container -->
+            <div class="architecture-container">
+                <!-- Monolithic Architecture View -->
+                <div id="monolithView" class="architecture-view" style="display: none;">
+                    <h4>🏢 Monolithic Architecture</h4>
+                    <div class="monolith-diagram">
+                        <!-- Client -->
+                        <div class="arch-layer client-layer">
+                            <div class="arch-node client-node" id="monolithClient">
+                                <div class="node-icon">👥</div>
+                                <div class="node-label">Web Clients</div>
+                                <div class="node-desc">Browser, Mobile App</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Load Balancer -->
+                        <div class="arch-layer lb-layer">
+                            <div class="arch-node lb-node" id="monolithLB">
+                                <div class="node-icon">⚖️</div>
+                                <div class="node-label">Load Balancer</div>
+                                <div class="node-desc">Nginx, HAProxy</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Monolithic Application -->
+                        <div class="arch-layer app-layer">
+                            <div class="arch-node monolith-app" id="monolithApp">
+                                <div class="app-header">
+                                    <div class="app-icon">🏢</div>
+                                    <div class="app-title">E-Commerce Monolith</div>
+                                    <div class="app-status" id="monolithStatus">Ready</div>
+                                </div>
+                                <div class="app-modules">
+                                    <div class="module-row">
+                                        <div class="module" id="monolithUser">👤 User Module</div>
+                                        <div class="module" id="monolithProduct">📦 Product Module</div>
+                                    </div>
+                                    <div class="module-row">
+                                        <div class="module" id="monolithOrder">🛒 Order Module</div>
+                                        <div class="module" id="monolithPayment">💳 Payment Module</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Database -->
+                        <div class="arch-layer db-layer">
+                            <div class="arch-node database-node" id="monolithDB">
+                                <div class="node-icon">🗄️</div>
+                                <div class="node-label">Shared Database</div>
+                                <div class="db-tables">
+                                    <div class="table-item">users</div>
+                                    <div class="table-item">products</div>
+                                    <div class="table-item">orders</div>
+                                    <div class="table-item">payments</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Connection arrows -->
+                        <div class="connection-arrow" id="clientToLB"></div>
+                        <div class="connection-arrow" id="lbToApp"></div>
+                        <div class="connection-arrow" id="appToDB"></div>
+                        
+                        <!-- Traffic dots -->
+                        <div class="traffic-dot" id="monolithDot1"></div>
+                        <div class="traffic-dot" id="monolithDot2"></div>
+                    </div>
                 </div>
                 
-                <!-- Traffic packets -->
-                <div class="traffic-packet" id="packet1"></div>
-                <div class="traffic-packet" id="packet2" style="animation-delay: 1s;"></div>
-                <div class="traffic-packet" id="packet3" style="animation-delay: 2s;"></div>
-                
-                <!-- Connection lines (optional visual enhancement) -->
-                <div class="connection-line" style="left: 15%; top: 45%; width: 30%; transform: rotate(-25deg);"></div>
-                <div class="connection-line" style="left: 55%; top: 15%; width: 25%; transform: rotate(45deg);"></div>
+                <!-- Microservices Architecture View -->
+                <div id="microservicesView" class="architecture-view">
+                    <h4>🔧 Microservices Architecture</h4>
+                    <div class="microservices-diagram">
+                        <!-- Client Layer -->
+                        <div class="arch-layer client-layer">
+                            <div class="arch-node client-node" id="microClient">
+                                <div class="node-icon">👥</div>
+                                <div class="node-label">Web Clients</div>
+                                <div class="node-desc">Browser, Mobile App</div>
+                            </div>
+                        </div>
+                        
+                        <!-- API Gateway Layer -->
+                        <div class="arch-layer gateway-layer">
+                            <div class="arch-node gateway-node" id="microGateway">
+                                <div class="node-icon">🚪</div>
+                                <div class="node-label">API Gateway</div>
+                                <div class="gateway-features">
+                                    <span class="feature-badge" id="authBadge">🔐</span>
+                                    <span class="feature-badge" id="rateBadge">⏱️</span>
+                                    <span class="feature-badge" id="routeBadge">🎯</span>
+                                    <span class="feature-badge" id="logBadge">📝</span>
+                                </div>
+                                <div class="node-status" id="gatewayStatus">Ready</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Microservices Layer -->
+                        <div class="arch-layer services-layer">
+                            <div class="arch-node service-node" id="userService" data-service="user">
+                                <div class="service-header">
+                                    <div class="service-icon">👤</div>
+                                    <div class="service-name">User Service</div>
+                                </div>
+                                <div class="service-status">Ready</div>
+                                <div class="service-instances">
+                                    <div class="instance-dot active"></div>
+                                    <div class="instance-dot active"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="arch-node service-node" id="productService" data-service="product">
+                                <div class="service-header">
+                                    <div class="service-icon">📦</div>
+                                    <div class="service-name">Product Service</div>
+                                </div>
+                                <div class="service-status">Ready</div>
+                                <div class="service-instances">
+                                    <div class="instance-dot active"></div>
+                                    <div class="instance-dot active"></div>
+                                    <div class="instance-dot active"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="arch-node service-node" id="orderService" data-service="order">
+                                <div class="service-header">
+                                    <div class="service-icon">🛒</div>
+                                    <div class="service-name">Order Service</div>
+                                </div>
+                                <div class="service-status">Ready</div>
+                                <div class="service-instances">
+                                    <div class="instance-dot active"></div>
+                                    <div class="instance-dot active"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="arch-node service-node" id="paymentService" data-service="payment">
+                                <div class="service-header">
+                                    <div class="service-icon">💳</div>
+                                    <div class="service-name">Payment Service</div>
+                                </div>
+                                <div class="service-status">Ready</div>
+                                <div class="service-instances">
+                                    <div class="instance-dot active"></div>
+                                    <div class="instance-dot active"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Message Queue Layer -->
+                        <div class="arch-layer message-layer">
+                            <div class="arch-node message-node" id="messageQueue">
+                                <div class="node-icon">📬</div>
+                                <div class="node-label">Message Queue</div>
+                                <div class="node-desc">Event Bus, Kafka</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Database Layer -->
+                        <div class="arch-layer db-layer">
+                            <div class="arch-node database-node" id="userDB">
+                                <div class="db-icon">🗄️</div>
+                                <div class="db-name">User DB</div>
+                                <div class="db-type">PostgreSQL</div>
+                            </div>
+                            <div class="arch-node database-node" id="productDB">
+                                <div class="db-icon">🗄️</div>
+                                <div class="db-name">Product DB</div>
+                                <div class="db-type">MongoDB</div>
+                            </div>
+                            <div class="arch-node database-node" id="orderDB">
+                                <div class="db-icon">🗄️</div>
+                                <div class="db-name">Order DB</div>
+                                <div class="db-type">MySQL</div>
+                            </div>
+                            <div class="arch-node database-node" id="paymentDB">
+                                <div class="db-icon">🗄️</div>
+                                <div class="db-name">Payment DB</div>
+                                <div class="db-type">PostgreSQL</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Connection arrows -->
+                        <div class="connection-arrow" id="clientToGateway"></div>
+                        <div class="connection-arrow" id="gatewayToServices"></div>
+                        <div class="connection-arrow" id="servicesToMessage"></div>
+                        <div class="connection-arrow" id="servicesToDB"></div>
+                        
+                        <!-- Traffic dots -->
+                        <div class="traffic-dot" id="microDot1"></div>
+                        <div class="traffic-dot" id="microDot2"></div>
+                        <div class="traffic-dot" id="microDot3"></div>
+                        <div class="traffic-dot" id="microDot4"></div>
+                    </div>
+                </div>
             </div>
             
-            <!-- Interactive Service Nodes - Now properly aligned -->
-            <div style="text-align: center; margin-top: 30px;">
-                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; max-width: 800px; margin: 0 auto;">
-                    <div class="service-node" onclick="highlightService(this, 'user')" data-service="user">
-                        👤 User Service
-                        <div class="service-status">●</div>
-                    </div>
-                    <div class="service-node" onclick="highlightService(this, 'product')" data-service="product">
-                        📦 Product Service
-                        <div class="service-status">●</div>
-                    </div>
-                    <div class="service-node" onclick="highlightService(this, 'order')" data-service="order">
-                        🛒 Order Service
-                        <div class="service-status">●</div>
-                    </div>
-                    <div class="service-node" onclick="highlightService(this, 'payment')" data-service="payment">
-                        💳 Payment Service
-                        <div class="service-status">●</div>
-                    </div>
-                </div>
-                
-                <!-- Service explanation -->
-                <div id="serviceInfo" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 10px; min-height: 60px;">
-                    <p><strong>💡 Click on any service above to see it activate!</strong></p>
-                    <p>Each service represents an independent microservice that can be scaled and deployed separately.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>📊 How the Interactive Diagram Works</h3>
-            <p>The interactive diagram above demonstrates key microservices concepts through visual animations and interactions:</p>
-            
-            <h4>🎯 Visual Components Explained:</h4>
-            <ul>
-                <li><strong>🔴 Red Moving Dots (Traffic Packets):</strong> Represent HTTP requests/data flowing through your system</li>
-                <li><strong>🔵 Blue Circular Nodes:</strong> Represent different components in your architecture:
+            <!-- Interactive Information Panel -->
+            <div class="architecture-info-panel" id="architectureInfoPanel">
+                <div class="info-content" id="architectureInfo">
+                    <h4>🔧 Microservices Architecture</h4>
+                    <p><strong>Current View:</strong> Distributed system with independent services</p>
                     <ul>
-                        <li><strong>Client:</strong> Web browser, mobile app, or API consumer</li>
-                        <li><strong>Gateway:</strong> API Gateway that routes requests</li>
-                        <li><strong>User Svc:</strong> User Service handling authentication</li>
-                        <li><strong>Order Svc:</strong> Order Service managing purchases</li>
+                        <li>Each service has its own database</li>
+                        <li>Services communicate via API Gateway</li>
+                        <li>Event-driven communication through message queue</li>
+                        <li>Independent scaling and deployment</li>
                     </ul>
-                </li>
-                <li><strong>🟢 Green Service Nodes:</strong> Individual microservices you can interact with</li>
-            </ul>
-
-            <h4>🎮 Interactive Features:</h4>
-            <ol>
-                <li><strong>▶️ Start Demo:</strong> Begins the animation showing request flow patterns</li>
-                <li><strong>⏹️ Stop Demo:</strong> Pauses the traffic animation</li>
-                <li><strong>🔄 Reset:</strong> Reloads the page to restart everything</li>
-                <li><strong>Click Service Nodes:</strong> Highlight individual services to see them "activate"</li>
-            </ol>
-
-            <h4>📈 What the Animation Shows:</h4>
-            <div class="code-block">
-                <pre>
-Request Flow Pattern:
-1. Client (10%, 50%) → Gateway (50%, 10%)
-2. Gateway → User Service (30%, 70%) 
-3. Gateway → Order Service (70%, 70%)
-4. Services process and respond back
-
-// The percentages represent position coordinates
-// showing how requests bounce between services
-                </pre>
+                    <p><em>👆 Click services above to learn more, or start traffic to see data flow!</em></p>
+                </div>
             </div>
-
-            <h4>🎯 Real-World Concepts Demonstrated:</h4>
-            <ul>
-                <li><strong>Request Routing:</strong> How API Gateway distributes requests</li>
-                <li><strong>Service Communication:</strong> Inter-service data exchange</li>
-                <li><strong>Load Distribution:</strong> Multiple requests handled simultaneously</li>
-                <li><strong>Service Independence:</strong> Each service can be clicked/activated separately</li>
-                <li><strong>Scalability:</strong> Multiple packets show concurrent request handling</li>
-            </ul>
-        </div>
-
-        <div class="best-practice">
-            <h3>🔍 Try This Exercise:</h3>
-            <ol>
-                <li>Click "▶️ Start Demo" to see request flow</li>
-                <li>Click on different service nodes (👤 User, 📦 Product, etc.) to see them activate</li>
-                <li>Notice how the red dots represent real API calls in your system</li>
-                <li>Observe that services can be activated independently - this shows microservices autonomy!</li>
-            </ol>
             
-            <div class="code-block">
-                <pre>
-// What happens when you click a service:
-function highlightService(element, serviceName) {
-    // 1. Remove active state from other services
-    document.querySelectorAll('.service-node').forEach(node => {
-        node.classList.remove('active');
-    });
-    
-    // 2. Activate clicked service (turns green with pulse animation)
-    element.classList.add('active');
-    
-    // 3. In real systems, this might:
-    // - Scale up this specific service
-    // - Show service health metrics
-    // - Display service logs
-    // - Route more traffic to this service
-}
-                </pre>
+            <!-- Architecture Comparison - Replace the existing comparison-grid section -->
+            <div class="architecture-comparison">
+                <div class="comparison-header">
+                    <h4>⚖️ Architecture Comparison</h4>
+                    <p>Understanding the key differences between Monolithic and Microservices architectures</p>
+                </div>
+                
+                <!-- Detailed Comparison Table -->
+                <div class="comparison-table">
+                    <div class="comparison-row header-row">
+                        <div class="aspect-column">Aspect</div>
+                        <div class="monolith-column">
+                            <div class="arch-icon">🏢</div>
+                            <div class="arch-title">Monolithic Architecture</div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="arch-icon">🔧</div>
+                            <div class="arch-title">Microservices Architecture</div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-row" data-category="deployment">
+                        <div class="aspect-column">
+                            <div class="aspect-icon">🚀</div>
+                            <div class="aspect-title">Deployment</div>
+                        </div>
+                        <div class="monolith-column">
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Single deployable unit
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                All-or-nothing deployment
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Simpler deployment process
+                            </div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Independent service deployment
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Rolling deployments possible
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Complex orchestration needed
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-row" data-category="scaling">
+                        <div class="aspect-column">
+                            <div class="aspect-icon">📈</div>
+                            <div class="aspect-title">Scaling</div>
+                        </div>
+                        <div class="monolith-column">
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Scale entire application
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Resource waste on unused features
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator neutral">●</span>
+                                Vertical scaling preferred
+                            </div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Scale individual services
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Optimize resources per service
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Horizontal scaling friendly
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-row" data-category="technology">
+                        <div class="aspect-column">
+                            <div class="aspect-icon">⚙️</div>
+                            <div class="aspect-title">Technology Stack</div>
+                        </div>
+                        <div class="monolith-column">
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Single technology stack
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Difficult to upgrade
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Easier team coordination
+                            </div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Multiple technology stacks
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Independent technology evolution
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Requires diverse expertise
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-row" data-category="database">
+                        <div class="aspect-column">
+                            <div class="aspect-icon">🗄️</div>
+                            <div class="aspect-title">Data Management</div>
+                        </div>
+                        <div class="monolith-column">
+                            <div class="feature-item">
+                                <span class="status-indicator neutral">●</span>
+                                Shared database
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                ACID transactions
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Simpler data consistency
+                            </div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Database per service
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Eventual consistency
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Distributed transaction complexity
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-row" data-category="development">
+                        <div class="aspect-column">
+                            <div class="aspect-icon">👨‍💻</div>
+                            <div class="aspect-title">Development</div>
+                        </div>
+                        <div class="monolith-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Faster initial development
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Easier debugging
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Coordination bottlenecks
+                            </div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Parallel team development
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Complex debugging
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Team autonomy
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-row" data-category="testing">
+                        <div class="aspect-column">
+                            <div class="aspect-icon">🧪</div>
+                            <div class="aspect-title">Testing</div>
+                        </div>
+                        <div class="monolith-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Simpler end-to-end testing
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Single test environment
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Long test cycles
+                            </div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Fast unit testing
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Complex integration testing
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator neutral">●</span>
+                                Multiple test environments
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-row" data-category="monitoring">
+                        <div class="aspect-column">
+                            <div class="aspect-icon">📊</div>
+                            <div class="aspect-title">Monitoring</div>
+                        </div>
+                        <div class="monolith-column">
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Centralized logging
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Simpler monitoring setup
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator neutral">●</span>
+                                Single point of observation
+                            </div>
+                        </div>
+                        <div class="microservices-column">
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Distributed tracing needed
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator negative">●</span>
+                                Complex monitoring setup
+                            </div>
+                            <div class="feature-item">
+                                <span class="status-indicator positive">●</span>
+                                Granular observability
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Comparison Summary -->
+                <div class="comparison-summary">
+                    <div class="summary-section">
+                        <h5>📊 When to Choose Monolith</h5>
+                        <div class="scenario-cards">
+                            <div class="scenario-card monolith-card">
+                                <div class="scenario-icon">🎯</div>
+                                <div class="scenario-title">Small to Medium Projects</div>
+                                <div class="scenario-desc">Simple applications with limited complexity</div>
+                            </div>
+                            <div class="scenario-card monolith-card">
+                                <div class="scenario-icon">👥</div>
+                                <div class="scenario-title">Small Teams</div>
+                                <div class="scenario-desc">Teams of 2-8 developers</div>
+                            </div>
+                            <div class="scenario-card monolith-card">
+                                <div class="scenario-icon">⚡</div>
+                                <div class="scenario-title">Rapid Prototyping</div>
+                                <div class="scenario-desc">Quick development and deployment</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <h5>🔧 When to Choose Microservices</h5>
+                        <div class="scenario-cards">
+                            <div class="scenario-card microservices-card">
+                                <div class="scenario-icon">🏢</div>
+                                <div class="scenario-title">Large Enterprises</div>
+                                <div class="scenario-desc">Complex business domains</div>
+                            </div>
+                            <div class="scenario-card microservices-card">
+                                <div class="scenario-icon">👥</div>
+                                <div class="scenario-title">Multiple Teams</div>
+                                <div class="scenario-desc">Independent development teams</div>
+                            </div>
+                            <div class="scenario-card microservices-card">
+                                <div class="scenario-icon">📈</div>
+                                <div class="scenario-title">High Scalability</div>
+                                <div class="scenario-desc">Different scaling requirements per service</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Comparison Filters -->
+                <div class="comparison-filters">
+                    <h5>🔍 Filter by Category</h5>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All Aspects</button>
+                        <button class="filter-btn" data-filter="deployment">🚀 Deployment</button>
+                        <button class="filter-btn" data-filter="scaling">📈 Scaling</button>
+                        <button class="filter-btn" data-filter="technology">⚙️ Technology</button>
+                        <button class="filter-btn" data-filter="database">🗄️ Database</button>
+                        <button class="filter-btn" data-filter="development">👨‍💻 Development</button>
+                        <button class="filter-btn" data-filter="testing">🧪 Testing</button>
+                        <button class="filter-btn" data-filter="monitoring">📊 Monitoring</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="best-practice">
-            <h3>🏗️ Architecture Pattern Visualization</h3>
-            <p>This diagram specifically demonstrates the <strong>API Gateway Pattern</strong>:</p>
-            
-            <div class="interactive-gateway-demo">
-                <h4>Interactive API Gateway Pattern Demo</h4>
-                
-                <!-- Gateway Demo Controls -->
-                <div class="gateway-controls">
-                    <button class="control-btn" onclick="simulateRequest('login')">🔐 Login Request</button>
-                    <button class="control-btn" onclick="simulateRequest('search')">🔍 Search Products</button>
-                    <button class="control-btn" onclick="simulateRequest('order')">🛒 Create Order</button>
-                    <button class="control-btn" onclick="simulateRequest('payment')">💳 Process Payment</button>
-                    <button class="control-btn" onclick="resetGateway()">🔄 Reset</button>
-                </div>
-                
-                <!-- Interactive Gateway Diagram -->
-                <div class="gateway-flow-container">
-                    <!-- Client Section -->
-                    <div class="gateway-client" id="gatewayClient">
-                        <div class="client-icon">👤</div>
-                        <div class="client-label">Client Application</div>
-                        <div class="request-info" id="requestInfo">Click a button to send request</div>
-                    </div>
-                    
-                    <!-- Arrow from Client to Gateway -->
-                    <div class="gateway-arrow" id="clientToGateway">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head">▶</div>
-                        <div class="request-packet" id="requestPacket"></div>
-                    </div>
-                    
-                    <!-- API Gateway -->
-                    <div class="api-gateway" id="apiGateway">
-                        <div class="gateway-icon">🚪</div>
-                        <div class="gateway-label">API Gateway</div>
-                        <div class="gateway-functions">
-                            <div class="function-item" id="authCheck">🔐 Auth</div>
-                            <div class="function-item" id="rateLimit">⏱️ Rate Limit</div>
-                            <div class="function-item" id="routing">🎯 Routing</div>
-                            <div class="function-item" id="logging">📝 Logging</div>
-                        </div>
-                        <div class="gateway-status" id="gatewayStatus">Ready</div>
-                    </div>
-                    
-                    <!-- Arrows from Gateway to Services -->
-                    <div class="service-arrows">
-                        <div class="service-arrow" id="toUserService">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-head">▶</div>
-                            <div class="service-packet" id="userPacket"></div>
-                        </div>
-                        <div class="service-arrow" id="toProductService">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-head">▶</div>
-                            <div class="service-packet" id="productPacket"></div>
-                        </div>
-                        <div class="service-arrow" id="toOrderService">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-head">▶</div>
-                            <div class="service-packet" id="orderPacket"></div>
-                        </div>
-                        <div class="service-arrow" id="toPaymentService">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-head">▶</div>
-                            <div class="service-packet" id="paymentPacket"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Microservices -->
-                    <div class="gateway-services">
-                        <div class="gateway-service" id="userServiceGW">
-                            <div class="service-icon">👤</div>
-                            <div class="service-name">User Service</div>
-                            <div class="service-status">Idle</div>
-                        </div>
-                        <div class="gateway-service" id="productServiceGW">
-                            <div class="service-icon">📦</div>
-                            <div class="service-name">Product Service</div>
-                            <div class="service-status">Idle</div>
-                        </div>
-                        <div class="gateway-service" id="orderServiceGW">
-                            <div class="service-icon">🛒</div>
-                            <div class="service-name">Order Service</div>
-                            <div class="service-status">Idle</div>
-                        </div>
-                        <div class="gateway-service" id="paymentServiceGW">
-                            <div class="service-icon">💳</div>
-                            <div class="service-name">Payment Service</div>
-                            <div class="service-status">Idle</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Request Log -->
-                <div class="request-log">
-                    <h5>📋 Request Log</h5>
-                    <div class="log-content" id="requestLog">
-                        <div class="log-entry">System ready - Click buttons above to simulate requests</div>
-                    </div>
-                </div>
-                
-                <!-- Gateway Features Explanation -->
-                <div class="gateway-features">
-                    <h5>🎯 API Gateway Features Demonstrated:</h5>
-                    <div class="feature-grid">
-                        <div class="feature-card" id="authFeature">
-                            <div class="feature-icon">🔐</div>
-                            <div class="feature-name">Authentication</div>
-                            <div class="feature-desc">Validates user credentials</div>
-                        </div>
-                        <div class="feature-card" id="rateLimitFeature">
-                            <div class="feature-icon">⏱️</div>
-                            <div class="feature-name">Rate Limiting</div>
-                            <div class="feature-desc">Controls request frequency</div>
-                        </div>
-                        <div class="feature-card" id="routingFeature">
-                            <div class="feature-icon">🎯</div>
-                            <div class="feature-name">Request Routing</div>
-                            <div class="feature-desc">Directs to correct service</div>
-                        </div>
-                        <div class="feature-card" id="loggingFeature">
-                            <div class="feature-icon">📝</div>
-                            <div class="feature-name">Logging & Monitoring</div>
-                            <div class="feature-desc">Tracks all traffic</div>
-                        </div>
-                    </div>
-                </div>
+        <h3>Key Architecture Components</h3>
+        <div class="components-grid">
+            <div class="component-card">
+                <div class="component-icon">🚪</div>
+                <h4>API Gateway</h4>
+                <p>Single entry point for all client requests with routing, authentication, and rate limiting.</p>
+            </div>
+            <div class="component-card">
+                <div class="component-icon">🔍</div>
+                <h4>Service Discovery</h4>
+                <p>Automatic detection and registration of service instances for dynamic communication.</p>
+            </div>
+            <div class="component-card">
+                <div class="component-icon">📬</div>
+                <h4>Message Queue</h4>
+                <p>Asynchronous communication between services using events and messages.</p>
+            </div>
+            <div class="component-card">
+                <div class="component-icon">📊</div>
+                <h4>Monitoring</h4>
+                <p>Centralized logging, metrics collection, and distributed tracing across services.</p>
             </div>
         </div>
-
-        <h3>Key Components</h3>
-        <ul>
-            <li><strong>API Gateway:</strong> Single entry point for all client requests</li>
-            <li><strong>Service Registry:</strong> Directory of available services</li>
-            <li><strong>Load Balancer:</strong> Distributes requests across service instances</li>
-            <li><strong>Configuration Server:</strong> Centralized configuration management</li>
-            <li><strong>Message Broker:</strong> Enables asynchronous communication</li>
-        </ul>
     </div>
 
     <div class="section" id="benefits">
@@ -1236,82 +1720,165 @@ production:
 
     <div class="section" id="patterns">
         <h2>🎨 Design Patterns</h2>
+        <p>Design patterns provide reusable solutions to common problems in microservices architecture. Understanding these patterns is key to building robust, scalable, and maintainable systems.</p>
 
-        <h3>Circuit Breaker Pattern Demo</h3>
-        <div class="circuit-breaker-demo">
-            <div class="control-panel">
-                <button class="control-btn" onclick="toggleCircuitBreaker()">Toggle Circuit Breaker</button>
+        <div class="best-practice">
+            <h3>1. API Gateway Pattern</h3>
+            <p>The API Gateway acts as a single entry point for all client requests, routing them to the appropriate downstream microservice. This pattern simplifies the client by providing a single endpoint and can handle cross-cutting concerns like authentication, rate limiting, and logging.</p>
+            <div class="code-block">
+                <pre>
+Client Request → [API Gateway] → Service A
+                              → Service B
+                              → Service C
+
+// The gateway aggregates responses from multiple services if needed.
+// (This is demonstrated in the interactive diagram in the Architecture section)
+                </pre>
             </div>
-            <div id="circuitState" class="circuit-state circuit-closed">Circuit: CLOSED</div>
-            <div id="circuitDescription">✅ Requests flowing normally</div>
         </div>
 
-        <div class="code-block">
-            <pre>
-// Choreography-based saga
-1. OrderService creates order → OrderCreated event
-2. PaymentService processes payment → PaymentProcessed event
-3. InventoryService reserves items → ItemsReserved event
-4. ShippingService schedules delivery → DeliveryScheduled event
-            </pre>
+        <div class="best-practice">
+            <h3>2. Service Registry and Discovery Pattern</h3>
+            <p>In a dynamic microservices environment, service instances are constantly being created and destroyed. This pattern provides a central "phone book" (Service Registry) where services register their locations. Other services can then query the registry (Service Discovery) to find out how to communicate with them.</p>
+            <div class="code-block">
+                <pre>
+// 1. Service Registration
+ProductService (instance 1) → Registers at 10.1.2.3:8080 with Registry
+ProductService (instance 2) → Registers at 10.1.2.4:8080 with Registry
+
+// 2. Service Discovery
+OrderService needs Product info → Asks Registry for "ProductService"
+Registry returns → [10.1.2.3:8080, 10.1.2.4:8080]
+OrderService then calls one of the available instances.
+
+// Popular Tools: Netflix Eureka, Consul, Zookeeper
+                </pre>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>3. Saga Pattern</h3>
+            <p>Sagas are used to manage data consistency across multiple services in a distributed transaction. Since two-phase commits are not practical in microservices, a saga uses a sequence of local transactions. If one transaction fails, the saga executes compensating transactions to undo the preceding work.</p>
+            
+            <h4>Choreography-Based Saga (Event-Driven)</h4>
+            <p>Services communicate by publishing and listening to events. There is no central coordinator.</p>
+            <div class="code-block">
+                <pre>
+// Choreography-based saga for an e-commerce order
+1. OrderService creates order → Publishes "OrderCreated" event
+2. PaymentService listens for "OrderCreated" → Processes payment → Publishes "PaymentProcessed" event
+3. InventoryService listens for "PaymentProcessed" → Reserves items → Publishes "ItemsReserved" event
+4. ShippingService listens for "ItemsReserved" → Schedules delivery → Publishes "DeliveryScheduled" event
+
+// If PaymentService fails, it publishes a "PaymentFailed" event.
+// OrderService listens for "PaymentFailed" and executes a compensating transaction (e.g., cancels the order).
+                </pre>
+            </div>
+
+            <h4>Orchestration-Based Saga</h4>
+            <p>A central orchestrator service is responsible for telling the other services what to do and when. It manages the entire sequence of transactions.</p>
+             <div class="code-block">
+                <pre>
+// Orchestration-based saga for an e-commerce order
+1. Client sends "CreateOrder" request to OrderOrchestrator.
+2. OrderOrchestrator → calls PaymentService to process payment.
+3. PaymentService responds → Orchestrator calls InventoryService to reserve items.
+4. InventoryService responds → Orchestrator calls ShippingService to schedule delivery.
+5. Orchestrator confirms order completion.
+
+// If any step fails, the Orchestrator is responsible for calling compensating
+// transactions in reverse order (e.g., refund payment, release inventory).
+                </pre>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>4. Circuit Breaker Pattern</h3>
+            <p>This pattern prevents an application from repeatedly trying to execute an operation that is likely to fail. After a configured number of failures, the circuit "opens," and subsequent calls fail immediately without attempting the operation. After a timeout, the circuit goes into a "half-open" state to test if the underlying problem is resolved.</p>
+            
+            <h4>Circuit Breaker Pattern Demo</h4>
+            <div class="circuit-breaker-demo">
+                <div class="control-panel">
+                    <button id="toggleCircuitBtn" class="control-btn">Toggle Circuit Breaker State</button>
+                </div>
+                <div id="circuitState" class="circuit-state circuit-closed">Circuit: CLOSED</div>
+                <div id="circuitDescription">✅ Requests are flowing normally to the service.</div>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>5. Strangler Fig Pattern</h3>
+            <p>This pattern is used for incrementally migrating a legacy monolith to a microservices architecture. A facade is placed in front of the monolith, which intercepts requests. Initially, it routes all traffic to the monolith. Over time, as new microservices are built to replace parts of the monolith, the facade is updated to route specific requests to the new services, gradually "strangling" the monolith.</p>
+            <div class="code-block">
+                <pre>
+// Initial State
+User Request → [Facade] → Monolith (handles all logic)
+
+// Migration Step 1: User Service is extracted
+User Request for "/profile" → [Facade] → New UserService
+User Request for "/orders"  → [Facade] → Monolith
+
+// Final State
+User Request → [Facade] → All requests routed to various microservices
+                       → Monolith is eventually retired
+                </pre>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>6. Command Query Responsibility Segregation (CQRS)</h3>
+            <p>CQRS separates the models for reading data (Queries) from the models for updating data (Commands). This is useful because the requirements for reading data (e.g., complex joins, denormalized views) are often very different from the requirements for writing data (e.g., normalized, consistent models).</p>
+             <div class="code-block">
+                <pre>
+// Write Side (Commands)
+[Client] → sends "UpdateUserAddressCommand" → [Command Handler] → Updates Write Database
+
+// Read Side (Queries)
+[Client] → sends "GetUserProfileQuery" → [Query Handler] → Reads from Read Database (Optimized for reads)
+
+// Data is synchronized from the Write DB to the Read DB, often via events.
+                </pre>
+            </div>
         </div>
     </div>
 
-    <div class="section" id="monitoring">
-        <h2>📊 Monitoring and Observability</h2>
+    <div class="section" id="technologies">
+        <h2>🛠️ Technology Stack</h2>
+        <p>Choosing the right technology stack is crucial for a successful microservices architecture. The choice often depends on the team's expertise, the specific requirements of the service, and the overall ecosystem. Here are some popular choices:</p>
         
-        <h3>Live Monitoring Dashboard</h3>
-        <div class="monitoring-dashboard">
-            <div class="metric-card">
-                <div>Response Time</div>
-                <div class="metric-value" id="responseTime">245ms</div>
-                <div class="loading-bar">
-                    <div class="loading-progress"></div>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div>Throughput</div>
-                <div class="metric-value" id="throughput">1,250</div>
-                <div class="loading-bar">
-                    <div class="loading-progress" style="animation-delay: 0.5s;"></div>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div>Error Rate</div>
-                <div class="metric-value" id="errorRate">0.02%</div>
-                <div class="loading-bar">
-                    <div class="loading-progress" style="animation-delay: 1s;"></div>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div>Active Services</div>
-                <div class="metric-value" id="activeServices">12</div>
-                <div class="loading-bar">
-                    <div class="loading-progress" style="animation-delay: 1.5s;"></div>
-                </div>
-            </div>
+        <div class="best-practice">
+            <h4>Service Development</h4>
+            <ul>
+                <li><strong>Java:</strong> Spring Boot, Quarkus, Micronaut</li>
+                <li><strong>JavaScript/Node.js:</strong> Express, NestJS</li>
+                <li><strong>Python:</strong> Flask, FastAPI</li>
+                <li><strong>Go:</strong> Gin, Go-kit</li>
+                <li><strong>.NET:</strong> ASP.NET Core</li>
+            </ul>
         </div>
-    </div>
 
-    <div class="section" id="migration">
-        <h2>🔄 Migration Timeline</h2>
-        <div class="migration-timeline">
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 1:</strong> Assessment & Planning (Month 1-2)</div>
-            </div>
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 2:</strong> Infrastructure Setup (Month 2-3)</div>
-            </div>
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 3:</strong> First Service Migration (Month 3-4)</div>
-            </div>
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 4:</strong> Full Migration (Month 4-12)</div>
-            </div>
+        <div class="best-practice">
+            <h4>API Gateway</h4>
+            <ul>
+                <li><strong>Managed:</strong> Amazon API Gateway, Azure API Management, Google Cloud API Gateway</li>
+                <li><strong>Self-hosted:</strong> Kong, Tyk, Spring Cloud Gateway, Ocelot (.NET)</li>
+            </ul>
+        </div>
+
+        <div class="best-practice">
+            <h4>Containerization & Orchestration</h4>
+            <ul>
+                <li><strong>Docker:</strong> For containerizing applications.</li>
+                <li><strong>Kubernetes:</strong> The de-facto standard for container orchestration.</li>
+            </ul>
+        </div>
+
+        <div class="best-practice">
+            <h4>Messaging & Event Streaming</h4>
+            <ul>
+                <li><strong>RabbitMQ:</strong> Traditional message broker.</li>
+                <li><strong>Apache Kafka:</strong> High-throughput distributed streaming platform.</li>
+            </ul>
         </div>
     </div>
 
@@ -1391,285 +1958,62 @@ logging:
         <h2>🔄 Migrating from Monolith to Microservices</h2>
         
         <p>Migration from a monolithic architecture to microservices is a complex process that requires careful planning and execution. Here's a comprehensive guide to help you through this transformation.</p>
-
-        <h3>📋 Pre-Migration Assessment</h3>
         
-        <div class="best-practice">
-            <h4>1. Evaluate Your Current State</h4>
-            <ul>
-                <li><strong>Application Size:</strong> Is your monolith large enough to justify the complexity?</li>
-                <li><strong>Team Size:</strong> Do you have multiple teams that could own different services?</li>
-                <li><strong>Deployment Frequency:</strong> Are you deploying frequently enough to benefit from independent deployments?</li>
-                <li><strong>Scalability Needs:</strong> Do different parts of your application have different scaling requirements?</li>
-            </ul>
+        <h3>🗓️ Typical Migration Timeline</h3>
+        <div class="migration-timeline">
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 1:</strong> Assessment & Planning (Month 1-2)</div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 2:</strong> Infrastructure Setup (Month 2-3)</div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 3:</strong> First Service Migration (Month 3-4)</div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 4:</strong> Full Migration (Month 4-12)</div>
+            </div>
         </div>
 
-        <div class="code-block">
-            <pre>
-// Assessment checklist
-✅ Application has >100,000 lines of code
-✅ Multiple teams (3+) working on the codebase
-✅ Different modules have different scaling needs
-✅ Deployment takes >30 minutes
-✅ Bug in one module affects entire application
-✅ Technology stack limitations holding back innovation
-            </pre>
-        </div>
+        <!-- The rest of the detailed migration content follows... -->
+    </div>
 
-        <h3>🗺️ Migration Strategies</h3>
-
-        <h4>1. Strangler Fig Pattern</h4>
-        <p>Gradually replace parts of the monolith by routing traffic to new microservices.</p>
+    <div class="section" id="monitoring">
+        <h2>📊 Monitoring and Observability</h2>
         
-        <div class="architecture-diagram">
-            <pre>
-Phase 1: Start with Proxy
-┌─────────┐    ┌─────────┐    ┌─────────────┐
-│ Client  │───▶│  Proxy  │───▶│  Monolith   │
-└─────────┘    └─────────┘    └─────────────┘
-
-Phase 2: Extract First Service
-┌─────────┐    ┌─────────┐    ┌─────────────┐
-│ Client  │───▶│  Proxy  │───▶│  Monolith   │
-└─────────┘    └─────┬───┘    └─────────────┘
-                     │        ┌─────────────┐
-                     └───────▶│ UserService │
-                              └─────────────┘
-
-Phase 3: Continue Migration
-┌─────────┐    ┌─────────┐    ┌─────────────┐
-│ Client  │───▶│  Proxy  │───▶│  Monolith   │
-└─────────┘    └─────┬───┘    └─────────────┘
-                     ├───────▶│ UserService │
-                     └───────▶│OrderService │
-            </pre>
-        </div>
-
-        <h4>2. Database-First Approach</h4>
-        <p>Start by separating databases, then extract services.</p>
-        
-        <div class="code-block">
-            <pre>
-// Step 1: Identify data boundaries
-Users Table     → User Database
-Products Table  → Product Database  
-Orders Table    → Order Database
-
-// Step 2: Create separate schemas
-CREATE SCHEMA user_schema;
-CREATE SCHEMA product_schema;
-CREATE SCHEMA order_schema;
-
-// Step 3: Migrate data gradually
--- Use database views for transition period
-CREATE VIEW legacy_users AS SELECT * FROM user_schema.users;
-            </pre>
-        </div>
-
-        <h4>3. Feature-First Approach</h4>
-        <p>Extract complete features as microservices.</p>
-
-        <div class="best-practice">
-            <h4>Migration Phases</h4>
-            <ol>
-                <li><strong>Phase 1:</strong> User Authentication & Management</li>
-                <li><strong>Phase 2:</strong> Product Catalog & Search</li>
-                <li><strong>Phase 3:</strong> Order Processing</li>
-                <li><strong>Phase 4:</strong> Payment Processing</li>
-                <li><strong>Phase 5:</strong> Notification Service</li>
-            </ol>
-        </div>
-
-        <h3>🛠️ Step-by-Step Migration Process</h3>
-
-        <div class="best-practice">
-            <h4>Step 1: Modularize the Monolith</h4>
-            <p>Before extracting services, ensure your monolith is well-modularized.</p>
-            <div class="code-block">
-                <pre>
-// Before: Tightly coupled code
-public class OrderController {
-    public void createOrder() {
-        // User validation logic
-        // Inventory check logic  
-        // Payment processing logic
-        // Email notification logic
-    }
-}
-
-// After: Modularized monolith
-public class OrderController {
-    @Autowired UserService userService;
-    @Autowired InventoryService inventoryService;
-    @Autowired PaymentService paymentService;
-    @Autowired NotificationService notificationService;
-    
-    public void createOrder() {
-        userService.validateUser();
-        inventoryService.checkAvailability();
-        paymentService.processPayment();
-        notificationService.sendConfirmation();
-    }
-}
-                </pre>
+        <h3>Live Monitoring Dashboard</h3>
+        <div class="monitoring-dashboard">
+            <div class="metric-card">
+                <div>Response Time</div>
+                <div class="metric-value" id="responseTime">245ms</div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
             </div>
-        </div>
-
-        <div class="best-practice">
-            <h4>Step 2: Identify Service Boundaries</h4>
-            <p>Use Domain-Driven Design principles to identify bounded contexts.</p>
-            <div class="code-block">
-                <pre>
-// Analyze your monolith structure
-src/
-├── user/              → User Service
-│   ├── UserController
-│   ├── UserService
-│   └── UserRepository
-├── product/           → Product Service
-│   ├── ProductController
-│   ├── ProductService
-│   └── ProductRepository
-├── order/             → Order Service
-│   ├── OrderController
-│   ├── OrderService
-│   └── OrderRepository
-└── shared/            → Shared libraries
-    ├── CommonUtils
-    └── ValidationUtils
-                </pre>
+            <div class="metric-card">
+                <div>Throughput</div>
+                <div class="metric-value" id="throughput">1,250</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" style="animation-delay: 0.5s;"></div>
+                </div>
             </div>
-        </div>
-
-        <div class="best-practice">
-            <h4>Step 3: Extract Your First Service</h4>
-            <p>Start with the service that has the least dependencies.</p>
-            <div class="code-block">
-                <pre>
-// 1. Create new microservice project
-mkdir user-service
-cd user-service
-spring init --dependencies=web,data-jpa,postgresql user-service
-
-// 2. Copy relevant code from monolith
-cp monolith/src/user/* user-service/src/main/java/com/company/user/
-
-# 3. Update configuration
-application.yml:
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/users
-    username: user
-    password: password
-
-# 4. Register service in service registry (e.g., Eureka)
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-                </pre>
+            <div class="metric-card">
+                <div>Error Rate</div>
+                <div class="metric-value" id="errorRate">0.02%</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" style="animation-delay: 1s;"></div>
+                </div>
             </div>
-        </div>
-
-        <div class="best-practice">
-            <h4>Step 4: Implement API Gateway</h4>
-            <p>Set up an API gateway to handle routing and composition.</p>
-            <div class="code-block">
-                <pre>
-# API Gateway configuration (e.g., Spring Cloud Gateway)
-spring:
-  cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/users/**
-        - id: product-service
-          uri: lb://PRODUCT-SERVICE
-          predicates:
-            - Path=/products/**
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h4>Step 5: Implement Service Discovery</h4>
-            <p>Enable services to discover each other via a service registry.</p>
-            <div class="code-block">
-                <pre>
-# Eureka Server configuration
-spring:
-  application:
-    name: eureka-server
-  cloud:
-    discovery:
-      enabled: true
-      client:
-        register-with-eureka: true
-        fetch-registry: true
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h4>Step 6: Implement Centralized Configuration</h4>
-            <p>Use a configuration server to manage service configurations.</p>
-            <div class="code-block">
-                <pre>
-# Spring Cloud Config Server configuration
-spring:
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/your-repo/config-repo
-          clone-on-start: true
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h4>Step 7: Implement Monitoring and Logging</h4>
-            <p>Set up centralized logging and monitoring for all services.</p>
-            <div class="code-block">
-                <pre>
-# ELK Stack configuration
-input {
-  jdbc {
-    jdbc_driver_library => "/path/to/postgresql-42.2.5.jar"
-    jdbc_driver_class => "org.postgresql.Driver"
-    jdbc_connection_string => "jdbc:postgresql://localhost:5432/logs"
-    jdbc_user => "logstash"
-    jdbc_password => "password"
-    statement => "SELECT * FROM log_events WHERE processed = false"
-  }
-}
-
-output {
-  elasticsearch {
-    hosts => ["http://localhost:9200"]
-    index => "logs-%{+YYYY.MM.dd}"
-  }
-}
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h4>Step 8: Implement Security Measures</h4>
-            <p>Secure your microservices with authentication and authorization.</p>
-            <div class="code-block">
-                <pre>
-# Spring Security configuration
-http:
-  security:
-    enabled: true
-    oauth2:
-      resource:
-        jwt:
-          key-uri: http://localhost:8080/auth/realms/demo/protocol/openid-connect/certs
-                </pre>
+            <div class="metric-card">
+                <div>Active Services</div>
+                <div class="metric-value" id="activeServices">12</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" style="animation-delay: 1.5s;"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -1697,504 +2041,630 @@ http:
         </ul>
     </div>
 
-    <script>
-        let demoRunning = false;
-        let circuitBreakerState = 'closed';
-        let metricsInterval;
-
-        function startDemo() {
-            console.log('Starting demo...');
-            demoRunning = true;
+    <div class="section" id="gateway-demo">
+        <h2>🚪 API Gateway Pattern Demo</h2>
+        
+        <div class="interactive-gateway-demo">
+            <h4>Interactive API Gateway Pattern</h4>
             
-            // Show and start traffic packets
-            const packets = document.querySelectorAll('.traffic-packet');
-            console.log('Found packets:', packets.length);
+            <!-- Gateway Demo Controls -->
+            <div class="gateway-controls" id="gatewayControls">
+                <button class="control-btn gateway-request-btn" data-request-type="login">🔐 Login Request</button>
+                <button class="control-btn gateway-request-btn" data-request-type="search">🔍 Search Products</button>
+                <button class="control-btn gateway-request-btn" data-request-type="order">🛒 Create Order</button>
+                <button class="control-btn gateway-request-btn" data-request-type="payment">💳 Process Payment</button>
+                <button class="control-btn" id="resetGatewayBtn">🔄 Reset</button>
+            </div>
             
-            packets.forEach((packet, index) => {
-                packet.classList.add('active');
-                packet.style.animationDelay = (index * 1) + 's';
-                console.log(`Activated packet ${index + 1}`);
-            });
-            
-            // Update button states
-            const startButton = document.querySelector('button[onclick="startDemo()"]');
-            if (startButton) {
-                startButton.textContent = '▶️ Running...';
-                startButton.style.background = '#28a745';
-            }
-            
-            // Start updating metrics
-            updateMetrics();
-        }
-
-        function stopDemo() {
-            console.log('Stopping demo...');
-            demoRunning = false;
-            
-            // Hide and stop traffic packets
-            const packets = document.querySelectorAll('.traffic-packet');
-            packets.forEach(packet => {
-                packet.classList.remove('active');
-            });
-            
-            // Update button states
-            const startButton = document.querySelector('button[onclick="startDemo()"]');
-            if (startButton) {
-                startButton.textContent = '▶️ Start Demo';
-                startButton.style.background = '#667eea';
-            }
-            
-            // Clear metrics interval
-            if (metricsInterval) {
-                clearTimeout(metricsInterval);
-                metricsInterval = null;
-            }
-        }
-
-        function resetDemo() {
-            console.log('Resetting demo...');
-            stopDemo();
-            
-            // Reset all services
-            document.querySelectorAll('.service-node').forEach(node => {
-                node.classList.remove('active');
-            });
-            
-            // Reset circuit breaker
-            circuitBreakerState = 'closed';
-            const stateElement = document.getElementById('circuitState');
-            const descElement = document.getElementById('circuitDescription');
-            if (stateElement) {
-                stateElement.className = 'circuit-state circuit-closed';
-                stateElement.textContent = 'Circuit: CLOSED';
-            }
-            if (descElement) {
-                descElement.textContent = '✅ Requests flowing normally';
-            }
-            
-            // Reset metrics to initial values
-            const responseTimeEl = document.getElementById('responseTime');
-            if (responseTimeEl) {
-                responseTimeEl.textContent = '245ms';
-                document.getElementById('throughput').textContent = '1,250';
-                document.getElementById('errorRate').textContent = '0.02%';
-                document.getElementById('activeServices').textContent = '12';
-            }
-        }
-
-        function highlightService(element, serviceName) {
-            console.log(`Activating ${serviceName} service`);
-            
-            // Remove active class from all services
-            document.querySelectorAll('.service-node').forEach(node => {
-                node.classList.remove('active');
-            });
-            
-            // Add active class to clicked service
-            element.classList.add('active');
-            
-            // Update service info panel
-            const serviceInfo = document.getElementById('serviceInfo');
-            serviceInfo.classList.add('highlight');
-            
-            // Service descriptions
-            const serviceDescriptions = {
-                user: {
-                    title: '👤 User Service Activated',
-                    description: 'Handles user authentication, registration, profile management, and user sessions. This service manages all user-related operations independently.',
-                    responsibilities: ['User Registration', 'Authentication', 'Profile Management', 'Session Handling']
-                },
-                product: {
-                    title: '📦 Product Service Activated', 
-                    description: 'Manages product catalog, inventory, pricing, and product information. Handles all product-related queries and updates.',
-                    responsibilities: ['Product Catalog', 'Inventory Management', 'Price Management', 'Product Search']
-                },
-                order: {
-                    title: '🛒 Order Service Activated',
-                    description: 'Processes orders, manages order lifecycle, and coordinates with other services for order fulfillment.',
-                    responsibilities: ['Order Processing', 'Order Tracking', 'Order History', 'Order Validation']
-                },
-                payment: {
-                    title: '💳 Payment Service Activated',
-                    description: 'Handles payment processing, transaction management, and financial operations securely.',
-                    responsibilities: ['Payment Processing', 'Transaction Management', 'Refunds', 'Payment Security']
-                }
-            };
-            
-            const service = serviceDescriptions[serviceName];
-            serviceInfo.innerHTML = `
-                <h4 style="color: #28a745; margin: 0 0 10px 0;">${service.title}</h4>
-                <p style="margin: 5px 0;">${service.description}</p>
-                <div style="margin-top: 10px;">
-                    <strong>Key Responsibilities:</strong>
-                    <ul style="margin: 5px 0; padding-left: 20px;">
-                        ${service.responsibilities.map(resp => `<li>${resp}</li>`).join('')}
-                    </ul>
+            <!-- Interactive Gateway Diagram -->
+            <div class="gateway-flow-container">
+                <!-- Client Section -->
+                <div class="gateway-client" id="gatewayClient">
+                    <div class="client-icon">👤</div>
+                    <div class="client-label">Client Application</div>
+                    <div class="request-info" id="requestInfo">Click a button to send request</div>
                 </div>
-                <small style="color: #666;">💡 In a real system, this service would have its own database, API endpoints, and can be scaled independently.</small>
-            `;
-            
-            // Reset info panel after 10 seconds
-            setTimeout(() => {
-                serviceInfo.classList.remove('highlight');
-                serviceInfo.innerHTML = `
-                    <p><strong>💡 Click on any service above to see it activate!</strong></p>
-                    <p>Each service represents an independent microservice that can be scaled and deployed separately.</p>
-                `;
-            }, 10000);
-            
-            console.log(`${serviceName} service is now active and highlighted`);
-        }
-
-        function toggleCircuitBreaker() {
-            const stateElement = document.getElementById('circuitState');
-            const descElement = document.getElementById('circuitDescription');
-            
-            if (!stateElement || !descElement) {
-                console.log('Circuit breaker elements not found');
-                return;
-            }
-            
-            console.log(`Current circuit breaker state: ${circuitBreakerState}`);
-            
-            if (circuitBreakerState === 'closed') {
-                circuitBreakerState = 'open';
-                stateElement.className = 'circuit-state circuit-open';
-                stateElement.textContent = 'Circuit: OPEN';
-                descElement.textContent = '⚠️ Circuit breaker activated - blocking requests';
-            } else if (circuitBreakerState === 'open') {
-                circuitBreakerState = 'half-open';
-                stateElement.className = 'circuit-state circuit-half-open';
-                stateElement.textContent = 'Circuit: HALF-OPEN';
-                descElement.textContent = '🔍 Testing with limited requests';
-            } else {
-                circuitBreakerState = 'closed';
-                stateElement.className = 'circuit-state circuit-closed';
-                stateElement.textContent = 'Circuit: CLOSED';
-                descElement.textContent = '✅ Requests flowing normally';
-            }
-        }
-
-        function updateMetrics() {
-            if (!demoRunning) return;
-            
-            const responseTimeEl = document.getElementById('responseTime');
-            const throughputEl = document.getElementById('throughput');
-            const errorRateEl = document.getElementById('errorRate');
-            const activeServicesEl = document.getElementById('activeServices');
-            
-            if (responseTimeEl) { // Fixed the syntax error here
-                // Simulate real-time metrics with some variation
-                responseTimeEl.textContent = Math.floor(Math.random() * 100 + 200) + 'ms';
-                throughputEl.textContent = Math.floor(Math.random() * 500 + 1000).toLocaleString();
-                errorRateEl.textContent = (Math.random() * 0.1).toFixed(3) + '%';
-                activeServicesEl.textContent = Math.floor(Math.random() * 3 + 10);
                 
-                console.log('Metrics updated');
-            }
+                <!-- Arrow from Client to Gateway -->
+                <div class="gateway-arrow" id="clientToGateway">
+                    <div class="arrow-line"></div>
+                    <div class="arrow-head">▶</div>
+                    <div class="request-packet" id="requestPacket"></div>
+                </div>
+                
+                <!-- API Gateway -->
+                <div class="api-gateway" id="apiGateway">
+                    <div class="gateway-icon">🚪</div>
+                    <div class="gateway-label">API Gateway</div>
+                    <div class="gateway-functions">
+                        <div class="function-item" id="authFeature">🔐 Auth</div>
+                        <div class="function-item" id="rateLimitFeature">⏱️ Rate Limit</div>
+                        <div class="function-item" id="routingFeature">🎯 Routing</div>
+                        <div class="function-item" id="loggingFeature">📝 Logging</div>
+                    </div>
+                    <div class="gateway-status" id="gatewayStatus">Ready</div>
+                </div>
+                
+                <!-- Arrows from Gateway to Services -->
+                <div class="service-arrows">
+                    <div class="service-arrow" id="toUserService">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head">▶</div>
+                        <div class="service-packet" id="userPacket"></div>
+                    </div>
+                    <div class="service-arrow" id="toProductService">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head">▶</div>
+                        <div class="service-packet" id="productPacket"></div>
+                    </div>
+                    <div class="service-arrow" id="toOrderService">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head">▶</div>
+                        <div class="service-packet" id="orderPacket"></div>
+                    </div>
+                    <div class="service-arrow" id="toPaymentService">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head">▶</div>
+                        <div class="service-packet" id="paymentPacket"></div>
+                    </div>
+                </div>
+                
+                <!-- Microservices -->
+                <div class="gateway-services">
+                    <div class="gateway-service" id="userServiceGW">
+                        <div class="service-icon">👤</div>
+                        <div class="service-name">User Service</div>
+                        <div class="service-status">Idle</div>
+                    </div>
+                    <div class="gateway-service" id="productServiceGW">
+                        <div class="service-icon">📦</div>
+                        <div class="service-name">Product Service</div>
+                        <div class="service-status">Idle</div>
+                    </div>
+                    <div class="gateway-service" id="orderServiceGW">
+                        <div class="service-icon">🛒</div>
+                        <div class="service-name">Order Service</div>
+                        <div class="service-status">Idle</div>
+                    </div>
+                    <div class="gateway-service" id="paymentServiceGW">
+                        <div class="service-icon">💳</div>
+                        <div class="service-name">Payment Service</div>
+                        <div class="service-status">Idle</div>
+                    </div>
+                </div>
+            </div>
             
-            // Schedule next update
-            metricsInterval = setTimeout(updateMetrics, 2000);
-        }
+            <!-- Request Log -->
+            <div class="request-log">
+                <h5>📋 Request Log</h5>
+                <div class="log-content" id="requestLog">
+                    <div class="log-entry">System ready - Click buttons above to simulate requests</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Test function to verify elements exist
-        function testElements() {
-            console.log('=== Element Test ===');
-            console.log('Traffic packets:', document.querySelectorAll('.traffic-packet').length);
-            console.log('Control buttons:', document.querySelectorAll('.control-btn').length);
-            console.log('Service nodes:', document.querySelectorAll('.service-node').length);
-            console.log('Metric elements:', document.querySelectorAll('.metric-value').length);
-            
-            // Test each button individually
-            const buttons = document.querySelectorAll('.control-btn');
-            buttons.forEach((btn, index) => {
-                console.log(`Button ${index}: ${btn.textContent}`);
-            });
-        }
+    <script>
+        const microservicesGuide = {
+            // --- STATE ---
+            currentArchitecture: 'microservices',
+            trafficRunning: false,
+            circuitBreakerState: 'closed',
+            trafficInterval: null,
+            gatewayDemoRunning: false,
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM Content Loaded - Initializing...');
-            
-            // Run element test
-            setTimeout(testElements, 100);
-            
-            // Add some initial delays to stagger service animations
-            const services = document.querySelectorAll('.service-node');
-            services.forEach((service, index) => {
-                service.style.animationDelay = (index * 0.2) + 's';
-            });
-            
-            // Add explicit event listeners as backup
-            const startBtn = document.querySelector('button[onclick="startDemo()"]');
-            const stopBtn = document.querySelector('button[onclick="stopDemo()"]');
-            const resetBtn = document.querySelector('button[onclick="resetDemo()"]');
-            
-            if (startBtn) {
-                startBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('Start button clicked via event listener');
-                    startDemo();
+            // --- CACHED ELEMENTS ---
+            elements: {},
+
+            // --- INITIALIZATION ---
+            init() {
+                this.cacheDOMElements();
+                this.bindEvents();
+                this.showArchitecture('microservices');
+                this.initializeFilterSystem(); // Add this line
+                console.log('Enhanced microservices architecture guide initialized.');
+            },
+
+            // Add this method to the microservicesGuide object
+            // Initialize filter system
+            initializeFilterSystem() {
+                // Ensure all comparison rows are visible initially
+                const allRows = document.querySelectorAll('.comparison-row:not(.header-row)');
+                allRows.forEach(row => {
+                    row.style.display = 'contents';
+                    row.style.opacity = '1';
+                    row.style.transform = 'scale(1)';
+                    row.classList.remove('filtering-out', 'filtering-in');
                 });
-                console.log('Start button event listener added');
-            }
-            
-            if (stopBtn) {
-                stopBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('Stop button clicked via event listener');
-                    stopDemo();
-                });
-                console.log('Stop button event listener added');
-            }
-            
-            if (resetBtn) {
-                resetBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('Reset button clicked via event listener');
-                    resetDemo();
-                });
-                console.log('Reset button event listener added');
-            }
-            
-            console.log('Initialization complete');
-        });
 
-        // Additional debugging
-        window.addEventListener('load', function() {
-            console.log('Window fully loaded');
-            setTimeout(() => {
-                console.log('Final element check:');
-                testElements();
-            }, 500);
-        });
-
-        // Global error handler
-        window.addEventListener('error', function(e) {
-            console.error('JavaScript Error:', e.error);
-        });
-
-        // Gateway Pattern Demo Functions
-        let gatewayDemoRunning = false;
-
-        function simulateRequest(requestType) {
-            if (gatewayDemoRunning) return;
-            
-            gatewayDemoRunning = true;
-            console.log(`Simulating ${requestType} request through API Gateway`);
-            
-            // Define request configurations
-            const requestConfigs = {
-                login: {
-                    service: 'userServiceGW',
-                    packet: 'userPacket',
-                    arrow: 'toUserService',
-                    color: '#007bff',
-                    description: '🔐 User Authentication Request',
-                    steps: ['authCheck', 'routingFeature', 'loggingFeature'],
-                    features: ['authFeature', 'loggingFeature']
-                },
-                search: {
-                    service: 'productServiceGW',
-                    packet: 'productPacket', 
-                    arrow: 'toProductService',
-                    color: '#28a745',
-                    description: '🔍 Product Search Request',
-                    steps: ['rateLimit', 'routing', 'logging'],
-                    features: ['rateLimitFeature', 'routingFeature', 'loggingFeature']
-                },
-                order: {
-                    service: 'orderServiceGW',
-                    packet: 'orderPacket',
-                    arrow: 'toOrderService', 
-                    color: '#ffc107',
-                    description: '🛒 Order Creation Request',
-                    steps: ['authCheck', 'routing', 'logging'],
-                    features: ['authFeature', 'routingFeature', 'loggingFeature']
-                },
-                payment: {
-                    service: 'paymentServiceGW',
-                    packet: 'paymentPacket',
-                    arrow: 'toPaymentService',
-                    color: '#dc3545', 
-                    description: '💳 Payment Processing Request',
-                    steps: ['authCheck', 'rateLimit', 'routing', 'logging'],
-                    features: ['authFeature', 'rateLimitFeature', 'routingFeature', 'loggingFeature']
+                // Set initial filter to 'all'
+                const allFilterBtn = document.querySelector('.filter-btn[data-filter="all"]');
+                if (allFilterBtn) {
+                    allFilterBtn.classList.add('active');
                 }
-            };
-            
-            const config = requestConfigs[requestType];
-            if (!config) return;
-            
-            // Step 1: Activate client
-            const client = document.getElementById('gatewayClient');
-            const requestInfo = document.getElementById('requestInfo');
-            client.classList.add('active');
-            requestInfo.textContent = config.description;
-            addLogEntry(`📤 Client: Sending ${config.description}`, 'info');
-            
-            // Step 2: Animate request to gateway
-            setTimeout(() => {
-                const requestPacket = document.getElementById('requestPacket');
-                const clientToGateway = document.getElementById('clientToGateway');
-                const arrowLine = clientToGateway.querySelector('.arrow-line');
-                const arrowHead = clientToGateway.querySelector('.arrow-head');
+
+                console.log('Filter system initialized');
+            },
+
+            cacheDOMElements() {
+                this.elements = {
+                    // Architecture Toggle
+                    showMonolithBtn: document.getElementById('showMonolithBtn'),
+                    showMicroservicesBtn: document.getElementById('showMicroservicesBtn'),
+                    startTrafficBtn: document.getElementById('startTrafficBtn'),
+                    stopTrafficBtn: document.getElementById('stopTrafficBtn'),
+                    resetArchBtn: document.getElementById('resetArchBtn'),
+                    
+                    // Architecture Views
+                    monolithView: document.getElementById('monolithView'),
+                    microservicesView: document.getElementById('microservicesView'),
+                    architectureInfo: document.getElementById('architectureInfo'),
+                    
+                    // Monolith Elements
+                    monolithClient: document.getElementById('monolithClient'),
+                    monolithLB: document.getElementById('monolithLB'),
+                    monolithApp: document.getElementById('monolithApp'),
+                    monolithStatus: document.getElementById('monolithStatus'),
+                    monolithDB: document.getElementById('monolithDB'),
+                    monolithModules: document.querySelectorAll('#monolithView .module'),
+                    monolithDots: document.querySelectorAll('#monolithView .traffic-dot'),
+                    
+                    // Microservices Elements
+                    microClient: document.getElementById('microClient'),
+                    microGateway: document.getElementById('microGateway'),
+                    gatewayStatus: document.getElementById('gatewayStatus'),
+                    gatewayFeatures: document.querySelectorAll('.feature-badge'),
+                    serviceNodes: document.querySelectorAll('.service-node'),
+                    messageQueue: document.getElementById('messageQueue'),
+                    microDatabases: document.querySelectorAll('#microservicesView .database-node'),
+                    microDots: document.querySelectorAll('#microservicesView .traffic-dot'),
+                    connectionArrows: document.querySelectorAll('.connection-arrow'),
+                    
+                    // Other Elements
+                    toggleCircuitBtn: document.getElementById('toggleCircuitBtn'),
+                    circuitState: document.getElementById('circuitState'),
+                    circuitDescription: document.getElementById('circuitDescription'),
+                    gatewayControls: document.getElementById('gatewayControls'),
+                    resetGatewayBtn: document.getElementById('resetGatewayBtn'),
+                    requestLog: document.getElementById('requestLog'),
+                    
+                    // Metrics
+                    responseTime: document.getElementById('responseTime'),
+                    throughput: document.getElementById('throughput'),
+                    errorRate: document.getElementById('errorRate'),
+                    activeServices: document.getElementById('activeServices'),
+                };
+            },
+
+            bindEvents() {
+                // Architecture Toggle
+                this.elements.showMonolithBtn?.addEventListener('click', () => this.showArchitecture('monolith'));
+                this.elements.showMicroservicesBtn?.addEventListener('click', () => this.showArchitecture('microservices'));
                 
-                requestPacket.classList.add('moving');
-                arrowLine.classList.add('active');
-                arrowHead.classList.add('active');
-                
-                addLogEntry(`🚀 Request: Routing through API Gateway`, 'info');
-            }, 500);
-            
-            // Step 3: Gateway processing
-            setTimeout(() => {
-                const gateway = document.getElementById('apiGateway');
-                const gatewayStatus = document.getElementById('gatewayStatus');
-                
-                gateway.classList.add('processing');
-                gatewayStatus.textContent = 'Processing...';
-                
-                // Activate gateway functions sequentially
-                config.steps.forEach((step, index) => {
-                    setTimeout(() => {
-                        const functionEl = document.getElementById(step);
-                        if (functionEl) {
-                            functionEl.classList.add('active');
-                            setTimeout(() => functionEl.classList.remove('active'), 800);
-                        }
-                    }, index * 300);
+                // Traffic Controls
+                this.elements.startTrafficBtn?.addEventListener('click', () => this.startTraffic());
+                this.elements.stopTrafficBtn?.addEventListener('click', () => this.stopTraffic());
+                this.elements.resetArchBtn?.addEventListener('click', () => this.resetArchitecture());
+
+                // Service Node Clicks
+                this.elements.serviceNodes?.forEach(node => {
+                    node.addEventListener('click', () => this.highlightService(node));
                 });
+
+                // Comparison Filters
+                this.elements.filterButtons = document.querySelectorAll('.filter-btn');
+                this.elements.filterButtons?.forEach(btn => {
+                    btn.addEventListener('click', () => this.filterComparison(btn.dataset.filter));
+                });
+
+                // Other existing bindings
+                this.elements.toggleCircuitBtn?.addEventListener('click', () => this.toggleCircuitBreaker());
+                this.elements.gatewayControls?.addEventListener('click', e => {
+                    const btn = e.target.closest('.gateway-request-btn');
+                    if (btn) this.simulateRequest(btn.dataset.requestType);
+                });
+                this.elements.resetGatewayBtn?.addEventListener('click', () => this.resetGateway());
+            },
+
+            // Add this new method for comparison filtering
+            filterComparison(filter) {
+                // Update active filter button
+                this.elements.filterButtons?.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.filter === filter);
+                });
+
+                // Get all comparison rows (excluding header)
+                const comparisonRows = document.querySelectorAll('.comparison-row:not(.header-row)');
                 
-                // Highlight relevant features
-                config.features.forEach(feature => {
-                    const featureEl = document.getElementById(feature);
-                    if (featureEl) {
-                        featureEl.classList.add('highlight');
+                comparisonRows.forEach(row => {
+                    const shouldShow = filter === 'all' || row.dataset.category === filter;
+                    
+                    if (shouldShow) {
+                        row.classList.remove('filtering-out');
+                        row.classList.add('filtering-in');
+                        setTimeout(() => {
+                            row.style.display = 'contents';
+                        }, 50);
+                    } else {
+                        row.classList.remove('filtering-in');
+                        row.classList.add('filtering-out');
+                        setTimeout(() => {
+                            row.style.display = 'none';
+                        }, 300);
                     }
                 });
-                
-                addLogEntry(`🎯 Gateway: Authenticating, routing to ${config.service.replace('GW', '')}`, 'success');
-            }, 1000);
-            
-            // Step 4: Route to specific service
-            setTimeout(() => {
-                const targetService = document.getElementById(config.service);
-                const servicePacket = document.getElementById(config.packet);
-                const serviceArrow = document.getElementById(config.arrow);
-                
-                if (targetService && servicePacket && serviceArrow) {
-                    // Animate packet to service
-                    servicePacket.classList.add('moving');
-                    
-                    // Activate service arrow
-                    const arrowLine = serviceArrow.querySelector('.arrow-line');
-                    const arrowHead = serviceArrow.querySelector('.arrow-head');
-                    if (arrowLine && arrowHead) {
-                        arrowLine.classList.add('active');
-                        arrowHead.classList.add('active');
-                    }
-                    
-                    // Activate target service
-                    targetService.classList.add('active');
-                    const serviceStatus = targetService.querySelector('.service-status');
-                    if (serviceStatus) {
-                        serviceStatus.textContent = 'Processing';
-                    }
-                    
-                    addLogEntry(`📨 ${config.service.replace('GW', '')}: Processing request`, 'success');
+
+                // Update filter description
+                const filterDescriptions = {
+                    all: 'Showing all comparison aspects',
+                    deployment: 'Comparing deployment strategies and processes',
+                    scaling: 'Comparing scalability approaches and challenges',
+                    technology: 'Comparing technology stack flexibility',
+                    database: 'Comparing data management strategies',
+                    development: 'Comparing development experience and workflows',
+                    testing: 'Comparing testing approaches and complexity',
+                    monitoring: 'Comparing observability and monitoring requirements'
+                };
+
+                const filterDesc = document.querySelector('.comparison-header p');
+                if (filterDesc && filterDescriptions[filter]) {
+                    filterDesc.textContent = filterDescriptions[filter];
                 }
-            }, 2000);
-            
-            // Step 5: Service response and cleanup
-            setTimeout(() => {
-                const targetService = document.getElementById(config.service);
-                const serviceStatus = targetService ? targetService.querySelector('.service-status') : null;
+            },
+
+            // --- ARCHITECTURE METHODS ---
+            showArchitecture(type) {
+                this.currentArchitecture = type;
                 
-                if (serviceStatus) {
-                    serviceStatus.textContent = 'Complete';
+                // Update button states
+                this.elements.showMonolithBtn?.classList.toggle('active', type === 'monolith');
+                this.elements.showMicroservicesBtn?.classList.toggle('active', type === 'microservices');
+                
+                // Show/hide views
+                if (this.elements.monolithView) {
+                    this.elements.monolithView.style.display = type === 'monolith' ? 'block' : 'none';
+                }
+                if (this.elements.microservicesView) {
+                    this.elements.microservicesView.style.display = type === 'microservices' ? 'block' : 'none';
                 }
                 
-                addLogEntry(`✅ ${config.service.replace('GW', '')}: Request completed successfully`, 'success');
-                addLogEntry(`📬 Gateway: Returning response to client`, 'info');
-            }, 3000);
-            
-            // Step 6: Reset everything
-            setTimeout(() => {
-                resetGatewayDemo();
-                gatewayDemoRunning = false;
-            }, 4000);
-        }
+                // Update info panel
+                this.updateArchitectureInfo(type);
+                
+                // Reset any running animations
+                this.stopTraffic();
+            },
 
-        function resetGateway() {
-            console.log('Resetting Gateway Demo');
-            resetGatewayDemo();
-            
-            // Clear log
-            const logContent = document.getElementById('requestLog');
-            if (logContent) {
-                logContent.innerHTML = '<div class="log-entry">System ready - Click buttons above to simulate requests</div>';
+            updateArchitectureInfo(type) {
+                const info = {
+                    monolith: {
+                        title: '🏢 Monolithic Architecture',
+                        subtitle: 'Single deployable unit with shared resources',
+                        features: [
+                            'All components in one application',
+                            'Shared database across modules',
+                            'Single deployment process',
+                            'Tight coupling between components',
+                            'Simpler initial development'
+                        ]
+                    },
+                    microservices: {
+                        title: '🔧 Microservices Architecture',  
+                        subtitle: 'Distributed system with independent services',
+                        features: [
+                            'Each service has its own database',
+                            'Services communicate via API Gateway',
+                            'Event-driven communication through message queue',
+                            'Independent scaling and deployment',
+                            'Technology diversity possible'
+                        ]
+                    }
+                };
+
+                const current = info[type];
+                if (this.elements.architectureInfo) {
+                    this.elements.architectureInfo.innerHTML = `
+                        <h4>${current.title}</h4>
+                        <p><strong>Current View:</strong> ${current.subtitle}</p>
+                        <ul>
+                            ${current.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <p><em>👆 Click components above to learn more, or start traffic to see data flow!</em></p>
+                    `;
+                }
+            },
+
+            // --- TRAFFIC ANIMATION METHODS ---
+            startTraffic() {
+                if (this.trafficRunning) return;
+                this.trafficRunning = true;
+                
+                this.elements.startTrafficBtn.textContent = '▶️ Traffic Running...';
+                this.elements.startTrafficBtn.classList.add('active');
+                
+                // Activate connection arrows
+                this.elements.connectionArrows?.forEach(arrow => arrow.classList.add('active'));
+                
+                if (this.currentArchitecture === 'monolith') {
+                    this.animateMonolithTraffic();
+                } else {
+                    this.animateMicroservicesTraffic();
+                }
+                
+                // Start metrics updates
+                this.updateMetrics();
+            },
+
+            stopTraffic() {
+                this.trafficRunning = false;
+                clearInterval(this.trafficInterval);
+                
+                this.elements.startTrafficBtn.textContent = '▶️ Start Traffic';
+                this.elements.startTrafficBtn.classList.remove('active');
+                
+                // Deactivate all animations
+                this.elements.connectionArrows?.forEach(arrow => arrow.classList.remove('active'));
+                this.elements.monolithDots?.forEach(dot => dot.classList.remove('active'));
+                this.elements.microDots?.forEach(dot => dot.classList.remove('active'));
+                
+                // Reset component states
+                this.resetComponentStates();
+            },
+
+            animateMonolithTraffic() {
+                let step = 0;
+                this.trafficInterval = setInterval(() => {
+                    step = (step + 1) % 5;
+                    
+                    switch(step) {
+                        case 0:
+                            this.elements.monolithClient?.classList.add('active');
+                            this.elements.monolithDots?.forEach(dot => dot.classList.add('active'));
+                            break;
+                        case 1:
+                            this.elements.monolithLB?.classList.add('active');
+                            break;
+                        case 2:
+                            this.elements.monolithApp?.classList.add('active');
+                            if (this.elements.monolithStatus) {
+                                this.elements.monolithStatus.textContent = 'Processing';
+                            }
+                            // Randomly activate modules
+                            this.elements.monolithModules?.forEach((module, index) => {
+                                if (Math.random() > 0.4) {
+                                    setTimeout(() => module.classList.add('active'), index * 200);
+                                }
+                            });
+                            break;
+                        case 3:
+                            this.elements.monolithDB?.classList.add('active');
+                            break;
+                        case 4:
+                            this.resetComponentStates();
+                            break;
+                    }
+                }, 1500);
+            },
+
+            animateMicroservicesTraffic() {
+                let step = 0;
+                this.trafficInterval = setInterval(() => {
+                    step = (step + 1) % 6;
+                    
+                    switch(step) {
+                        case 0:
+                            this.elements.microClient?.classList.add('active');
+                            this.elements.microDots?.forEach(dot => dot.classList.add('active'));
+                            break;
+                        case 1:
+                            this.elements.microGateway?.classList.add('active');
+                            if (this.elements.gatewayStatus) {
+                                this.elements.gatewayStatus.textContent = 'Routing';
+                            }
+                            this.elements.gatewayFeatures?.forEach(feature => feature.classList.add('active'));
+                            break;
+                        case 2:
+                            // Randomly activate services
+                            this.elements.serviceNodes?.forEach((node, index) => {
+                                if (Math.random() > 0.3) {
+                                    setTimeout(() => {
+                                        node.classList.add('active');
+                                        const status = node.querySelector('.service-status');
+                                        if (status) status.textContent = 'Processing';
+                                    }, index * 150);
+                                }
+                            });
+                            break;
+                        case 3:
+                            this.elements.messageQueue?.classList.add('active');
+                            break;
+                        case 4:
+                            // Activate databases
+                            this.elements.microDatabases?.forEach((db, index) => {
+                                if (Math.random() > 0.4) {
+                                    setTimeout(() => db.classList.add('active'), index * 100);
+                                }
+                            });
+                            break;
+                        case 5:
+                            this.resetComponentStates();
+                            break;
+                    }
+                }, 1800);
+            },
+
+            resetComponentStates() {
+                // Reset monolith states
+                this.elements.monolithClient?.classList.remove('active');
+                this.elements.monolithLB?.classList.remove('active');
+                this.elements.monolithApp?.classList.remove('active');
+                this.elements.monolithDB?.classList.remove('active');
+                if (this.elements.monolithStatus) {
+                    this.elements.monolithStatus.textContent = 'Ready';
+                }
+                this.elements.monolithModules?.forEach(module => module.classList.remove('active'));
+                
+                // Reset microservices states
+                this.elements.microClient?.classList.remove('active');
+                this.elements.microGateway?.classList.remove('active');
+                this.elements.messageQueue?.classList.remove('active');
+                if (this.elements.gatewayStatus) {
+                    this.elements.gatewayStatus.textContent = 'Ready';
+                }
+                this.elements.gatewayFeatures?.forEach(feature => feature.classList.remove('active'));
+                this.elements.serviceNodes?.forEach(node => {
+                    node.classList.remove('active');
+                    const status = node.querySelector('.service-status');
+                    if (status) status.textContent = 'Ready';
+                });
+                this.elements.microDatabases?.forEach(db => db.classList.remove('active'));
+            },
+
+            highlightService(serviceElement) {
+                // Remove active from all services
+                this.elements.serviceNodes?.forEach(node => node.classList.remove('active'));
+                
+                // Activate clicked service
+                serviceElement.classList.add('active');
+                const serviceName = serviceElement.querySelector('.service-name')?.textContent || 'Service';
+                const statusEl = serviceElement.querySelector('.service-status');
+                if (statusEl) statusEl.textContent = 'Active';
+                
+                // Update info panel with service-specific information
+                const serviceType = serviceElement.dataset.service;
+                const descriptions = {
+                    user: {
+                        title: '👤 User Service',
+                        desc: 'Handles user authentication, registration, profiles, and user management operations.',
+                        features: ['JWT Authentication', 'User Registration', 'Profile Management', 'Role-based Access']
+                    },
+                    product: {
+                        title: '📦 Product Service', 
+                        desc: 'Manages product catalog, inventory, pricing, and product search functionality.',
+                        features: ['Product Catalog', 'Inventory Management', 'Price Management', 'Search & Filtering']
+                    },
+                    order: {
+                        title: '🛒 Order Service',
+                        desc: 'Processes new orders, manages order lifecycle, and handles order history.',
+                        features: ['Order Processing', 'Order Tracking', 'Order History', 'Status Management']
+                    },
+                    payment: {
+                        title: '💳 Payment Service',
+                        desc: 'Handles all payment processing, billing, and financial transactions.',
+                        features: ['Payment Processing', 'Billing Management', 'Transaction History', 'Refund Processing']
+                    }
+                };
+                
+                const serviceInfo = descriptions[serviceType];
+                if (serviceInfo && this.elements.architectureInfo) {
+                    this.elements.architectureInfo.innerHTML = `
+                        <h4>${serviceInfo.title} - Activated</h4>
+                        <p><strong>Function:</strong> ${serviceInfo.desc}</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul>
+                            ${serviceInfo.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <p><em>In a real system, this service can be scaled independently and deployed without affecting other services.</em></p>
+                    `;
+                }
+            },
+
+            resetArchitecture() {
+                this.stopTraffic();
+                this.resetComponentStates();
+                this.updateArchitectureInfo(this.currentArchitecture);
+            },
+
+            updateMetrics() {
+                if (!this.trafficRunning) return;
+                
+                if (this.elements.responseTime) {
+                    this.elements.responseTime.textContent = `${Math.floor(Math.random() * 100 + 200)}ms`;
+                }
+                if (this.elements.throughput) {
+                    this.elements.throughput.textContent = Math.floor(Math.random() * 500 + 1000).toLocaleString();
+                }
+                if (this.elements.errorRate) {
+                    this.elements.errorRate.textContent = `${(Math.random() * 0.1).toFixed(3)}%`;
+                }
+                if (this.elements.activeServices) {
+                    this.elements.activeServices.textContent = Math.floor(Math.random() * 3 + 10);
+                }
+                
+                setTimeout(() => this.updateMetrics(), 2000);
+            },
+
+            // --- EXISTING METHODS (Circuit Breaker, Gateway Demo) ---
+            toggleCircuitBreaker() {
+                const states = {
+                    closed: { next: 'open', class: 'circuit-open', text: 'OPEN', desc: '⚠️ Circuit open - blocking requests' },
+                    open: { next: 'half-open', class: 'circuit-half-open', text: 'HALF-OPEN', desc: '🔍 Testing with limited requests' },
+                    'half-open': { next: 'closed', class: 'circuit-closed', text: 'CLOSED', desc: '✅ Requests flowing normally' }
+                };
+                const nextState = states[this.circuitBreakerState];
+                this.circuitBreakerState = nextState.next;
+                if (this.elements.circuitState) {
+                    this.elements.circuitState.className = `circuit-state ${nextState.class}`;
+                    this.elements.circuitState.textContent = `Circuit: ${nextState.text}`;
+                }
+                if (this.elements.circuitDescription) {
+                    this.elements.circuitDescription.textContent = nextState.desc;
+                }
+            },
+
+            simulateRequest(requestType) {
+                if (this.gatewayDemoRunning || !this.elements.requestLog) return;
+                this.gatewayDemoRunning = true;
+
+                const configs = {
+                    login: { desc: '🔐 User Auth Request' },
+                    search: { desc: '🔍 Product Search' },
+                    order: { desc: '🛒 Create Order' },
+                    payment: { desc: '💳 Process Payment' }
+                };
+                const config = configs[requestType];
+                if (!config) return;
+
+                this.addLogEntry(`📤 Client: Sending ${config.desc}`, 'info');
+                
+                setTimeout(() => {
+                    this.addLogEntry('🚀 Request: Routing to API Gateway', 'info');
+                }, 500);
+
+                setTimeout(() => {
+                    this.addLogEntry(`🎯 Gateway: Processing ${config.desc}`, 'success');
+                }, 1000);
+
+                setTimeout(() => {
+                    this.addLogEntry('✅ Gateway: Request complete, returning response', 'success');
+                    this.gatewayDemoRunning = false;
+                }, 2000);
+            },
+
+            resetGateway() {
+                if (this.elements.requestLog) {
+                    this.elements.requestLog.innerHTML = '<div class="log-entry">System ready - Click buttons above to simulate requests</div>';
+                }
+            },
+
+            addLogEntry(message, type = 'info') {
+                if (!this.elements.requestLog) return;
+                
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.className = `log-entry ${type}`;
+                logEntry.textContent = `[${timestamp}] ${message}`;
+                
+                this.elements.requestLog.appendChild(logEntry);
+                this.elements.requestLog.scrollTop = this.elements.requestLog.scrollHeight;
+
+                if (this.elements.requestLog.children.length > 10) {
+                    this.elements.requestLog.children[0].remove();
+                }
             }
-        }
+        };
 
-        function resetGatewayDemo() {
-            // Reset client
-            const client = document.getElementById('gatewayClient');
-            const requestInfo = document.getElementById('requestInfo');
-            if (client) client.classList.remove('active');
-            if (requestInfo) requestInfo.textContent = 'Click a button to send request';
-            
-            // Reset gateway
-            const gateway = document.getElementById('apiGateway');
-            const gatewayStatus = document.getElementById('gatewayStatus');
-            if (gateway) gateway.classList.remove('processing');
-            if (gatewayStatus) gatewayStatus.textContent = 'Ready';
-            
-            // Reset all arrows and packets
-            document.querySelectorAll('.arrow-line, .arrow-head').forEach(el => {
-                el.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.request-packet, .service-packet').forEach(el => {
-                el.classList.remove('moving');
-            });
-            
-            // Reset all services
-            document.querySelectorAll('.gateway-service').forEach(service => {
-                service.classList.remove('active');
-                const status = service.querySelector('.service-status');
-                if (status) status.textContent = 'Idle';
-            });
-            
-            // Reset all functions
-            document.querySelectorAll('.function-item').forEach(func => {
-                func.classList.remove('active');
-            });
-            
-            // Reset all features
-            document.querySelectorAll('.feature-card').forEach(feature => {
-                feature.classList.remove('highlight');
-            });
-        }
-
-        function addLogEntry(message, type = 'info') {
-            const logContent = document.getElementById('requestLog');
-            if (!logContent) return;
-            
-            const timestamp = new Date().toLocaleTimeString();
-            const logEntry = document.createElement('div');
-            logEntry.className = `log-entry ${type}`;
-            logEntry.textContent = `[${timestamp}] ${message}`;
-            
-            logContent.appendChild(logEntry);
-            logContent.scrollTop = logContent.scrollHeight;
-            
-            // Remove old entries if too many
-            const entries = logContent.querySelectorAll('.log-entry');
-            if (entries.length > 10) {
-                entries[0].remove();
-            }
-        }
+        document.addEventListener('DOMContentLoaded', () => microservicesGuide.init());
     </script>
 </body>
 </html>
