@@ -952,47 +952,237 @@
                 max-width: 250px;
             }
         }
+
+        /* Header and Navigation Styles */
+        .main-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+
+        .pub-date {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .toc-nav {
+            margin-bottom: 40px;
+        }
+
+        .toc-nav ol {
+            padding-left: 20px;
+            text-align: left;
+        }
+
+        .toc-nav li {
+            margin: 8px 0;
+        }
+
+        .toc-nav a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc-nav a:hover {
+            color: #0056b3;
+        }
+
+        /* Card Styles for Sections */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .info-card.positive {
+            border-left: 4px solid #28a745;
+        }
+
+        .info-card.negative {
+            border-left: 4px solid #dc3545;
+        }
+
+        /* Migration Timeline */
+        .migration-timeline {
+            position: relative;
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .timeline-step:last-child .timeline-dot {
+            background: #28a745;
+        }
+
+        /* Monitoring Dashboard */
+        .monitoring-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .loading-bar {
+            position: relative;
+            width: 100%;
+            height: 8px;
+            background: rgba(0,123,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .loading-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            animation: loadingAnim 2s linear infinite;
+        }
+
+        @keyframes loadingAnim {
+            0% { width: 0%; }
+            50% { width: 100%; }
+            100% { width: 0%; }
+        }
+
+        /* Circuit Breaker Demo */
+        .circuit-breaker-demo {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .circuit-state {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .circuit-open {
+            color: #dc3545;
+        }
+
+        .circuit-half-open {
+            color: #ffc107;
+        }
+
+        .circuit-closed {
+            color: #28a745;
+        }
+
+        /* Request Log */
+        .request-log {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .log-entry {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .log-entry.info {
+            color: #007bff;
+        }
+
+        .log-entry.success {
+            color: #28a745;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
+    <header class="main-header">
         <h1>Microservices Architecture: A Complete Guide</h1>
-        <p>Best Practices, Patterns, and Implementation Strategies</p>
-        <small>Published: June 21, 2025</small>
-    </div>
+        <p class="subtitle">Best Practices, Patterns, and Implementation Strategies</p>
+        <span class="pub-date">Published: June 21, 2025</span>
+    </header>
 
-    <div class="section">
-        <h2>📖 Table of Contents</h2>
-        <ol>
-            <li><a href="#introduction">Introduction to Microservices</a></li>
-            <li><a href="#architecture">Microservices Architecture</a></li>
-            <li><a href="#benefits">Benefits and Challenges</a></li>
-            <li><a href="#best-practices">Best Practices</a></li>
-            <li><a href="#patterns">Design Patterns</a></li>
-            <li><a href="#technologies">Technology Stack</a></li>
-            <li><a href="#implementation">Implementation Guide</a></li>
-            <li><a href="#migration">Migration from Monolith</a></li>
-            <li><a href="#monitoring">Monitoring and Observability</a></li>
-            <li><a href="#conclusion">Conclusion</a></li>
-        </ol>
-    </div>
-
-    <div class="section" id="introduction">
+    <section class="section intro-section" id="introduction">
         <h2>🚀 Introduction to Microservices</h2>
-        <p>Microservices architecture is a software development approach that structures an application as a collection of loosely coupled, independently deployable services. Each service is fine-grained and implements a specific business capability.</p>
-        
-        <h3>What Are Microservices?</h3>
-        <p>Microservices break down a large application into smaller, manageable pieces that:</p>
-        <ul>
-            <li>Run in their own process</li>
-            <li>Communicate via well-defined APIs</li>
-            <li>Can be developed, deployed, and scaled independently</li>
-            <li>Are organized around business capabilities</li>
-            <li>Can use different technologies and databases</li>
-        </ul>
-    </div>
+        <div class="card-grid">
+            <div class="info-card">
+                <h3>What Are Microservices?</h3>
+                <ul>
+                    <li>Run in their own process</li>
+                    <li>Communicate via well-defined APIs</li>
+                    <li>Can be developed, deployed, and scaled independently</li>
+                    <li>Are organized around business capabilities</li>
+                    <li>Can use different technologies and databases</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>Why Microservices?</h3>
+                <p>Microservices break down a large application into smaller, manageable pieces, enabling agility, scalability, and resilience.</p>
+            </div>
+        </div>
+    </section>
 
-    <div class="section" id="architecture">
+    <section class="section" id="architecture">
         <h2>🏗️ Microservices Architecture</h2>
         
         <div class="interactive-diagram">
@@ -1221,8 +1411,735 @@
                 </div>
             </div>
             
-            <!-- Architecture Comparison - Replace the existing comparison-grid section -->
-            <div class="architecture-comparison">
+
+        </div>
+    </section>
+
+
+    <div class="section" id="benefits">
+        <h2>✅ Benefits & ❌ Challenges</h2>
+        <div class="card-grid">
+            <div class="info-card positive">
+                <h3>Benefits</h3>
+                <ul>
+                    <li>Independent Deployment</li>
+                    <li>Technology Diversity</li>
+                    <li>Scalability</li>
+                    <li>Fault Isolation</li>
+                    <li>Team Autonomy</li>
+                    <li>Faster Development</li>
+                </ul>
+            </div>
+            <div class="info-card negative">
+                <h3>Challenges</h3>
+                <ul>
+                    <li>Distributed System Complexity</li>
+                    <li>Network Latency</li>
+                    <li>Data Consistency</li>
+                    <li>Testing Complexity</li>
+                    <li>Monitoring</li>
+                    <li>Security</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="best-practices">
+        <h2>🎯 Best Practices</h2>
+
+        <div class="best-practice">
+            <h3>1. Single Responsibility Principle</h3>
+            <p>
+            Each microservice should have a single, well-defined business responsibility. This makes services easier to maintain, test, and evolve independently.
+            </p>
+            <ul>
+            <li><strong>Focus:</strong> A service should encapsulate one business capability (e.g., user management, order processing).</li>
+            <li><strong>Change Isolation:</strong> Changes in one domain should not impact unrelated services.</li>
+            <li><strong>Team Alignment:</strong> Teams can own services end-to-end, reducing cross-team dependencies.</li>
+            <li><strong>Example:</strong> Do not combine user management and order processing in the same service.</li>
+            </ul>
+            <div class="code-block">
+            <strong>Good:</strong> UserService handles user registration, authentication, and profile management<br>
+            <strong>Bad:</strong> UserService handles users, orders, and inventory management
+            </div>
+            <p>
+            <em>Tip: Use Domain-Driven Design (DDD) to help identify clear service boundaries and responsibilities.</em>
+            </p>
+        </div>
+
+        <div class="best-practice">
+            <h3>2. Database Per Service</h3>
+            <p>
+            Each microservice should have exclusive ownership of its own database. This ensures loose coupling, enables independent scaling, and prevents accidental cross-service data dependencies. Avoid sharing databases or tables between services, as this leads to tight coupling and makes independent deployment and scaling difficult.
+            </p>
+            <ul>
+            <li><strong>Autonomy:</strong> Each service can choose the database type (SQL, NoSQL, etc.) that best fits its needs.</li>
+            <li><strong>Encapsulation:</strong> Only the owning service can access its database directly. Other services must use APIs to request data.</li>
+            <li><strong>Data Consistency:</strong> Use eventual consistency and asynchronous messaging for cross-service data flows.</li>
+            <li><strong>Migration:</strong> When splitting a monolith, gradually extract tables and logic into new service-specific databases.</li>
+            </ul>
+            <div class="code-block">
+            <pre>
+# Each service has its own database
+# UserService → UserDB (PostgreSQL)
+# ProductService → ProductDB (MongoDB)
+# OrderService → OrderDB (MySQL)
+            </pre>
+            </div>
+            <p>
+            <strong>Example:</strong> If the <code>OrderService</code> needs user information, it should call the <code>UserService</code> API, not query the <code>UserDB</code> directly.
+            </p>
+            <div class="code-block">
+            <pre>
+# Good: Service-to-service API call
+# OrderService --(REST/gRPC)--> UserService --(DB query)--> UserDB
+
+# Bad: Direct DB access (anti-pattern)
+# OrderService --(SQL query)--> UserDB  ✗
+            </pre>
+            </div>
+            <p>
+            <em>Tip: Use asynchronous events (e.g., "UserCreated") to propagate data changes between services when needed.</em>
+            </p>
+        </div>
+
+        <div class="best-practice">
+            <h3>3. API Design and Versioning</h3>
+            <p>
+            Design APIs with versioning and clear contracts to ensure backward compatibility and smooth evolution of your services. Good API design is critical for microservices, as changes can impact many consumers.
+            </p>
+            <ul>
+            <li><strong>Versioning:</strong> Always version your APIs from the start (e.g., <code>/api/v1/</code>), even if you only have one version initially.</li>
+            <li><strong>Backward Compatibility:</strong> Avoid breaking changes. Add new fields as optional, and never remove or change the meaning of existing fields in a version.</li>
+            <li><strong>Deprecation Policy:</strong> Communicate deprecated endpoints and provide a migration path for clients.</li>
+            <li><strong>Consistent Naming:</strong> Use consistent resource naming and HTTP methods (GET, POST, PUT, DELETE).</li>
+            <li><strong>Documentation:</strong> Use OpenAPI/Swagger for clear, machine-readable API documentation.</li>
+            </ul>
+            <div class="code-block">
+            <pre>
+# RESTful API versioning in URL (Flask example)
+@app.route('/api/v1/users', methods=['GET'])
+def get_users_v1():
+    ...
+
+@app.route('/api/v1/orders', methods=['POST'])
+def create_order_v1():
+    ...
+
+# Versioning in HTTP headers (alternative)
+# GET /users
+# Accept: application/vnd.company.users.v2+json
+
+# Semantic versioning for service images
+# user-service:1.2.3
+# product-service:2.0.1
+            </pre>
+            </div>
+            <p><strong>Example: Evolving a User API</strong></p>
+            <div class="code-block">
+            <pre>
+# v1: Initial version
+@app.route('/api/v1/users/&lt;user_id&gt;', methods=['GET'])
+def get_user_v1(user_id):
+    return jsonify({"id": user_id, "name": "Alice"})
+
+# v2: Add new optional field (non-breaking)
+@app.route('/api/v2/users/&lt;user_id&gt;', methods=['GET'])
+def get_user_v2(user_id):
+    return jsonify({"id": user_id, "name": "Alice", "email": "alice@example.com"})
+
+# Breaking change (should be avoided in v2)
+# {
+#   "userId": "123",  # renamed field (breaking)
+#   "fullName": "Alice Smith"  # renamed field (breaking)
+# }
+            </pre>
+            </div>
+            <p>
+            <em>Tip: Prefer additive changes and avoid removing or renaming fields in existing API versions. For breaking changes, introduce a new version (e.g., <code>/api/v2/</code>).</em>
+            </p>
+            <p>
+            <strong>Tools:</strong> <a href="https://swagger.io/" target="_blank">Swagger/OpenAPI</a>, <a href="https://stoplight.io/" target="_blank">Stoplight</a>, <a href="https://apicur.io/" target="_blank">Apicurio</a>
+            </p>
+        </div>
+
+        <div class="best-practice">
+            <h3>4. Circuit Breaker Pattern</h3>
+            <p>
+            The Circuit Breaker pattern protects your system from cascading failures by stopping calls to a failing service and allowing it to recover. When failures reach a threshold, the circuit "opens" and further calls fail fast. After a timeout, the circuit enters a "half-open" state to test if the service has recovered.
+            </p>
+            <ul>
+            <li><strong>Closed:</strong> Requests flow normally. Failures are counted.</li>
+            <li><strong>Open:</strong> Requests fail immediately without calling the service.</li>
+            <li><strong>Half-Open:</strong> Limited requests are allowed to test recovery.</li>
+            </ul>
+            <div class="code-block">
+            <pre>
+# Example with pybreaker (Python)
+import pybreaker
+
+circuit_breaker = pybreaker.CircuitBreaker(fail_max=5, reset_timeout=30)
+
+@circuit_breaker
+def get_product(id):
+    # Call to external product service
+    return product_service_client.get_product(id)
+
+def fallback_product(id, exc):
+    # Return cached/default product or error response
+    return {"id": id, "name": "Unavailable", "price": 0}
+            </pre>
+            </div>
+            <p>
+            <strong>When to use:</strong> For remote calls to external services or databases that may become unresponsive.<br>
+            <strong>Benefits:</strong> Improves system resilience, prevents resource exhaustion, and enables graceful degradation.
+            </p>
+            <p>
+            <em>Tip: Combine with monitoring and alerting to detect when circuits open and trigger investigation.</em>
+            </p>
+        </div>
+
+        <div class="best-practice">
+            <h3>5. Asynchronous Communication</h3>
+            <p>
+            Use message queues and event-driven architecture to decouple services, improve scalability, and increase resilience. Asynchronous communication allows services to interact without waiting for immediate responses, reducing dependencies and enabling better fault tolerance.
+            </p>
+            <ul>
+            <li><strong>Loose Coupling:</strong> Services publish events to a message broker (e.g., RabbitMQ, Kafka) instead of calling each other directly.</li>
+            <li><strong>Scalability:</strong> Consumers can scale independently based on message load.</li>
+            <li><strong>Resilience:</strong> If a consumer is down, messages are queued and processed when it recovers.</li>
+            <li><strong>Event-Driven Workflows:</strong> Enables complex business processes to be coordinated via events.</li>
+            </ul>
+            <div class="code-block">
+            <pre>
+# Event-driven communication example (using pika for RabbitMQ)
+import pika, json
+
+# OrderService publishes "OrderCreated" event
+def publish_order_created(order):
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    channel = connection.channel()
+    channel.basic_publish(
+        exchange='orders',
+        routing_key='order.created',
+        body=json.dumps(order)
+    )
+    connection.close()
+
+# InventoryService subscribes to "OrderCreated"
+def on_order_created(ch, method, properties, body):
+    event = json.loads(body)
+    reserve_items(event['orderId'], event['items'])
+    publish_inventory_reserved(event['orderId'])
+
+# PaymentService subscribes to "OrderCreated"
+def on_order_created_payment(ch, method, properties, body):
+    event = json.loads(body)
+    process_payment(event['orderId'], event['paymentInfo'])
+    publish_payment_processed(event['orderId'])
+
+# ShippingService subscribes to "InventoryReserved" and "PaymentProcessed"
+# Wait for both events before shipping
+            </pre>
+            </div>
+            <p>
+            <strong>Example:</strong> When an order is placed, the <code>OrderService</code> emits an <code>OrderCreated</code> event. <code>InventoryService</code> and <code>PaymentService</code> listen for this event and process inventory and payment in parallel. Once both are complete, <code>ShippingService</code> is notified to ship the order.
+            </p>
+            <p>
+            <em>Tip: Use idempotent event handlers to safely process duplicate events, and ensure reliable message delivery with persistent queues.</em>
+            </p>
+        </div>
+
+        <div class="best-practice">
+            <h3>6. Health Checks and Monitoring</h3>
+            <p>
+            Implementing robust health checks and comprehensive monitoring is essential for maintaining reliability and quickly detecting issues in a microservices environment.
+            </p>
+            <ul>
+            <li><strong>Liveness Checks:</strong> Verify if the service is running and able to respond to requests (e.g., <code>/healthz</code> endpoint).</li>
+            <li><strong>Readiness Checks:</strong> Ensure the service is ready to receive traffic (e.g., dependencies are available, DB connections established).</li>
+            <li><strong>Dependency Health:</strong> Check the status of downstream services, databases, caches, and message brokers.</li>
+            <li><strong>Metrics Collection:</strong> Gather key metrics such as response times, error rates, throughput, and resource usage.</li>
+            <li><strong>Centralized Logging:</strong> Aggregate logs from all services for easier troubleshooting.</li>
+            <li><strong>Alerting:</strong> Set up alerts for failures, high latency, or resource exhaustion.</li>
+            </ul>
+            <div class="code-block">
+            <pre>
+# Example: Flask health endpoint
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/healthz')
+def healthz():
+    # Check DB, cache, etc.
+    return jsonify(status="UP", db="UP", redis="UP")
+
+# Example: Kubernetes liveness and readiness probes
+# livenessProbe:
+#   httpGet:
+#     path: /healthz
+#     port: 8080
+#   initialDelaySeconds: 10
+#   periodSeconds: 5
+
+# readinessProbe:
+#   httpGet:
+#     path: /ready
+#     port: 8080
+#   initialDelaySeconds: 5
+#   periodSeconds: 5
+            </pre>
+            </div>
+            <p>
+            <strong>Monitoring Tools:</strong> <a href="https://prometheus.io/" target="_blank">Prometheus</a>, <a href="https://grafana.com/" target="_blank">Grafana</a>, <a href="https://www.elastic.co/observability" target="_blank">ELK Stack</a>, <a href="https://www.datadoghq.com/" target="_blank">Datadog</a>, <a href="https://opentelemetry.io/" target="_blank">OpenTelemetry</a>
+            </p>
+            <p>
+            <em>Tip: Expose standardized health endpoints and metrics for all services, and use dashboards to visualize system health and trends.</em>
+            </p>
+        </div>
+
+        <div class="best-practice">
+            <h3>7. Security Best Practices</h3>
+            <p>
+                Security is critical in microservices due to the distributed nature and increased attack surface. Each service should be secured independently, and security should be considered at every layer.
+            </p>
+            <ul>
+                <li><strong>Authentication:</strong> Use JWT (JSON Web Tokens) for stateless authentication between services and clients.</li>
+                <li><strong>Authorization:</strong> Implement OAuth 2.0 or OpenID Connect for delegated authorization and single sign-on.</li>
+                <li><strong>Transport Security:</strong> Encrypt all traffic between services using TLS/SSL.</li>
+                <li><strong>Data Protection:</strong> Encrypt sensitive data both in transit and at rest (e.g., using database encryption features).</li>
+                <li><strong>API Rate Limiting:</strong> Prevent abuse and DoS attacks by limiting the number of requests per client/IP.</li>
+                <li><strong>Input Validation:</strong> Validate and sanitize all incoming data to prevent injection attacks.</li>
+                <li><strong>Logging:</strong> Log security events, but never log sensitive data such as passwords or tokens.</li>
+                <li><strong>Secrets Management:</strong> Store secrets (API keys, DB passwords) in secure vaults, not in code or config files.</li>
+                <li><strong>Zero Trust:</strong> Do not trust internal network traffic by default; authenticate and authorize every request.</li>
+            </ul>
+            <div class="code-block">
+                <pre>
+# Example: JWT authentication in Python (Flask)
+from flask import request, jsonify
+import jwt
+
+def authenticate_jwt(f):
+    def wrapper(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            token = auth_header.split(' ')[1]
+            try:
+                user = jwt.decode(token, 'your_jwt_secret', algorithms=['HS256'])
+                request.user = user
+            except jwt.InvalidTokenError:
+                return jsonify({'error': 'Forbidden'}), 403
+            return f(*args, **kwargs)
+        else:
+            return jsonify({'error': 'Unauthorized'}), 401
+    return wrapper
+
+@app.route('/orders')
+@authenticate_jwt
+def get_orders():
+    # Only authenticated users can access
+    return jsonify(get_orders_for_user(request.user['id']))
+                </pre>
+            </div>
+            <div class="code-block">
+                <pre>
+# Example: Kubernetes secret for DB password
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  password: cGFzc3dvcmQxMjM=  # base64 encoded
+
+# Mount as environment variable in deployment
+env:
+  - name: DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: password
+                </pre>
+            </div>
+            <p>
+                <em>Tip: Regularly audit dependencies for vulnerabilities and keep all libraries up to date. Use tools like <a href="https://owasp.org/www-project-dependency-check/" target="_blank">OWASP Dependency-Check</a> and <a href="https://snyk.io/" target="_blank">Snyk</a>.</em>
+            </p>
+        </div>
+
+        <div class="best-practice">
+            <h3>8. Configuration Management</h3>
+            <p>
+            Externalize configuration from your codebase and manage environment-specific settings centrally. This enables you to change configuration (such as database URLs, API keys, feature flags, or credentials) without rebuilding or redeploying your services. Good configuration management is essential for portability, security, and operational agility in microservices.
+            </p>
+            <ul>
+            <li><strong>Environment Variables:</strong> Store secrets and environment-specific values outside the code (e.g., in environment variables or secret stores).</li>
+            <li><strong>Centralized Configuration:</strong> Use a configuration server or service (e.g., <a href="https://cloud.spring.io/spring-cloud-config/" target="_blank">Spring Cloud Config</a>, <a href="https://www.consul.io/" target="_blank">Consul</a>, <a href="https://etcd.io/" target="_blank">etcd</a>) to manage and distribute configuration to all services.</li>
+            <li><strong>Dynamic Reload:</strong> Support reloading configuration at runtime without restarting services, if possible.</li>
+            <li><strong>Secrets Management:</strong> Store sensitive values (API keys, passwords) in secure vaults (e.g., <a href="https://www.vaultproject.io/" target="_blank">HashiCorp Vault</a>, AWS Secrets Manager).</li>
+            <li><strong>Immutable Infrastructure:</strong> Keep configuration separate from container images and code artifacts.</li>
+            </ul>
+            <div class="code-block">
+            <pre>
+# Example: Python config using environment variables
+import os
+
+DB_URL = os.environ.get('DB_URL')
+DB_USER = os.environ.get('DB_USER')
+DB_PASSWORD = os.environ.get('DB_PASSWORD')
+
+# .env.development
+# DB_URL=postgresql://localhost:5432/devdb
+# DB_USER=devuser
+# DB_PASSWORD=devpass
+
+# .env.production
+# DB_URL=postgresql://prod-db.company.com:5432/proddb
+# DB_USER=produser
+# DB_PASSWORD=prodpass
+            </pre>
+            </div>
+            <div class="code-block">
+            <pre>
+# Example: Kubernetes ConfigMap and Secret
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  FEATURE_FLAG: "true"
+  LOG_LEVEL: "INFO"
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  password: cHJvZHBhc3M=  # base64 encoded
+
+# Mount in Deployment
+env:
+  - name: FEATURE_FLAG
+    valueFrom:
+      configMapKeyRef:
+        name: app-config
+        key: FEATURE_FLAG
+  - name: DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: password
+            </pre>
+            </div>
+            <p>
+            <em>Tip: Never commit secrets or environment-specific configuration to source control. Use configuration management tools and secret stores for secure, scalable, and maintainable configuration.</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="section" id="patterns">
+        <h2>🎨 Design Patterns</h2>
+        <p>Design patterns provide reusable solutions to common problems in microservices architecture. Understanding these patterns is key to building robust, scalable, and maintainable systems.</p>
+
+        <div class="best-practice">
+            <h3>1. API Gateway Pattern</h3>
+            <p>The API Gateway acts as a single entry point for all client requests, routing them to the appropriate downstream microservice. This pattern simplifies the client by providing a single endpoint and can handle cross-cutting concerns like authentication, rate limiting, and logging.</p>
+            <div class="code-block">
+                <pre>
+Client Request → [API Gateway] → Service A
+                              → Service B
+                              → Service C
+
+// The gateway aggregates responses from multiple services if needed.
+// (This is demonstrated in the interactive diagram in the Architecture section)
+                </pre>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>2. Service Registry and Discovery Pattern</h3>
+            <p>In a dynamic microservices environment, service instances are constantly being created and destroyed. This pattern provides a central "phone book" (Service Registry) where services register their locations. Other services can then query the registry (Service Discovery) to find out how to communicate with them.</p>
+            <div class="code-block">
+                <pre>
+// 1. Service Registration
+ProductService (instance 1) → Registers at 10.1.2.3:8080 with Registry
+ProductService (instance 2) → Registers at 10.1.2.4:8080 with Registry
+
+// 2. Service Discovery
+OrderService needs Product info → Asks Registry for "ProductService"
+Registry returns → [10.1.2.3:8080, 10.1.2.4:8080]
+OrderService then calls one of the available instances.
+
+// Popular Tools: Netflix Eureka, Consul, Zookeeper
+                </pre>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>3. Saga Pattern</h3>
+            <p>Sagas are used to manage data consistency across multiple services in a distributed transaction. Since two-phase commits are not practical in microservices, a saga uses a sequence of local transactions. If one transaction fails, the saga executes compensating transactions to undo the preceding work.</p>
+            
+            <h4>Choreography-Based Saga (Event-Driven)</h4>
+            <p>Services communicate by publishing and listening to events. There is no central coordinator.</p>
+            <div class="code-block">
+                <pre>
+// Choreography-based saga for an e-commerce order
+1. OrderService creates order → Publishes "OrderCreated" event
+2. PaymentService listens for "OrderCreated" → Processes payment → Publishes "PaymentProcessed" event
+3. InventoryService listens for "PaymentProcessed" → Reserves items → Publishes "ItemsReserved" event
+4. ShippingService listens for "ItemsReserved" → Schedules delivery → Publishes "DeliveryScheduled" event
+
+// If PaymentService fails, it publishes a "PaymentFailed" event.
+// OrderService listens for "PaymentFailed" and executes a compensating transaction (e.g., cancels the order).
+                </pre>
+            </div>
+
+            <h4>Orchestration-Based Saga</h4>
+            <p>A central orchestrator service is responsible for telling the other services what to do and when. It manages the entire sequence of transactions.</p>
+             <div class="code-block">
+                <pre>
+// Orchestration-based saga for an e-commerce order
+1. Client sends "CreateOrder" request to OrderOrchestrator.
+2. OrderOrchestrator → calls PaymentService to process payment.
+3. PaymentService responds → Orchestrator calls InventoryService to reserve items.
+4. InventoryService responds → Orchestrator calls ShippingService to schedule delivery.
+5. Orchestrator confirms order completion.
+
+// If any step fails, the Orchestrator is responsible for calling compensating
+// transactions in reverse order (e.g., refund payment, release inventory).
+                </pre>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>4. Circuit Breaker Pattern</h3>
+            <p>This pattern prevents an application from repeatedly trying to execute an operation that is likely to fail. After a configured number of failures, the circuit "opens," and subsequent calls fail immediately without attempting the operation. After a timeout, the circuit goes into a "half-open" state to test if the underlying problem is resolved.</p>
+            
+            <h4>Circuit Breaker Pattern Demo</h4>
+            <div class="circuit-breaker-demo">
+                <div class="control-panel">
+                    <button id="toggleCircuitBtn" class="control-btn">Toggle Circuit Breaker State</button>
+                </div>
+                <div id="circuitState" class="circuit-state circuit-closed">Circuit: CLOSED</div>
+                <div id="circuitDescription">✅ Requests are flowing normally to the service.</div>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>5. Strangler Fig Pattern</h3>
+            <p>This pattern is used for incrementally migrating a legacy monolith to a microservices architecture. A facade is placed in front of the monolith, which intercepts requests. Initially, it routes all traffic to the monolith. Over time, as new microservices are built to replace parts of the monolith, the facade is updated to route specific requests to the new services, gradually "strangling" the monolith.</p>
+            <div class="code-block">
+                <pre>
+// Initial State
+User Request → [Facade] → Monolith (handles all logic)
+
+// Migration Step 1: User Service is extracted
+User Request for "/profile" → [Facade] → New UserService
+User Request for "/orders"  → [Facade] → Monolith
+
+// Final State
+User Request → [Facade] → All requests routed to various microservices
+                       → Monolith is eventually retired
+                </pre>
+            </div>
+        </div>
+
+        <div class="best-practice">
+            <h3>6. Command Query Responsibility Segregation (CQRS)</h3>
+            <p>CQRS separates the models for reading data (Queries) from the models for updating data (Commands). This is useful because the requirements for reading data (e.g., complex joins, denormalized views) are often very different from the requirements for writing data (e.g., normalized, consistent models).</p>
+             <div class="code-block">
+                <pre>
+// Write Side (Commands)
+[Client] → sends "UpdateUserAddressCommand" → [Command Handler] → Updates Write Database
+
+// Read Side (Queries)
+[Client] → sends "GetUserProfileQuery" → [Query Handler] → Reads from Read Database (Optimized for reads)
+
+// Data is synchronized from the Write DB to the Read DB, often via events.
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="technologies">
+        <h2>🛠️ Technology Stack</h2>
+        <p>Choosing the right technology stack is crucial for a successful microservices architecture. The choice often depends on the team's expertise, the specific requirements of the service, and the overall ecosystem. Here are some popular choices:</p>
+        
+        <div class="best-practice">
+            <h4>Service Development</h4>
+            <ul>
+                <li><strong>Java:</strong> Spring Boot, Quarkus, Micronaut</li>
+                <li><strong>JavaScript/Node.js:</strong> Express, NestJS</li>
+                <li><strong>Python:</strong> Flask, FastAPI</li>
+                <li><strong>Go:</strong> Gin, Go-kit</li>
+                <li><strong>.NET:</strong> ASP.NET Core</li>
+            </ul>
+        </div>
+
+        <div class="best-practice">
+            <h4>API Gateway</h4>
+            <ul>
+                <li><strong>Managed:</strong> Amazon API Gateway, Azure API Management, Google Cloud API Gateway</li>
+                <li><strong>Self-hosted:</strong> Kong, Tyk, Spring Cloud Gateway, Ocelot (.NET)</li>
+            </ul>
+        </div>
+
+        <div class="best-practice">
+            <h4>Containerization & Orchestration</h4>
+            <ul>
+                <li><strong>Docker:</strong> For containerizing applications.</li>
+                <li><strong>Kubernetes:</strong> The de-facto standard for container orchestration.</li>
+            </ul>
+        </div>
+
+        <div class="best-practice">
+            <h4>Messaging & Event Streaming</h4>
+            <ul>
+                <li><strong>RabbitMQ:</strong> Traditional message broker.</li>
+                <li><strong>Apache Kafka:</strong> High-throughput distributed streaming platform.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section" id="implementation">
+        <h2>🔧 Implementation Guide</h2>
+
+        <h3>Step 1: Start with a Monolith</h3>
+        <p>Begin with a well-structured monolith and gradually extract services.</p>
+
+        <h3>Step 2: Identify Service Boundaries</h3>
+        <p>Use Domain-Driven Design (DDD) to identify bounded contexts.</p>
+        <div class="code-block">
+            <pre>
+// Example service boundaries
+User Management Context → UserService
+Product Catalog Context → ProductService
+Order Management Context → OrderService
+Payment Context → PaymentService
+            </pre>
+        </div>
+
+        <h3>Step 3: Setup Infrastructure</h3>
+        <div class="code-block">
+            <pre>
+# Docker Compose example
+version: '3.8'
+services:
+  api-gateway:
+    image: nginx:alpine
+    ports: ["80:80"]
+    
+  user-service:
+    build: ./user-service
+    environment:
+      - DB_HOST=user-db
+    depends_on: [user-db]
+    
+  user-db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=users
+            </pre>
+        </div>
+
+        <h3>Step 4: Implement Service Communication</h3>
+        <div class="code-block">
+            <pre>
+// REST API communication
+@RestController
+public class UserController {
+    
+    @Autowired
+    private OrderServiceClient orderServiceClient;
+    
+    @GetMapping("/users/{id}/orders")
+    public List&lt;Order&gt; getUserOrders(@PathVariable String id) {
+        return orderServiceClient.getOrdersByUserId(id);
+    }
+}
+            </pre>
+        </div>
+
+        <h3>Step 5: Add Observability</h3>
+        <div class="code-block">
+            <pre>
+// Logging configuration
+logging:
+  level:
+    com.company: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level [%X{traceId}] %logger{36} - %msg%n"
+            </pre>
+        </div>
+    </div>
+
+    <div class="section" id="migration">
+        <h2>🔄 Migrating from Monolith to Microservices</h2>
+        
+        <p>Migration from a monolithic architecture to microservices is a complex process that requires careful planning and execution. Here's a comprehensive guide to help you through this transformation.</p>
+        
+        <h3>🗓️ Typical Migration Timeline</h3>
+        <div class="migration-timeline">
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 1:</strong> Assessment & Planning (Month 1-2)</div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 2:</strong> Infrastructure Setup (Month 2-3)</div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 3:</strong> First Service Migration (Month 3-4)</div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div><strong>Phase 4:</strong> Full Migration (Month 4-12)</div>
+            </div>
+        </div>
+
+        <!-- The rest of the detailed migration content follows... -->
+    </div>
+
+    <div class="section" id="monitoring">
+        <h2>📊 Monitoring and Observability</h2>
+        
+        <h3>Live Monitoring Dashboard</h3>
+        <div class="monitoring-dashboard">
+            <div class="metric-card">
+                <div>Response Time</div>
+                <div class="metric-value" id="responseTime">245ms</div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div>Throughput</div>
+                <div class="metric-value" id="throughput">1,250</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" style="animation-delay: 0.5s;"></div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div>Error Rate</div>
+                <div class="metric-value" id="errorRate">0.02%</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" style="animation-delay: 1s;"></div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div>Active Services</div>
+                <div class="metric-value" id="activeServices">12</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" style="animation-delay: 1.5s;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="architecture-comparison">
                 <div class="comparison-header">
                     <h4>⚖️ Architecture Comparison</h4>
                     <p>Understanding the key differences between Monolithic and Microservices architectures</p>
@@ -1547,603 +2464,35 @@
                         <button class="filter-btn" data-filter="monitoring">📊 Monitoring</button>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <h3>Key Architecture Components</h3>
-        <div class="components-grid">
-            <div class="component-card">
-                <div class="component-icon">🚪</div>
-                <h4>API Gateway</h4>
-                <p>Single entry point for all client requests with routing, authentication, and rate limiting.</p>
-            </div>
-            <div class="component-card">
-                <div class="component-icon">🔍</div>
-                <h4>Service Discovery</h4>
-                <p>Automatic detection and registration of service instances for dynamic communication.</p>
-            </div>
-            <div class="component-card">
-                <div class="component-icon">📬</div>
-                <h4>Message Queue</h4>
-                <p>Asynchronous communication between services using events and messages.</p>
-            </div>
-            <div class="component-card">
-                <div class="component-icon">📊</div>
-                <h4>Monitoring</h4>
-                <p>Centralized logging, metrics collection, and distributed tracing across services.</p>
-            </div>
-        </div>
     </div>
-
-    <div class="section" id="benefits">
-        <h2>⚖️ Benefits and Challenges</h2>
-        
-        <div class="pros-cons">
-            <div class="pros">
-                <h3>✅ Benefits</h3>
-                <ul>
-                    <li><strong>Independent Deployment:</strong> Deploy services separately</li>
-                    <li><strong>Technology Diversity:</strong> Use different tech stacks</li>
-                    <li><strong>Scalability:</strong> Scale individual services</li>
-                    <li><strong>Fault Isolation:</strong> Failures don't affect entire system</li>
-                    <li><strong>Team Autonomy:</strong> Small teams can work independently</li>
-                    <li><strong>Faster Development:</strong> Parallel development possible</li>
-                </ul>
-            </div>
-            
-            <div class="cons">
-                <h3>❌ Challenges</h3>
-                <ul>
-                    <li><strong>Complexity:</strong> Distributed system complexity</li>
-                    <li><strong>Network Latency:</strong> Inter-service communication overhead</li>
-                    <li><strong>Data Consistency:</strong> Managing distributed transactions</li>
-                    <li><strong>Testing:</strong> Integration testing complexity</li>
-                    <li><strong>Monitoring:</strong> Observing distributed systems</li>
-                    <li><strong>Security:</strong> Multiple attack surfaces</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="section" id="best-practices">
-        <h2>🎯 Best Practices</h2>
-
-        <div class="best-practice">
-            <h3>1. Single Responsibility Principle</h3>
-            <p>Each microservice should have a single reason to change and should be responsible for one business capability.</p>
-            <div class="code-block">
-                <strong>Good:</strong> UserService handles user registration, authentication, and profile management<br>
-                <strong>Bad:</strong> UserService handles users, orders, and inventory management
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>2. Database Per Service</h3>
-            <p>Each service should own its data and database. Avoid shared databases between services.</p>
-            <div class="code-block">
-                <pre>
-// Each service has its own database
-UserService → UserDB (PostgreSQL)
-ProductService → ProductDB (MongoDB)
-OrderService → OrderDB (MySQL)
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>3. API Design and Versioning</h3>
-            <p>Design APIs with versioning in mind to ensure backward compatibility.</p>
-            <div class="code-block">
-                <pre>
-// RESTful API versioning
-GET /api/v1/users
-GET /api/v2/users
-
-// Semantic versioning for services
-user-service:1.2.3
-product-service:2.0.1
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>4. Circuit Breaker Pattern</h3>
-            <p>Implement circuit breakers to prevent cascading failures.</p>
-            <div class="code-block">
-                <pre>
-// Example with resilience4j
-@CircuitBreaker(name = "product-service")
-public Product getProduct(String id) {
-    return productServiceClient.getProduct(id);
-}
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>5. Asynchronous Communication</h3>
-            <p>Use message queues and event-driven architecture for loose coupling.</p>
-            <div class="code-block">
-                <pre>
-// Event-driven communication
-OrderCreated → [Message Queue] → InventoryService
-                              → PaymentService
-                              → ShippingService
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>6. Health Checks and Monitoring</h3>
-            <p>Implement health checks and comprehensive monitoring for all services.</p>
-            <div class="code-block">
-                <pre>
-// Spring Boot Actuator health endpoint
-GET /actuator/health
-{
-  "status": "UP",
-  "components": {
-    "db": {"status": "UP"},
-    "redis": {"status": "UP"}
-  }
-}
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>7. Security Best Practices</h3>
-            <ul>
-                <li>Use JWT tokens for authentication</li>
-                <li>Implement OAuth 2.0 for authorization</li>
-                <li>Encrypt sensitive data in transit and at rest</li>
-                <li>Use API rate limiting</li>
-                <li>Implement proper logging without sensitive data</li>
-            </ul>
-        </div>
-
-        <div class="best-practice">
-            <h3>8. Configuration Management</h3>
-            <p>Externalize configuration and use environment-specific settings.</p>
-            <div class="code-block">
-                <pre>
-// Environment-specific configuration
-development:
-  database.url: localhost:5432
-  
-production:
-  database.url: prod-db.company.com:5432
-                </pre>
-            </div>
-        </div>
-    </div>
-
-    <div class="section" id="patterns">
-        <h2>🎨 Design Patterns</h2>
-        <p>Design patterns provide reusable solutions to common problems in microservices architecture. Understanding these patterns is key to building robust, scalable, and maintainable systems.</p>
-
-        <div class="best-practice">
-            <h3>1. API Gateway Pattern</h3>
-            <p>The API Gateway acts as a single entry point for all client requests, routing them to the appropriate downstream microservice. This pattern simplifies the client by providing a single endpoint and can handle cross-cutting concerns like authentication, rate limiting, and logging.</p>
-            <div class="code-block">
-                <pre>
-Client Request → [API Gateway] → Service A
-                              → Service B
-                              → Service C
-
-// The gateway aggregates responses from multiple services if needed.
-// (This is demonstrated in the interactive diagram in the Architecture section)
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>2. Service Registry and Discovery Pattern</h3>
-            <p>In a dynamic microservices environment, service instances are constantly being created and destroyed. This pattern provides a central "phone book" (Service Registry) where services register their locations. Other services can then query the registry (Service Discovery) to find out how to communicate with them.</p>
-            <div class="code-block">
-                <pre>
-// 1. Service Registration
-ProductService (instance 1) → Registers at 10.1.2.3:8080 with Registry
-ProductService (instance 2) → Registers at 10.1.2.4:8080 with Registry
-
-// 2. Service Discovery
-OrderService needs Product info → Asks Registry for "ProductService"
-Registry returns → [10.1.2.3:8080, 10.1.2.4:8080]
-OrderService then calls one of the available instances.
-
-// Popular Tools: Netflix Eureka, Consul, Zookeeper
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>3. Saga Pattern</h3>
-            <p>Sagas are used to manage data consistency across multiple services in a distributed transaction. Since two-phase commits are not practical in microservices, a saga uses a sequence of local transactions. If one transaction fails, the saga executes compensating transactions to undo the preceding work.</p>
-            
-            <h4>Choreography-Based Saga (Event-Driven)</h4>
-            <p>Services communicate by publishing and listening to events. There is no central coordinator.</p>
-            <div class="code-block">
-                <pre>
-// Choreography-based saga for an e-commerce order
-1. OrderService creates order → Publishes "OrderCreated" event
-2. PaymentService listens for "OrderCreated" → Processes payment → Publishes "PaymentProcessed" event
-3. InventoryService listens for "PaymentProcessed" → Reserves items → Publishes "ItemsReserved" event
-4. ShippingService listens for "ItemsReserved" → Schedules delivery → Publishes "DeliveryScheduled" event
-
-// If PaymentService fails, it publishes a "PaymentFailed" event.
-// OrderService listens for "PaymentFailed" and executes a compensating transaction (e.g., cancels the order).
-                </pre>
-            </div>
-
-            <h4>Orchestration-Based Saga</h4>
-            <p>A central orchestrator service is responsible for telling the other services what to do and when. It manages the entire sequence of transactions.</p>
-             <div class="code-block">
-                <pre>
-// Orchestration-based saga for an e-commerce order
-1. Client sends "CreateOrder" request to OrderOrchestrator.
-2. OrderOrchestrator → calls PaymentService to process payment.
-3. PaymentService responds → Orchestrator calls InventoryService to reserve items.
-4. InventoryService responds → Orchestrator calls ShippingService to schedule delivery.
-5. Orchestrator confirms order completion.
-
-// If any step fails, the Orchestrator is responsible for calling compensating
-// transactions in reverse order (e.g., refund payment, release inventory).
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>4. Circuit Breaker Pattern</h3>
-            <p>This pattern prevents an application from repeatedly trying to execute an operation that is likely to fail. After a configured number of failures, the circuit "opens," and subsequent calls fail immediately without attempting the operation. After a timeout, the circuit goes into a "half-open" state to test if the underlying problem is resolved.</p>
-            
-            <h4>Circuit Breaker Pattern Demo</h4>
-            <div class="circuit-breaker-demo">
-                <div class="control-panel">
-                    <button id="toggleCircuitBtn" class="control-btn">Toggle Circuit Breaker State</button>
-                </div>
-                <div id="circuitState" class="circuit-state circuit-closed">Circuit: CLOSED</div>
-                <div id="circuitDescription">✅ Requests are flowing normally to the service.</div>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>5. Strangler Fig Pattern</h3>
-            <p>This pattern is used for incrementally migrating a legacy monolith to a microservices architecture. A facade is placed in front of the monolith, which intercepts requests. Initially, it routes all traffic to the monolith. Over time, as new microservices are built to replace parts of the monolith, the facade is updated to route specific requests to the new services, gradually "strangling" the monolith.</p>
-            <div class="code-block">
-                <pre>
-// Initial State
-User Request → [Facade] → Monolith (handles all logic)
-
-// Migration Step 1: User Service is extracted
-User Request for "/profile" → [Facade] → New UserService
-User Request for "/orders"  → [Facade] → Monolith
-
-// Final State
-User Request → [Facade] → All requests routed to various microservices
-                       → Monolith is eventually retired
-                </pre>
-            </div>
-        </div>
-
-        <div class="best-practice">
-            <h3>6. Command Query Responsibility Segregation (CQRS)</h3>
-            <p>CQRS separates the models for reading data (Queries) from the models for updating data (Commands). This is useful because the requirements for reading data (e.g., complex joins, denormalized views) are often very different from the requirements for writing data (e.g., normalized, consistent models).</p>
-             <div class="code-block">
-                <pre>
-// Write Side (Commands)
-[Client] → sends "UpdateUserAddressCommand" → [Command Handler] → Updates Write Database
-
-// Read Side (Queries)
-[Client] → sends "GetUserProfileQuery" → [Query Handler] → Reads from Read Database (Optimized for reads)
-
-// Data is synchronized from the Write DB to the Read DB, often via events.
-                </pre>
-            </div>
-        </div>
-    </div>
-
-    <div class="section" id="technologies">
-        <h2>🛠️ Technology Stack</h2>
-        <p>Choosing the right technology stack is crucial for a successful microservices architecture. The choice often depends on the team's expertise, the specific requirements of the service, and the overall ecosystem. Here are some popular choices:</p>
-        
-        <div class="best-practice">
-            <h4>Service Development</h4>
-            <ul>
-                <li><strong>Java:</strong> Spring Boot, Quarkus, Micronaut</li>
-                <li><strong>JavaScript/Node.js:</strong> Express, NestJS</li>
-                <li><strong>Python:</strong> Flask, FastAPI</li>
-                <li><strong>Go:</strong> Gin, Go-kit</li>
-                <li><strong>.NET:</strong> ASP.NET Core</li>
-            </ul>
-        </div>
-
-        <div class="best-practice">
-            <h4>API Gateway</h4>
-            <ul>
-                <li><strong>Managed:</strong> Amazon API Gateway, Azure API Management, Google Cloud API Gateway</li>
-                <li><strong>Self-hosted:</strong> Kong, Tyk, Spring Cloud Gateway, Ocelot (.NET)</li>
-            </ul>
-        </div>
-
-        <div class="best-practice">
-            <h4>Containerization & Orchestration</h4>
-            <ul>
-                <li><strong>Docker:</strong> For containerizing applications.</li>
-                <li><strong>Kubernetes:</strong> The de-facto standard for container orchestration.</li>
-            </ul>
-        </div>
-
-        <div class="best-practice">
-            <h4>Messaging & Event Streaming</h4>
-            <ul>
-                <li><strong>RabbitMQ:</strong> Traditional message broker.</li>
-                <li><strong>Apache Kafka:</strong> High-throughput distributed streaming platform.</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="section" id="implementation">
-        <h2>🔧 Implementation Guide</h2>
-
-        <h3>Step 1: Start with a Monolith</h3>
-        <p>Begin with a well-structured monolith and gradually extract services.</p>
-
-        <h3>Step 2: Identify Service Boundaries</h3>
-        <p>Use Domain-Driven Design (DDD) to identify bounded contexts.</p>
-        <div class="code-block">
-            <pre>
-// Example service boundaries
-User Management Context → UserService
-Product Catalog Context → ProductService
-Order Management Context → OrderService
-Payment Context → PaymentService
-            </pre>
-        </div>
-
-        <h3>Step 3: Setup Infrastructure</h3>
-        <div class="code-block">
-            <pre>
-# Docker Compose example
-version: '3.8'
-services:
-  api-gateway:
-    image: nginx:alpine
-    ports: ["80:80"]
     
-  user-service:
-    build: ./user-service
-    environment:
-      - DB_HOST=user-db
-    depends_on: [user-db]
-    
-  user-db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=users
-            </pre>
-        </div>
-
-        <h3>Step 4: Implement Service Communication</h3>
-        <div class="code-block">
-            <pre>
-// REST API communication
-@RestController
-public class UserController {
-    
-    @Autowired
-    private OrderServiceClient orderServiceClient;
-    
-    @GetMapping("/users/{id}/orders")
-    public List&lt;Order&gt; getUserOrders(@PathVariable String id) {
-        return orderServiceClient.getOrdersByUserId(id);
-    }
-}
-            </pre>
-        </div>
-
-        <h3>Step 5: Add Observability</h3>
-        <div class="code-block">
-            <pre>
-// Logging configuration
-logging:
-  level:
-    com.company: DEBUG
-  pattern:
-    console: "%d{HH:mm:ss.SSS} [%thread] %-5level [%X{traceId}] %logger{36} - %msg%n"
-            </pre>
-        </div>
-    </div>
-
-    <div class="section" id="migration">
-        <h2>🔄 Migrating from Monolith to Microservices</h2>
-        
-        <p>Migration from a monolithic architecture to microservices is a complex process that requires careful planning and execution. Here's a comprehensive guide to help you through this transformation.</p>
-        
-        <h3>🗓️ Typical Migration Timeline</h3>
-        <div class="migration-timeline">
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 1:</strong> Assessment & Planning (Month 1-2)</div>
-            </div>
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 2:</strong> Infrastructure Setup (Month 2-3)</div>
-            </div>
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 3:</strong> First Service Migration (Month 3-4)</div>
-            </div>
-            <div class="timeline-step">
-                <div class="timeline-dot"></div>
-                <div><strong>Phase 4:</strong> Full Migration (Month 4-12)</div>
-            </div>
-        </div>
-
-        <!-- The rest of the detailed migration content follows... -->
-    </div>
-
-    <div class="section" id="monitoring">
-        <h2>📊 Monitoring and Observability</h2>
-        
-        <h3>Live Monitoring Dashboard</h3>
-        <div class="monitoring-dashboard">
-            <div class="metric-card">
-                <div>Response Time</div>
-                <div class="metric-value" id="responseTime">245ms</div>
-                <div class="loading-bar">
-                    <div class="loading-progress"></div>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div>Throughput</div>
-                <div class="metric-value" id="throughput">1,250</div>
-                <div class="loading-bar">
-                    <div class="loading-progress" style="animation-delay: 0.5s;"></div>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div>Error Rate</div>
-                <div class="metric-value" id="errorRate">0.02%</div>
-                <div class="loading-bar">
-                    <div class="loading-progress" style="animation-delay: 1s;"></div>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div>Active Services</div>
-                <div class="metric-value" id="activeServices">12</div>
-                <div class="loading-bar">
-                    <div class="loading-progress" style="animation-delay: 1.5s;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="section" id="conclusion">
         <h2>📚 Conclusion</h2>
-        <p>Microservices architecture offers significant benefits in terms of scalability, flexibility, and resilience. By following best practices and leveraging the right tools and patterns, you can successfully design, implement, and manage a microservices-based system.</p>
-        
-        <h3>Key Takeaways</h3>
-        <ul>
-            <li>Understand the principles and benefits of microservices architecture.</li>
-            <li>Follow best practices for designing and implementing microservices.</li>
-            <li>Utilize design patterns to solve common challenges in microservices.</li>
-            <li>Choose the right technology stack for your microservices.</li>
-            <li>Implement effective monitoring and observability.</li>
-            <li>Plan and execute a successful migration from monolith to microservices.</li>
-        </ul>
-        
-        <h3>Further Reading</h3>
-        <ul>
-            <li><a href="https://microservices.io/patterns/index.html" target="_blank">Microservices Patterns</a></li>
-            <li><a href="https://martinfowler.com/articles/richardsonMaturityModel.html" target="_blank">Richardson Maturity Model</a></li>
-            <li><a href="https://12factor.net/" target="_blank">The Twelve-Factor App</a></li>
-            <li><a href="https://www.oreilly.com/library/view/microservices-up-and/9781491950340/" target="_blank">Microservices Up and Running</a></li>
-        </ul>
-    </div>
-
-    <div class="section" id="gateway-demo">
-        <h2>🚪 API Gateway Pattern Demo</h2>
-        
-        <div class="interactive-gateway-demo">
-            <h4>Interactive API Gateway Pattern</h4>
-            
-            <!-- Gateway Demo Controls -->
-            <div class="gateway-controls" id="gatewayControls">
-                <button class="control-btn gateway-request-btn" data-request-type="login">🔐 Login Request</button>
-                <button class="control-btn gateway-request-btn" data-request-type="search">🔍 Search Products</button>
-                <button class="control-btn gateway-request-btn" data-request-type="order">🛒 Create Order</button>
-                <button class="control-btn gateway-request-btn" data-request-type="payment">💳 Process Payment</button>
-                <button class="control-btn" id="resetGatewayBtn">🔄 Reset</button>
+        <div class="card-grid">
+            <div class="info-card">
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li>Understand the principles and benefits of microservices architecture.</li>
+                    <li>Follow best practices for designing and implementing microservices.</li>
+                    <li>Utilize design patterns to solve common challenges in microservices.</li>
+                    <li>Choose the right technology stack for your microservices.</li>
+                    <li>Implement effective monitoring and observability.</li>
+                    <li>Plan and execute a successful migration from monolith to microservices.</li>
+                </ul>
             </div>
-            
-            <!-- Interactive Gateway Diagram -->
-            <div class="gateway-flow-container">
-                <!-- Client Section -->
-                <div class="gateway-client" id="gatewayClient">
-                    <div class="client-icon">👤</div>
-                    <div class="client-label">Client Application</div>
-                    <div class="request-info" id="requestInfo">Click a button to send request</div>
-                </div>
-                
-                <!-- Arrow from Client to Gateway -->
-                <div class="gateway-arrow" id="clientToGateway">
-                    <div class="arrow-line"></div>
-                    <div class="arrow-head">▶</div>
-                    <div class="request-packet" id="requestPacket"></div>
-                </div>
-                
-                <!-- API Gateway -->
-                <div class="api-gateway" id="apiGateway">
-                    <div class="gateway-icon">🚪</div>
-                    <div class="gateway-label">API Gateway</div>
-                    <div class="gateway-functions">
-                        <div class="function-item" id="authFeature">🔐 Auth</div>
-                        <div class="function-item" id="rateLimitFeature">⏱️ Rate Limit</div>
-                        <div class="function-item" id="routingFeature">🎯 Routing</div>
-                        <div class="function-item" id="loggingFeature">📝 Logging</div>
-                    </div>
-                    <div class="gateway-status" id="gatewayStatus">Ready</div>
-                </div>
-                
-                <!-- Arrows from Gateway to Services -->
-                <div class="service-arrows">
-                    <div class="service-arrow" id="toUserService">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head">▶</div>
-                        <div class="service-packet" id="userPacket"></div>
-                    </div>
-                    <div class="service-arrow" id="toProductService">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head">▶</div>
-                        <div class="service-packet" id="productPacket"></div>
-                    </div>
-                    <div class="service-arrow" id="toOrderService">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head">▶</div>
-                        <div class="service-packet" id="orderPacket"></div>
-                    </div>
-                    <div class="service-arrow" id="toPaymentService">
-                        <div class="arrow-line"></div>
-                        <div class="arrow-head">▶</div>
-                        <div class="service-packet" id="paymentPacket"></div>
-                    </div>
-                </div>
-                
-                <!-- Microservices -->
-                <div class="gateway-services">
-                    <div class="gateway-service" id="userServiceGW">
-                        <div class="service-icon">👤</div>
-                        <div class="service-name">User Service</div>
-                        <div class="service-status">Idle</div>
-                    </div>
-                    <div class="gateway-service" id="productServiceGW">
-                        <div class="service-icon">📦</div>
-                        <div class="service-name">Product Service</div>
-                        <div class="service-status">Idle</div>
-                    </div>
-                    <div class="gateway-service" id="orderServiceGW">
-                        <div class="service-icon">🛒</div>
-                        <div class="service-name">Order Service</div>
-                        <div class="service-status">Idle</div>
-                    </div>
-                    <div class="gateway-service" id="paymentServiceGW">
-                        <div class="service-icon">💳</div>
-                        <div class="service-name">Payment Service</div>
-                        <div class="service-status">Idle</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Request Log -->
-            <div class="request-log">
-                <h5>📋 Request Log</h5>
-                <div class="log-content" id="requestLog">
-                    <div class="log-entry">System ready - Click buttons above to simulate requests</div>
-                </div>
+            <div class="info-card">
+                <h3>Further Reading</h3>
+                <ul>
+                    <li><a href="https://microservices.io/patterns/index.html" target="_blank">Microservices Patterns</a></li>
+                    <li><a href="https://martinfowler.com/articles/richardsonMaturityModel.html" target="_blank">Richardson Maturity Model</a></li>
+                    <li><a href="https://12factor.net/" target="_blank">The Twelve-Factor App</a></li>
+                    <li><a href="https://www.oreilly.com/library/view/microservices-up-and/9781491950340/" target="_blank">Microservices Up and Running</a></li>
+                </ul>
             </div>
         </div>
     </div>
 
+    <!-- Keep your scripts as they are -->
     <script>
         const microservicesGuide = {
             // --- STATE ---
