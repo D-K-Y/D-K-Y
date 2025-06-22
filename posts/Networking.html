@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprehensive Guide to Networking Using Linux Shell Scripting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 2em; 
+            background: #f8f9fa; 
+            line-height: 1.6;
+        }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 0.5em; }
+        h2 { border-left: 4px solid #3498db; padding-left: 1em; margin-top: 2em; }
+        h3 { color: #e74c3c; }
+        pre { 
+            background: #2c3e50; 
+            color: #ecf0f1; 
+            padding: 1.5em; 
+            border-radius: 8px; 
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        code { 
+            color: #e74c3c; 
+            background: #ecf0f1; 
+            padding: 2px 4px; 
+            border-radius: 3px;
+        }
+        .architecture-box {
+            background: #ffffff;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 1.5em;
+            margin: 1em 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 1em;
+            margin: 1em 0;
+        }
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 1em;
+            margin: 1em 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Comprehensive Guide to Networking Using Linux Shell Scripting</h1>
+    <p>
+        Networking is the backbone of modern computing infrastructure. Understanding how to manage, monitor, and troubleshoot networks using Linux shell scripting is essential for system administrators, DevOps engineers, and developers. This comprehensive guide covers networking fundamentals, various network architectures, and practical shell scripting techniques.
+    </p>
+
+    <h2>Understanding Network Architectures</h2>
+    
+    <div class="architecture-box">
+        <h3>1. OSI Model Overview</h3>
+        <p>The OSI (Open Systems Interconnection) model provides a framework for understanding network communication:</p>
+        <table>
+            <tr><th>Layer</th><th>Name</th><th>Function</th><th>Linux Tools</th></tr>
+            <tr><td>7</td><td>Application</td><td>User interface</td><td>curl, wget, ssh</td></tr>
+            <tr><td>6</td><td>Presentation</td><td>Data formatting</td><td>openssl, gpg</td></tr>
+            <tr><td>5</td><td>Session</td><td>Connection management</td><td>netstat, ss</td></tr>
+            <tr><td>4</td><td>Transport</td><td>Data delivery</td><td>ss, netstat</td></tr>
+            <tr><td>3</td><td>Network</td><td>Routing</td><td>ip, route</td></tr>
+            <tr><td>2</td><td>Data Link</td><td>Frame handling</td><td>ip link, ethtool</td></tr>
+            <tr><td>1</td><td>Physical</td><td>Hardware</td><td>lshw, dmesg</td></tr>
+        </table>
+    </div>
+
+    <div class="architecture-box">
+        <h3>2. Network Topologies</h3>
+        <p><strong>Star Topology:</strong> Central hub/switch connects all devices</p>
+        <p><strong>Mesh Topology:</strong> Every device connects to every other device</p>
+        <p><strong>Ring Topology:</strong> Devices connected in circular fashion</p>
+        <p><strong>Bus Topology:</strong> All devices share a common communication line</p>
+    </div>
+
+    <h2>1. Basic Network Interface Management</h2>
+    <p>
+        Network interfaces are the connection points between your system and the network. Here are simple scripts to manage them.
+    </p>
+    
+    <h3>Check Network Interfaces</h3>
+    <pre><code>#!/bin/bash
+# Show all network interfaces
+ip addr show
+
+# Show only active interfaces
+ip link show up
+
+# Display interface statistics
+cat /proc/net/dev
+</code></pre>
+
+    <h3>Configure Network Interface</h3>
+    <pre><code>#!/bin/bash
+# Simple interface configuration
+INTERFACE="eth0"
+IP="192.168.1.100"
+NETMASK="24"
+
+sudo ip addr add $IP/$NETMASK dev $INTERFACE
+sudo ip link set $INTERFACE up
+echo "Interface $INTERFACE configured"
+</code></pre>
+
+    <h2>2. Network Connectivity Testing</h2>
+    <p>
+        Testing network connectivity is essential for troubleshooting. Here are basic connectivity tests.
+    </p>
+
+    <h3>Basic Connectivity Test</h3>
+    <pre><code>#!/bin/bash
+# Test basic connectivity
+TARGET="google.com"
+
+echo "Testing connectivity to $TARGET"
+if ping -c 3 $TARGET; then
+    echo "✓ Connection successful"
+else
+    echo "✗ Connection failed"
+fi
+</code></pre>
+
+    <h3>Port Connectivity Test</h3>
+    <pre><code>#!/bin/bash
+# Test specific ports
+HOST="google.com"
+PORTS=(80 443 22)
+
+for port in "${PORTS[@]}"; do
+    if timeout 5 bash -c "echo >/dev/tcp/$HOST/$port"; then
+        echo "✓ Port $port: Open"
+    else
+        echo "✗ Port $port: Closed"
+    fi
+done
+</code></pre>
+
+    <h2>3. Basic Routing Management</h2>
+    <p>
+        Understanding routing helps manage network traffic flow across different architectures.
+    </p>
+
+    <div class="architecture-box">
+        <h3>Enterprise Network Layers</h3>
+        <ul>
+            <li><strong>Core Layer:</strong> High-speed backbone network</li>
+            <li><strong>Distribution Layer:</strong> Policy enforcement and routing decisions</li>
+            <li><strong>Access Layer:</strong> End-device connectivity and access control</li>
+        </ul>
+    </div>
+
+    <h3>View Routing Information</h3>
+    <pre><code>#!/bin/bash
+# Display routing table
+ip route show
+
+# Show default gateway
+ip route | grep default
+
+# Display routing rules
+ip rule show
+</code></pre>
+
+    <h3>Add Custom Route</h3>
+    <pre><code>#!/bin/bash
+# Add a custom route
+NETWORK="10.0.0.0/8"
+GATEWAY="192.168.1.1"
+INTERFACE="eth0"
+
+sudo ip route add $NETWORK via $GATEWAY dev $INTERFACE
+echo "Route added: $NETWORK via $GATEWAY"
+</code></pre>
+
+    <h2>4. Port and Service Discovery</h2>
+    <p>
+        Discovering what services are running helps with security and troubleshooting.
+    </p>
+
+    <h3>Check Listening Ports</h3>
+    <pre><code>#!/bin/bash
+# Show listening ports
+echo "TCP Ports:"
+ss -tln
+
+echo "UDP Ports:"
+ss -uln
+</code></pre>
+
+    <h3>Security Port Scan</h3>
+    <pre><code>#!/bin/bash
+# Basic security check
+VULNERABLE_PORTS=(21 23 135 139 445)
+
+echo "Checking for vulnerable ports:"
+for port in "${VULNERABLE_PORTS[@]}"; do
+    if ss -tln | grep ":$port "; then
+        echo "⚠️ Port $port is open"
+    fi
+done
+</code></pre>
+
+    <h2>5. File Transfer Scripts</h2>
+    <p>
+        Different protocols serve different purposes in network architectures.
+    </p>
+
+    <h3>HTTP Download</h3>
+    <pre><code>#!/bin/bash
+# Simple HTTP download
+URL="https://example.com/file.zip"
+DESTINATION="./downloads/"
+
+curl -o "$DESTINATION" "$URL" --progress-bar
+echo "Download completed"
+</code></pre>
+
+    <h3>Bandwidth Test</h3>
+    <pre><code>#!/bin/bash
+# Basic bandwidth test
+echo "Testing download speed..."
+curl -o /dev/null -s -w "Speed: %{speed_download} bytes/sec\n" \
+    http://speedtest.wdc01.softlayer.com/downloads/test10.zip
+</code></pre>
+
+    <h2>6. Network Monitoring</h2>
+
+    <div class="architecture-box">
+        <h3>Cloud Network Components</h3>
+        <ul>
+            <li><strong>VPC:</strong> Virtual Private Cloud - isolated network environment</li>
+            <li><strong>Subnets:</strong> Network segmentation for security and organization</li>
+            <li><strong>Security Groups:</strong> Virtual firewalls controlling traffic</li>
+            <li><strong>Load Balancers:</strong> Distribute traffic across multiple servers</li>
+        </ul>
+    </div>
+
+    <h3>Basic Network Monitor</h3>
+    <pre><code>#!/bin/bash
+# Simple network monitoring
+echo "=== Network Status ==="
+echo "Active interfaces:"
+ip link show up | grep -E '^[0-9]+:'
+
+echo "Network connections:"
+ss -s
+
+echo "DNS test:"
+nslookup google.com | grep -A1 "Name:"
+</code></pre>
+
+    <h3>Network Health Check</h3>
+    <pre><code>#!/bin/bash
+# Quick health check
+echo "=== Health Check ==="
+
+# Check default gateway
+GATEWAY=$(ip route | grep default | awk '{print $3}')
+if ping -c 1 $GATEWAY &>/dev/null; then
+    echo "✓ Gateway reachable"
+else
+    echo "✗ Gateway unreachable"
+fi
+
+# Check DNS
+if nslookup google.com &>/dev/null; then
+    echo "✓ DNS working"
+else
+    echo "✗ DNS failed"
+fi
+</code></pre>
+
+    <h2>7. Basic Security Management</h2>
+    <p>
+        Network security is crucial across all architectures.
+    </p>
+
+    <h3>Firewall Status Check</h3>
+    <pre><code>#!/bin/bash
+# Check firewall status
+if command -v ufw &>/dev/null; then
+    sudo ufw status
+elif command -v firewall-cmd &>/dev/null; then
+    sudo firewall-cmd --state
+else
+    sudo iptables -L
+fi
+</code></pre>
+
+    <h3>Connection Monitor</h3>
+    <pre><code>#!/bin/bash
+# Monitor network connections
+echo "Active connections:"
+netstat -an | grep ESTABLISHED | head -10
+
+echo "Listening services:"
+netstat -tlnp | grep LISTEN | head -5
+</code></pre>
+
+    <div class="warning">
+        <strong>Security Note:</strong> Always test scripts in safe environments before production use.
+    </div>
+
+    <h2>8. Performance Optimization</h2>
+
+    <h3>Network Performance Check</h3>
+    <pre><code>#!/bin/bash
+# Basic performance check
+echo "=== Network Performance ==="
+
+# Check TCP settings
+echo "TCP congestion control:"
+sysctl net.ipv4.tcp_congestion_control
+
+# Interface speeds
+for iface in $(ip link show | grep -E '^[0-9]+:' | cut -d: -f2 | tr -d ' '); do
+    if [[ $iface != "lo" ]]; then
+        speed=$(ethtool $iface 2>/dev/null | grep Speed | awk '{print $2}')
+        echo "$iface: ${speed:-Unknown}"
+    fi
+done
+</code></pre>
+
+    <h3>Latency Test</h3>
+    <pre><code>#!/bin/bash
+# Test latency to common destinations
+DESTINATIONS=("8.8.8.8" "1.1.1.1" "google.com")
+
+for dest in "${DESTINATIONS[@]}"; do
+    latency=$(ping -c 3 $dest 2>/dev/null | tail -1 | awk -F'/' '{print $5}')
+    echo "$dest: ${latency:-TIMEOUT}ms"
+done
+</code></pre>
+
+    <h2>Conclusion</h2>
+    <p>
+        These simple shell scripts provide a foundation for network management across different architectures:
+    </p>
+    <ul>
+        <li><strong>Enterprise Networks:</strong> Use interface and routing scripts for complex topologies</li>
+        <li><strong>Cloud Environments:</strong> Monitor VPC components and security groups</li>
+        <li><strong>Home Networks:</strong> Basic connectivity and performance testing</li>
+        <li><strong>Security Audits:</strong> Port scanning and firewall management</li>
+    </ul>
+    
+    <div class="note">
+        <strong>Getting Started:</strong>
+        <ul>
+            <li>Start with basic connectivity tests</li>
+            <li>Practice interface management in safe environments</li>
+            <li>Build monitoring scripts for your specific needs</li>
+            <li>Always backup configurations before changes</li>
+        </ul>
+    </div>
+
+    <p>
+        These lightweight scripts are perfect for learning networking fundamentals while building practical automation skills. As you become more comfortable, you can expand these basic scripts into more comprehensive network management tools.
+    </p>
+</body>
+</html>

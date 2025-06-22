@@ -22,10 +22,39 @@
             margin: 1.5rem 0; 
             overflow-x: auto;
             border-left: 4px solid #007bff;
+            max-width: 100%;
         }
-        pre { margin: 0; font-family: 'Courier New', monospace; }
+        
+        pre { 
+            margin: 0; 
+            font-family: 'Courier New', monospace; 
+            font-size: 0.85rem;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        code {
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
         .good-practice { border-left-color: #28a745; background: #d4f4dd; }
         .bad-practice { border-left-color: #dc3545; background: #f8d7da; }
+        
+        /* Responsive code blocks */
+        @media (max-width: 768px) {
+            .code-block {
+                font-size: 0.75rem;
+                padding: 0.75rem;
+            }
+            
+            pre, code {
+                font-size: 0.75rem;
+            }
+        }
         
         .info-box { 
             background: #e3f2fd; 
@@ -120,63 +149,137 @@
             display: flex;
             margin-bottom: 1rem;
             border-bottom: 2px solid #dee2e6;
+            flex-wrap: wrap;
         }
         
         .tab-button {
             background: #f8f9fa;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
             cursor: pointer;
             border-radius: 5px 5px 0 0;
             margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
         
         .tab-button.active {
             background: #007bff;
             color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tab-button:hover:not(.active) {
+            background: #e9ecef;
         }
         
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
         
         .tab-content.active {
             display: block;
         }
         
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .code-editor {
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             margin: 1rem 0;
-            min-height: 300px;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
         }
         
         .run-button {
-            background: #28a745;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
-            margin: 0.5rem 0.5rem 0.5rem 0;
+            font-weight: 500;
+            margin: 1rem 0.5rem 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
         }
         
         .run-button:hover {
-            background: #218838;
+            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        }
+        
+        .run-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .clear-button {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 1rem 0.5rem 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .clear-button:hover {
+            background: #545b62;
         }
         
         .output {
-            background: #2d3748;
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
             color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 5px;
+            padding: 1.5rem;
+            border-radius: 8px;
             margin: 1rem 0;
             font-family: 'Courier New', monospace;
             white-space: pre-wrap;
             min-height: 100px;
             max-height: 400px;
             overflow-y: auto;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+            border: 2px solid #4a5568;
+        }
+        
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            background: #dc3545;
+        }
+        
+        .status-indicator.ready {
+            background: #28a745;
+        }
+        
+        .status-indicator.loading {
+            background: #ffc107;
+            animation: pulse 1s ease-in-out infinite;
         }
         
         .checklist { 
@@ -326,15 +429,16 @@ import requests
 
 class DatabaseConnector:
     def __init__(self):
-        # Hardcoded credentials - MAJOR SECURITY RISK
+        # Hardcoded credentials - MAJOR RISK
         self.db_host = "prod-db.company.com"
         self.username = "admin"
         self.password = "SuperSecret123!"
         self.api_key = "sk-1234567890abcdef"
     
     def connect(self):
-        connection_string = f"postgresql://{self.username}:{self.password}@{self.db_host}/mydb"
-        return connection_string
+        conn_str = f"postgresql://{self.username}:" + \
+                   f"{self.password}@{self.db_host}/mydb"
+        return conn_str
 
 # Hardcoded API key in source code
 def call_external_api():
@@ -342,24 +446,18 @@ def call_external_api():
         'Authorization': 'Bearer sk-1234567890abcdef',
         'Content-Type': 'application/json'
     }
-    return requests.get('https://api.example.com/data', headers=headers)
+    return requests.get('https://api.example.com/data', 
+                       headers=headers)
 
 # Embedded encryption key
 ENCRYPTION_KEY = "my-super-secret-key-2023"</code></pre>
                         </div>
-                        <p><strong>Issues:</strong></p>
-                        <ul>
-                            <li>Secrets exposed in version control</li>
-                            <li>No secret rotation capability</li>
-                            <li>Hard to manage across environments</li>
-                            <li>Exposed in logs and error messages</li>
-                        </ul>
                     </div>
                     
                     <div class="comparison-section secure-section">
                         <h5>✅ Secure Practice</h5>
                         <div class="code-block good-practice">
-                            <pre><code># ✅ SECURE - Environment variables and secrets management
+                            <pre><code># ✅ SECURE - Environment variables
 import os
 import boto3
 from cryptography.fernet import Fernet
@@ -373,30 +471,32 @@ class SecureConnector:
         self.password = self._get_secret('DB_PASSWORD')
         self.api_key = self._get_secret('API_KEY')
         
-        if not all([self.db_host, self.username, self.password, self.api_key]):
-            raise ValueError("Missing required environment variables")
+        if not all([self.db_host, self.username, 
+                   self.password, self.api_key]):
+            raise ValueError("Missing required env vars")
     
     def _get_secret(self, secret_name):
         """Retrieve secret from AWS Secrets Manager"""
         try:
             client = boto3.client('secretsmanager')
-            response = client.get_secret_value(SecretId=secret_name)
+            response = client.get_secret_value(
+                SecretId=secret_name)
             return response['SecretString']
         except Exception as e:
-            logging.error(f"Failed to retrieve secret: {secret_name}")
+            logging.error(f"Failed to retrieve secret: "
+                         f"{secret_name}")
             raise
     
     def connect(self):
         # Use connection pooling and SSL
-        connection_params = {
+        return {
             'host': self.db_host,
             'username': self.username,
             'password': self.password,
             'sslmode': 'require'
         }
-        return connection_params
 
-# Secure API calling with proper error handling
+# Secure API calling
 def call_external_api():
     api_key = os.getenv('EXTERNAL_API_KEY')
     if not api_key:
@@ -408,8 +508,9 @@ def call_external_api():
     }
     
     try:
-        response = requests.get('https://api.example.com/data', 
-                              headers=headers, timeout=30)
+        response = requests.get(
+            'https://api.example.com/data', 
+            headers=headers, timeout=30)
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
@@ -418,16 +519,8 @@ def call_external_api():
 
 # Dynamic key generation
 def generate_encryption_key():
-    """Generate a new encryption key"""
     return Fernet.generate_key()</code></pre>
                         </div>
-                        <p><strong>Benefits:</strong></p>
-                        <ul>
-                            <li>Secrets stored securely outside code</li>
-                            <li>Environment-specific configuration</li>
-                            <li>Centralized secret management</li>
-                            <li>Audit trails and rotation capabilities</li>
-                        </ul>
                     </div>
                 </div>
 
@@ -481,7 +574,8 @@ import traceback
 
 def get_user_data(user_id):
     try:
-        conn = sqlite3.connect('/var/www/app/database/users.db')
+        conn = sqlite3.connect(
+            '/var/www/app/database/users.db')
         cursor = conn.cursor()
         
         # SQL injection vulnerability + info disclosure
@@ -490,7 +584,8 @@ def get_user_data(user_id):
         
         result = cursor.fetchone()
         if not result:
-            raise Exception(f"User {user_id} not found in database table 'users'")
+            raise Exception(f"User {user_id} not found in "
+                          f"database table 'users'")
         
         return result
         
@@ -499,7 +594,8 @@ def get_user_data(user_id):
         raise Exception(f"Database error: {str(e)}")
     except Exception as e:
         # Exposing full stack trace
-        raise Exception(f"Internal error: {traceback.format_exc()}")
+        raise Exception(f"Internal error: "
+                       f"{traceback.format_exc()}")
 
 def authenticate_user(username, password):
     try:
@@ -507,32 +603,29 @@ def authenticate_user(username, password):
         cursor = conn.cursor()
         
         # Vulnerable query with detailed error
-        query = f"SELECT password_hash FROM users WHERE username = '{username}'"
+        query = f"SELECT password_hash FROM users " + \
+                f"WHERE username = '{username}'"
         cursor.execute(query)
         
         result = cursor.fetchone()
         if not result:
-            raise Exception(f"Username '{username}' does not exist in our system")
+            raise Exception(f"Username '{username}' does not "
+                          f"exist in our system")
         
         stored_hash = result[0]
         if not check_password(password, stored_hash):
-            raise Exception(f"Invalid password for user '{username}'. Password should be at least 8 characters.")
+            raise Exception(f"Invalid password for user "
+                          f"'{username}'. Password should be "
+                          f"at least 8 characters.")
         
         return True
         
     except Exception as e:
         # Logging sensitive data
-        print(f"Authentication failed for {username} with password {password}: {str(e)}")
+        print(f"Authentication failed for {username} "
+              f"with password {password}: {str(e)}")
         raise</code></pre>
                         </div>
-                        <p><strong>Security Issues:</strong></p>
-                        <ul>
-                            <li>Database paths exposed in error messages</li>
-                            <li>Stack traces reveal internal structure</li>
-                            <li>SQL injection vulnerabilities</li>
-                            <li>Username enumeration possible</li>
-                            <li>Sensitive data logged in plaintext</li>
-                        </ul>
                     </div>
                     
                     <div class="comparison-section secure-section">
@@ -548,7 +641,8 @@ from typing import Optional, Dict, Any
 # Configure secure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format='%(asctime)s - %(name)s - %(levelname)s - '
+           '%(message)s',
     handlers=[
         logging.FileHandler('/var/log/app/security.log'),
         logging.StreamHandler()
@@ -567,16 +661,17 @@ class DatabaseManager:
         self._setup_database()
     
     def _setup_database(self):
-        """Initialize database with proper security settings"""
+        """Initialize database with proper security"""
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.execute("PRAGMA foreign_keys = ON")
                 conn.execute("PRAGMA secure_delete = ON")
         except sqlite3.Error as e:
-            logger.error("Database initialization failed", exc_info=True)
-            raise SecurityError("Database configuration error")
+            logger.error("Database initialization failed", 
+                        exc_info=True)
+            raise SecurityError("Database config error")
 
-    def get_user_data(self, user_id: int) -> Optional[Dict[str, Any]]:
+    def get_user_data(self, user_id: int) -> Optional[Dict]:
         """Retrieve user data with secure error handling"""
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -584,23 +679,27 @@ class DatabaseManager:
                 cursor = conn.cursor()
                 
                 # Parameterized query prevents SQL injection
-                cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+                cursor.execute("SELECT * FROM users WHERE id = ?",
+                             (user_id,))
                 result = cursor.fetchone()
                 
                 if result:
                     return dict(result)
                 else:
                     # Generic error message
-                    logger.warning(f"User lookup failed for ID: {user_id}")
+                    logger.warning(f"User lookup failed for "
+                                 f"ID: {user_id}")
                     return None
                     
         except sqlite3.Error as e:
             # Log technical details internally
-            logger.error(f"Database query failed for user_id {user_id}", exc_info=True)
+            logger.error(f"Database query failed for "
+                        f"user_id {user_id}", exc_info=True)
             # Return generic error to client
             raise SecurityError("Data retrieval failed")
         except Exception as e:
-            logger.error(f"Unexpected error in get_user_data", exc_info=True)
+            logger.error("Unexpected error in get_user_data", 
+                        exc_info=True)
             raise SecurityError("Internal server error")
 
 class AuthenticationManager:
@@ -609,33 +708,40 @@ class AuthenticationManager:
         self.max_attempts = 5
         self.lockout_duration = 300  # 5 minutes
 
-    def authenticate_user(self, username: str, password: str) -> bool:
-        """Secure user authentication with proper error handling"""
+    def authenticate_user(self, username: str, 
+                         password: str) -> bool:
+        """Secure user authentication"""
         # Input validation
         if not username or not password:
-            logger.warning("Authentication attempt with empty credentials")
+            logger.warning("Authentication attempt with "
+                          "empty credentials")
             raise SecurityError("Invalid credentials")
         
         if len(username) > 255 or len(password) > 255:
-            logger.warning(f"Authentication attempt with oversized input from {username[:50]}...")
+            logger.warning(f"Authentication attempt with "
+                          f"oversized input from "
+                          f"{username[:50]}...")
             raise SecurityError("Invalid credentials")
         
         try:
             # Check for account lockout
             if self._is_account_locked(username):
-                logger.warning(f"Authentication attempt on locked account: {username}")
+                logger.warning(f"Authentication attempt on "
+                              f"locked account: {username}")
                 raise SecurityError("Account temporarily locked")
             
             # Retrieve user data
             user_data = self._get_user_by_username(username)
             if not user_data:
-                # Same error message for non-existent users (prevent enumeration)
+                # Same error for non-existent users
                 self._log_failed_attempt(username)
                 raise SecurityError("Invalid credentials")
             
             # Verify password
-            if self._verify_password(password, user_data['password_hash']):
-                logger.info(f"Successful authentication for user: {username}")
+            if self._verify_password(password, 
+                                   user_data['password_hash']):
+                logger.info(f"Successful authentication for "
+                           f"user: {username}")
                 self._clear_failed_attempts(username)
                 return True
             else:
@@ -647,10 +753,11 @@ class AuthenticationManager:
             raise
         except Exception as e:
             # Log unexpected errors
-            logger.error("Unexpected authentication error", exc_info=True)
+            logger.error("Unexpected authentication error", 
+                        exc_info=True)
             raise SecurityError("Authentication service unavailable")
     
-    def _get_user_by_username(self, username: str) -> Optional[Dict[str, Any]]:
+    def _get_user_by_username(self, username: str) -> Optional[Dict]:
         """Retrieve user by username using parameterized query"""
         try:
             with sqlite3.connect(self.db_manager.db_path) as conn:
@@ -710,120 +817,7 @@ def main():
         logger.error("Unexpected application error", exc_info=True)
         print("Service temporarily unavailable")</code></pre>
                         </div>
-                        <p><strong>Security Benefits:</strong></p>
-                        <ul>
-                            <li>Generic error messages prevent information disclosure</li>
-                            <li>Parameterized queries prevent SQL injection</li>
-                            <li>Detailed logging for security monitoring</li>
-                            <li>Rate limiting and account lockout protection</li>
-                            <li>Secure password comparison prevents timing attacks</li>
-                        </ul>
                     </div>
-                </div>
-
-                <h2>🛡️ Common Vulnerability Prevention</h2>
-                <div class="danger-box">
-                    <h4>⚠️ OWASP Top 10 - Most Critical Security Risks</h4>
-                    <p>The OWASP Top 10 represents the most critical security risks to web applications. Understanding and preventing these vulnerabilities is essential for secure coding.</p>
-                </div>
-
-                <div class="owasp-top10">
-                    <div class="owasp-item">
-                        <h4>1. Injection</h4>
-                        <p><strong>Risk:</strong> SQL, NoSQL, OS, and LDAP injection</p>
-                        <p><strong>Prevention:</strong> Use parameterized queries, input validation, and ORM frameworks</p>
-                    </div>
-                    
-                    <div class="owasp-item">
-                        <h4>2. Broken Authentication</h4>
-                        <p><strong>Risk:</strong> Session management flaws, weak passwords</p>
-                        <p><strong>Prevention:</strong> Implement MFA, secure session management, strong password policies</p>
-                    </div>
-                    
-                    <div class="owasp-item">
-                        <h4>3. Sensitive Data Exposure</h4>
-                        <p><strong>Risk:</strong> Unencrypted data transmission and storage</p>
-                        <p><strong>Prevention:</strong> Encrypt data at rest and in transit, use HTTPS everywhere</p>
-                    </div>
-                    
-                    <div class="owasp-item">
-                        <h4>4. XML External Entities (XXE)</h4>
-                        <p><strong>Risk:</strong> XML processors with external entity references</p>
-                        <p><strong>Prevention:</strong> Disable XML external entities, use secure XML parsers</p>
-                    </div>
-                    
-                    <div class="owasp-item">
-                        <h4>5. Broken Access Control</h4>
-                        <p><strong>Risk:</strong> Unauthorized access to functionality and data</p>
-                        <p><strong>Prevention:</strong> Implement proper authorization checks, principle of least privilege</p>
-                    </div>
-                    
-                    <div class="owasp-item">
-                        <h4>6. Security Misconfiguration</h4>
-                        <p><strong>Risk:</strong> Default configurations, incomplete setups</p>
-                        <p><strong>Prevention:</strong> Security hardening, regular security reviews, automated deployment</p>
-                    </div>
-                </div>
-
-                <h2>🧪 Interactive Security Testing</h2>
-                <div class="interactive-demo">
-                    <h4>🔬 Security Vulnerability Demonstrations</h4>
-                    <p>Practice identifying and fixing common security vulnerabilities:</p>
-                    
-                    <div class="demo-tabs">
-                        <button class="tab-button active" onclick="showTab('sql-injection')">SQL Injection</button>
-                        <button class="tab-button" onclick="showTab('xss-prevention')">XSS Prevention</button>
-                        <button class="tab-button" onclick="showTab('input-validation')">Input Validation</button>
-                        <button class="tab-button" onclick="showTab('secure-auth')">Secure Authentication</button>
-                    </div>
-                    
-                    <!-- SQL Injection Tab -->
-                    <div id="sql-injection" class="tab-content active">
-                        <h5>💉 SQL Injection Prevention</h5>
-                        <p>Learn how to prevent SQL injection attacks using parameterized queries:</p>
-                        <div class="code-editor" id="sqlEditor"></div>
-                        <button class="run-button" onclick="runSQLDemo()">Test SQL Security</button>
-                        <div class="output" id="sqlOutput">SQL injection test results will appear here...</div>
-                    </div>
-                    
-                    <!-- XSS Prevention Tab -->
-                    <div id="xss-prevention" class="tab-content">
-                        <h5>🔒 Cross-Site Scripting (XSS) Prevention</h5>
-                        <p>Demonstrate XSS vulnerabilities and prevention techniques:</p>
-                        <div class="code-editor" id="xssEditor"></div>
-                        <button class="run-button" onclick="runXSSDemo()">Test XSS Protection</button>
-                        <div class="output" id="xssOutput">XSS prevention test results will appear here...</div>
-                    </div>
-                    
-                    <!-- Input Validation Tab -->
-                    <div id="input-validation" class="tab-content">
-                        <h5>✅ Input Validation & Sanitization</h5>
-                        <p>Implement comprehensive input validation and sanitization:</p>
-                        <div class="code-editor" id="validationEditor"></div>
-                        <button class="run-button" onclick="runValidationDemo()">Test Input Validation</button>
-                        <div class="output" id="validationOutput">Input validation test results will appear here...</div>
-                    </div>
-                    
-                    <!-- Secure Authentication Tab -->
-                    <div id="secure-auth" class="tab-content">
-                        <h5>🛡️ Secure Authentication Implementation</h5>
-                        <p>Build secure authentication with proper password handling:</p>
-                        <div class="code-editor" id="authEditor"></div>
-                        <button class="run-button" onclick="runAuthDemo()">Test Authentication Security</button>
-                        <div class="output" id="authOutput">Authentication security test results will appear here...</div>
-                    </div>
-                </div>
-
-                <h2>🔐 Cryptography Best Practices</h2>
-                <div class="info-box">
-                    <h4>🛡️ Cryptographic Guidelines</h4>
-                    <ul>
-                        <li><strong>Use Strong Algorithms:</strong> AES-256, RSA-2048+, SHA-256+</li>
-                        <li><strong>Proper Key Management:</strong> Generate, store, and rotate keys securely</li>
-                        <li><strong>Salt Passwords:</strong> Use unique salts for each password hash</li>
-                        <li><strong>Secure Random Numbers:</strong> Use cryptographically secure random generators</li>
-                        <li><strong>Perfect Forward Secrecy:</strong> Ensure past communications remain secure</li>
-                    </ul>
                 </div>
 
                 <h3>🔑 Secure Password Handling</h3>
@@ -842,29 +836,33 @@ class SecurePasswordManager:
     def hash_password(self, password: str) -> str:
         """Hash password using bcrypt with salt"""
         if not self._validate_password_strength(password):
-            raise ValueError("Password does not meet security requirements")
+            raise ValueError("Password does not meet "
+                           "security requirements")
         
         # Generate salt and hash password
-        salt = bcrypt.gensalt(rounds=12)  # Adjust rounds based on performance needs
+        salt = bcrypt.gensalt(rounds=12)
         hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed.decode('utf-8')
     
     def verify_password(self, password: str, hashed: str) -> bool:
-        """Verify password against hash using constant-time comparison"""
+        """Verify password against hash using constant-time"""
         try:
-            return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
+            return bcrypt.checkpw(password.encode('utf-8'), 
+                                hashed.encode('utf-8'))
         except Exception:
             return False
     
     def _validate_password_strength(self, password: str) -> bool:
         """Validate password meets security requirements"""
-        if len(password) < self.min_length or len(password) > self.max_length:
+        if (len(password) < self.min_length or 
+            len(password) > self.max_length):
             return False
         
         has_upper = any(c.isupper() for c in password)
         has_lower = any(c.islower() for c in password)
         has_digit = any(c.isdigit() for c in password)
-        has_special = any(c in "!@#$%^&*()_+-=[]{}|;:,.<>?" for c in password)
+        has_special = any(c in "!@#$%^&*()_+-=[]{}|;:,.<>?" 
+                         for c in password)
         
         return all([has_upper, has_lower, has_digit, has_special])
     
@@ -878,7 +876,8 @@ class SecurePasswordManager:
         secret_key = secrets.token_urlsafe(32)
         
         # Hash the secret key for storage
-        secret_hash = hashlib.sha256(secret_key.encode()).hexdigest()
+        secret_hash = hashlib.sha256(
+            secret_key.encode()).hexdigest()
         
         return key_id, secret_key, secret_hash
 
@@ -891,7 +890,8 @@ hashed_password = password_manager.hash_password(password)
 print(f"Hashed password: {hashed_password}")
 
 # Verify password
-is_valid = password_manager.verify_password(password, hashed_password)
+is_valid = password_manager.verify_password(password, 
+                                          hashed_password)
 print(f"Password verification: {is_valid}")
 
 # Generate secure tokens
@@ -906,100 +906,7 @@ print(f"Secret Hash: {secret_hash}")
 </code></pre>
                 </div>
 
-                <h2>📋 Secure Coding Checklist</h2>
-                <div class="checklist">
-                    <h4>🛡️ Pre-Development Security Checklist</h4>
-                    <ul>
-                        <li>✅ <strong>Threat Modeling:</strong> Identify potential threats and attack vectors</li>
-                        <li>✅ <strong>Security Requirements:</strong> Define security requirements early</li>
-                        <li>✅ <strong>Secure Architecture:</strong> Design with security principles in mind</li>
-                        <li>✅ <strong>Technology Selection:</strong> Choose secure frameworks and libraries</li>
-                    </ul>
-                    
-                    <h4>🔧 Development Security Checklist</h4>
-                    <ul>
-                        <li>✅ <strong>Input Validation:</strong> Validate all input data</li>
-                        <li>✅ <strong>Output Encoding:</strong> Encode output to prevent XSS</li>
-                        <li>✅ <strong>Parameterized Queries:</strong> Prevent SQL injection</li>
-                        <li>✅ <strong>Authentication:</strong> Implement strong authentication mechanisms</li>
-                        <li>✅ <strong>Authorization:</strong> Enforce proper access controls</li>
-                        <li>✅ <strong>Session Management:</strong> Secure session handling</li>
-                        <li>✅ <strong>Cryptography:</strong> Use strong encryption and hashing</li>
-                        <li>✅ <strong>Error Handling:</strong> Implement secure error handling</li>
-                        <li>✅ <strong>Logging:</strong> Log security events appropriately</li>
-                        <li>✅ <strong>Configuration:</strong> Secure default configurations</li>
-                    </ul>
-                    
-                    <h4>🔍 Testing Security Checklist</h4>
-                    <ul>
-                        <li>✅ <strong>Static Code Analysis:</strong> Use SAST tools to find vulnerabilities</li>
-                        <li>✅ <strong>Dynamic Testing:</strong> Perform DAST on running applications</li>
-                        <li>✅ <strong>Dependency Scanning:</strong> Check for vulnerable dependencies</li>
-                        <li>✅ <strong>Penetration Testing:</strong> Professional security testing</li>
-                        <li>✅ <strong>Code Review:</strong> Security-focused code reviews</li>
-                    </ul>
-                    
-                    <h4>🚀 Deployment Security Checklist</h4>
-                    <ul>
-                        <li>✅ <strong>Secrets Management:</strong> No hardcoded secrets in production</li>
-                        <li>✅ <strong>HTTPS Everywhere:</strong> Encrypt all communications</li>
-                        <li>✅ <strong>Security Headers:</strong> Implement security HTTP headers</li>
-                        <li>✅ <strong>Monitoring:</strong> Set up security monitoring and alerting</li>
-                        <li>✅ <strong>Backup & Recovery:</strong> Secure backup and disaster recovery</li>
-                        <li>✅ <strong>Update Management:</strong> Keep all components updated</li>
-                    </ul>
-                </div>
-
-                <h2>🛠️ Security Tools and Frameworks</h2>
-                <div class="security-tools">
-                    <div class="tool-card">
-                        <h4>🔍 Static Analysis (SAST)</h4>
-                        <ul>
-                            <li><strong>SonarQube:</strong> Code quality and security analysis</li>
-                            <li><strong>Checkmarx:</strong> Static application security testing</li>
-                            <li><strong>Veracode:</strong> Application security platform</li>
-                            <li><strong>Bandit:</strong> Python security linter</li>
-                            <li><strong>ESLint Security:</strong> JavaScript security rules</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <h4>🎯 Dynamic Analysis (DAST)</h4>
-                        <ul>
-                            <li><strong>OWASP ZAP:</strong> Web application security scanner</li>
-                            <li><strong>Burp Suite:</strong> Web vulnerability scanner</li>
-                            <li><strong>Nessus:</strong> Vulnerability assessment tool</li>
-                            <li><strong>Acunetix:</strong> Web application security scanner</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <h4>📦 Dependency Scanning</h4>
-                        <ul>
-                            <li><strong>Snyk:</strong> Find and fix vulnerabilities in dependencies</li>
-                            <li><strong>npm audit:</strong> Built-in Node.js security auditing</li>
-                            <li><strong>OWASP Dependency-Check:</strong> Identify known vulnerabilities</li>
-                            <li><strong>GitHub Dependabot:</strong> Automated dependency updates</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <h4>🔐 Security Frameworks</h4>
-                        <ul>
-                            <li><strong>OWASP ASVS:</strong> Application Security Verification Standard</li>
-                            <li><strong>NIST Cybersecurity Framework:</strong> Comprehensive security guidance</li>
-                            <li><strong>ISO 27001:</strong> Information security management</li>
-                            <li><strong>SANS Top 25:</strong> Most dangerous software errors</li>
-                        </ul>
-                    </div>
-                </div>
-
                 <h2>🎯 Security in CI/CD Pipeline</h2>
-                <div class="success-box">
-                    <h4>DevSecOps - Security as Code</h4>
-                    <p>Integrate security throughout the development lifecycle with automated security testing and continuous monitoring.</p>
-                </div>
-
                 <div class="code-block">
                     <pre><code># Example GitHub Actions workflow for security
 name: Security Pipeline
@@ -1092,3 +999,5 @@ jobs:
     <footer>
         <p>&copy; 2025 Deepak Kumar Yadav | <a href="../../index.html">Back to Home</a></p>
     </footer>
+</body>
+</html>
