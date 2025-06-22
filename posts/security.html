@@ -1,0 +1,2305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Best Practices | Deepak Kumar Yadav</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/blog-post.css">
+    <style>
+        .security-overview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .security-pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .pillar-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .pillar-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .security-stats {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .security-stats ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .security-stats li {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .auth0-benefits {
+            background: #e8f5e8;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .architecture-diagram {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .flow-step {
+            background: #007bff;
+            color: white;
+            padding: 1rem;
+            margin: 0.5rem;
+            border-radius: 5px;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .checklist {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .checklist h3 {
+            color: #495057;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+        }
+        
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #b6d4da;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 5px solid #17a2b8;
+        }
+        
+        .code-section {
+            margin: 2rem 0;
+        }
+        
+        .code-section h4 {
+            background: #343a40;
+            color: white;
+            padding: 0.75rem 1rem;
+            margin: 0 0 -1px 0;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        pre {
+            margin: 0;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .section-nav {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .section-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .section-nav a {
+            text-decoration: none;
+            color: #007bff;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .section-nav a:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="../index.html">Deepak Kumar Yadav</a>
+            </div>
+            <ul>
+                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <article class="blog-post-content">
+            <header class="post-header">
+                <h1>🔐 Security Best Practices for Enterprise Applications</h1>
+                <div class="post-meta">
+                    <span class="post-date">December 22, 2025</span>
+                </div>
+            </header>
+
+            <section class="post-content">
+
+                <!-- Introduction -->
+                <section id="introduction">
+                    <h2>🔒 Introduction</h2>
+                    
+                    <div class="security-overview">
+                        <h3>🎯 Why Enterprise Security Matters</h3>
+                        <p>In today's interconnected digital landscape, security is not just a feature—it's a fundamental requirement. Enterprise applications handle sensitive data, financial transactions, and critical business operations that make them prime targets for cyber attacks.</p>
+                    </div>
+
+                    <div class="security-stats">
+                        <h3>📊 Security Statistics That Matter</h3>
+                        <ul>
+                            <li><strong>95%</strong> of successful cyber attacks are due to human error</li>
+                            <li><strong>$4.45 million</strong> - Average cost of a data breach in 2023</li>
+                            <li><strong>287 days</strong> - Average time to identify and contain a breach</li>
+                            <li><strong>43%</strong> of cyber attacks target small businesses</li>
+                            <li><strong>300%</strong> increase in API attacks in the last year</li>
+                        </ul>
+                    </div>
+
+                    <div class="security-pillars">
+                        <div class="pillar-card">
+                            <div class="pillar-icon">🔑</div>
+                            <h3>Auth0 Integration</h3>
+                            <p>Enterprise-grade identity and access management with SSO, MFA, and advanced threat detection.</p>
+                            <a href="../security/Auth0.html" class="blog-link">Read More →</a>
+                        </div>
+                        
+                        <div class="pillar-card">
+                            <div class="pillar-icon">🛡️</div>
+                            <h3>API Security</h3>
+                            <p>Multi-layer defense including authentication, rate limiting, input validation, and monitoring.</p>
+                        </div>
+                        
+                        <div class="pillar-card">
+                            <div class="pillar-icon">🌐</div>
+                            <h3>Network Security</h3>
+                            <p>Infrastructure hardening with HTTPS/TLS, firewalls, and network segmentation.</p>
+                        </div>
+                        
+                        <div class="pillar-card">
+                            <div class="pillar-icon">💻</div>
+                            <h3>Secure Coding</h3>
+                            <p>Best practices for secrets management, error handling, and vulnerability prevention.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Auth0 Integration -->
+                <section id="auth0-integration">
+                    <h2>🔑 Auth0 Integration: Complete Enterprise Identity & Access Management</h2>
+                    
+                    <div class="info-box">
+                        <h3>💡 What is Auth0?</h3>
+                        <p>Auth0 is a cloud-based identity and access management platform that provides authentication and authorization services. It eliminates the complexity of building your own identity infrastructure while providing enterprise-grade security features.</p>
+                    </div>
+
+                    <div class="auth0-benefits">
+                        <h3>🏗️ Why Auth0 for Enterprise Applications?</h3>
+                        <ul>
+                            <li><strong>Scalability:</strong> Handles millions of users with sub-second response times</li>
+                            <li><strong>Security:</strong> Built-in protection against brute force, anomaly detection, and bot attacks</li>
+                            <li><strong>Compliance:</strong> SOC 2, GDPR, HIPAA, PCI DSS compliant out of the box</li>
+                            <li><strong>Integration:</strong> 30+ social providers, enterprise SSO, custom databases</li>
+                            <li><strong>Customization:</strong> Rules, hooks, actions, and custom domains for branding</li>
+                            <li><strong>Analytics:</strong> Comprehensive security analytics and threat intelligence</li>
+                        </ul>
+                    </div>
+
+                    <div class="architecture-diagram">
+                        <h3>🎯 Auth0 Architecture Flow</h3>
+                        <div style="margin: 2rem 0;">
+                            <div class="flow-step">User Request</div>
+                            <div class="flow-step">Auth0 Login</div>
+                            <div class="flow-step">Identity Verification</div>
+                            <div class="flow-step">Token Generation</div>
+                            <div class="flow-step">API Access</div>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Important Security Considerations</h4>
+                        <ul>
+                            <li>Always use HTTPS for Auth0 callbacks</li>
+                            <li>Implement proper token validation</li>
+                            <li>Set appropriate token expiration times</li>
+                            <li>Enable anomaly detection and brute force protection</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🔧 Initial Auth0 Setup & Configuration</h4>
+                        <pre><code class="language-javascript">// Environment Configuration (.env file)
+AUTH0_DOMAIN=your-tenant.auth0.com
+AUTH0_CLIENT_ID=your-spa-client-id
+AUTH0_CLIENT_SECRET=your-spa-client-secret
+AUTH0_M2M_CLIENT_ID=your-m2m-client-id
+AUTH0_M2M_CLIENT_SECRET=your-m2m-client-secret
+AUTH0_AUDIENCE=https://your-api-identifier
+AUTH0_CUSTOM_DOMAIN=auth.yourdomain.com
+AUTH0_SCOPE=openid profile email
+
+// Complete Auth0 Manager Class
+const auth0 = require('auth0');
+const { expressjwt: jwt } = require('express-jwt');
+const jwks = require('jwks-rsa');
+
+class EnterpriseAuth0Manager {
+  constructor() {
+    this.domain = process.env.AUTH0_DOMAIN;
+    this.customDomain = process.env.AUTH0_CUSTOM_DOMAIN;
+    
+    // Management API Client for administrative operations
+    this.managementClient = new auth0.ManagementClient({
+      domain: this.domain,
+      clientId: process.env.AUTH0_M2M_CLIENT_ID,
+      clientSecret: process.env.AUTH0_M2M_CLIENT_SECRET,
+      scope: [
+        'read:users', 'update:users', 'create:users', 'delete:users',
+        'read:roles', 'update:roles', 'create:roles', 'delete:roles',
+        'read:user_idp_tokens', 'read:logs', 'read:anomaly_blocks',
+        'update:anomaly_blocks', 'read:attack_protection'
+      ].join(' ')
+    });
+    
+    this.initializeConfiguration();
+  }
+  
+  async initializeConfiguration() {
+    try {
+      await this.setupCustomDomain();
+      await this.configureTenant();
+      await this.setupBranding();
+      await this.configureSecurityPolicies();
+    } catch (error) {
+      console.error('Auth0 initialization failed:', error);
+      throw error;
+    }
+  }
+
+  // Custom Domain Configuration
+  async setupCustomDomain() {
+    if (this.customDomain) {
+      try {
+        const customDomains = await this.managementClient.getCustomDomains();
+        
+        if (customDomains.length === 0) {
+          const customDomain = await this.managementClient.createCustomDomain({
+            domain: this.customDomain,
+            type: 'auth0_managed_certs',
+            verification_method: 'txt'
+          });
+          
+          console.log('Custom domain created:', customDomain);
+        }
+      } catch (error) {
+        console.error('Custom domain setup failed:', error.message);
+      }
+    }
+  }
+
+  // Tenant Configuration for Enterprise Security
+  async configureTenant() {
+    const tenantSettings = {
+      friendly_name: 'Enterprise Application',
+      support_email: 'support@yourdomain.com',
+      
+      // Security Settings
+      session_lifetime: 720, // 12 hours
+      idle_session_lifetime: 72, // 3 days
+      token_lifetime: 86400, // 24 hours
+      token_lifetime_for_web: 7200, // 2 hours
+      
+      // Compliance
+      compliance: {
+        gdpr_enabled: true,
+        data_retention_days: 365
+      }
+    };
+    
+    try {
+      await this.managementClient.updateTenant(tenantSettings);
+      console.log('Tenant configured successfully');
+    } catch (error) {
+      console.error('Tenant configuration failed:', error.message);
+    }
+  }
+}
+</code></pre>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🔐 Single Page Application (SPA) Authentication</h4>
+                        <pre><code class="language-javascript">// Frontend SPA Authentication with PKCE
+import { Auth0Client } from '@auth0/auth0-spa-js';
+
+class SPAAuthManager {
+  constructor() {
+    this.auth0Client = new Auth0Client({
+      domain: process.env.REACT_APP_AUTH0_DOMAIN,
+      clientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        scope: 'openid profile email read:users'
+      },
+      
+      // Security Configuration
+      useRefreshTokens: true,
+      cacheLocation: 'localstorage'
+    });
+  }
+
+  async login(options = {}) {
+    try {
+      await this.auth0Client.loginWithRedirect({
+        ...options,
+        prompt: 'select_account'
+      });
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
+    }
+  }
+
+  async getAccessToken() {
+    try {
+      const token = await this.auth0Client.getTokenSilently({
+        detailedResponse: true,
+        timeoutInSeconds: 30
+      });
+      
+      return token.access_token;
+    } catch (error) {
+      console.error('Token retrieval failed:', error);
+      
+      if (error.error === 'login_required') {
+        await this.login();
+      }
+      
+      throw error;
+    }
+  }
+
+  async logout() {
+    try {
+      await this.auth0Client.logout({
+        logoutParams: {
+          returnTo: window.location.origin
+        }
+      });
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
+}
+</code></pre>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🛡️ Role-Based Access Control (RBAC)</h4>
+                        <pre><code class="language-javascript">// Enhanced permission middleware with context
+const checkEnhancedPermissions = (requiredPermission, options = {}) => {
+  return async (req, res, next) => {
+    try {
+      const userId = req.auth.sub;
+      const rbacManager = new EnterpriseRBACManager(auth0Management);
+      
+      const context = {
+        resourceOwnerId: req.params.userId || req.body.userId,
+        department: req.headers['x-department'] || req.user?.department,
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      };
+
+      const hasPermission = await rbacManager.checkPermission(
+        userId, 
+        requiredPermission, 
+        context
+      );
+
+      if (!hasPermission) {
+        return res.status(403).json({
+          error: 'Insufficient permissions',
+          required: requiredPermission
+        });
+      }
+
+      req.permissions = {
+        granted: requiredPermission,
+        context
+      };
+
+      next();
+    } catch (error) {
+      console.error('Permission check failed:', error);
+      res.status(500).json({ 
+        error: 'Permission check failed'
+      });
+    }
+  };
+};
+
+// Usage example
+app.get('/api/admin/users', 
+  jwtCheck, 
+  checkEnhancedPermissions('manage:users'), 
+  getUsersController
+);
+</code></pre>
+                    </div>
+                </section>
+
+                <!-- API Security -->
+                <section id="api-security">
+                    <h2>🛡️ API Security: Multi-Layer Defense Strategy</h2>
+                    
+                    <div class="info-box">
+                        <h3>🎯 API Security Fundamentals</h3>
+                        <p>API security is critical as APIs become the primary attack vector. A comprehensive security strategy includes authentication, authorization, input validation, rate limiting, and monitoring.</p>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>⚡ Advanced Rate Limiting Strategy</h4>
+                        <pre><code class="language-javascript">const rateLimit = require('express-rate-limit');
+const RedisStore = require('rate-limit-redis');
+const redis = require('redis');
+
+// Redis configuration for distributed rate limiting
+const redisClient = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASSWORD
+});
+
+// Intelligent rate limiting based on endpoint sensitivity
+const createRateLimiter = (options) => {
+  const {
+    windowMs = 15 * 60 * 1000, // 15 minutes
+    max = 100,
+    skipSuccessfulRequests = false
+  } = options;
+
+  return rateLimit({
+    store: new RedisStore({
+      client: redisClient,
+      prefix: 'rl:'
+    }),
+    windowMs,
+    max,
+    skipSuccessfulRequests,
+    message: {
+      error: 'Too many requests',
+      retryAfter: Math.ceil(windowMs / 1000)
+    },
+    standardHeaders: true,
+    legacyHeaders: false
+  });
+};
+
+// Different rate limits for different endpoints
+const authLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 login attempts per 15 minutes
+  skipSuccessfulRequests: true
+});
+
+const apiLimiter = createRateLimiter({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 60 // 60 requests per minute
+});
+
+// Apply rate limiting
+app.use('/api/auth', authLimiter);
+app.use('/api/v1', apiLimiter);
+</code></pre>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🔍 Input Validation & Sanitization</h4>
+                        <pre><code class="language-javascript">const Joi = require('joi');
+const xss = require('xss');
+const validator = require('validator');
+
+// Comprehensive validation schemas
+const userSchema = Joi.object({
+  email: Joi.string().email().lowercase().required(),
+  password: Joi.string()
+    .min(12)
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/)
+    .required(),
+  name: Joi.string().min(2).max(50).required()
+});
+
+// Advanced sanitization
+const sanitizeInput = (data) => {
+  if (typeof data === 'string') {
+    let sanitized = xss(data, {
+      whiteList: {}, // Allow no HTML tags
+      stripIgnoreTag: true
+    });
+    
+    sanitized = validator.escape(sanitized);
+    return sanitized.trim();
+  }
+  
+  if (Array.isArray(data)) {
+    return data.map(sanitizeInput);
+  }
+  
+  if (typeof data === 'object' && data !== null) {
+    const sanitizedObj = {};
+    for (const [key, value] of Object.entries(data)) {
+      sanitizedObj[key] = sanitizeInput(value);
+    }
+    return sanitizedObj;
+  }
+  
+  return data;
+};
+
+// Validation middleware
+const validateInput = (schema, source = 'body') => {
+  return (req, res, next) => {
+    const dataToValidate = req[source];
+    
+    const { error, value } = schema.validate(dataToValidate, {
+      abortEarly: false,
+      stripUnknown: true
+    });
+    
+    if (error) {
+      const validationErrors = error.details.map(detail => ({
+        field: detail.path.join('.'),
+        message: detail.message
+      }));
+      
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: validationErrors
+      });
+    }
+    
+    const sanitizedData = sanitizeInput(value);
+    req[`validated${source.charAt(0).toUpperCase() + source.slice(1)}`] = sanitizedData;
+    
+    next();
+  };
+};
+</code></pre>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🔒 SQL Injection Prevention</h4>
+                        <pre><code class="language-javascript">const { Pool } = require('pg');
+
+// PostgreSQL with advanced security
+class SecurePostgreSQLClient {
+  constructor() {
+    this.pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: process.env.NODE_ENV === 'production',
+      max: 20,
+      idleTimeoutMillis: 30000
+    });
+  }
+
+  // Safe query execution with parameterized queries
+  async query(text, params = []) {
+    const client = await this.pool.connect();
+    
+    try {
+      console.log('Executing query:', text.substring(0, 50) + '...');
+      const result = await client.query(text, params);
+      return result;
+    } catch (error) {
+      console.error('Database query error:', error.message);
+      throw new Error('Database operation failed');
+    } finally {
+      client.release();
+    }
+  }
+
+  // Safe user operations
+  async getUserById(userId) {
+    const query = `
+      SELECT id, email, name, created_at
+      FROM users
+      WHERE id = $1 AND deleted_at IS NULL
+    `;
+    
+    const result = await this.query(query, [userId]);
+    return result.rows[0];
+  }
+
+  async createUser(userData) {
+    const { email, name, hashedPassword } = userData;
+    
+    const query = `
+      INSERT INTO users (email, name, password_hash, created_at)
+      VALUES ($1, $2, $3, NOW())
+      RETURNING id, email, name, created_at
+    `;
+    
+    const result = await this.query(query, [email, name, hashedPassword]);
+    return result.rows[0];
+  }
+}
+</code></pre>
+                    </div>
+                </section>
+
+                <!-- Network Security -->
+                <section id="network-security">
+                    <h2>🌐 Network Security: Infrastructure Hardening</h2>
+                    
+                    <div class="info-box">
+                        <h3>🔐 Network Security Fundamentals</h3>
+                        <p>Network security provides the foundation for all other security measures, protecting against network-level attacks and ensuring secure communication. It encompasses multiple layers of defense including perimeter security, traffic encryption, access controls, and monitoring systems.</p>
+                    </div>
+
+                    <div class="security-stats">
+                        <h3>📊 Network Security Statistics</h3>
+                        <ul>
+                            <li><strong>68%</strong> of organizations experienced network security incidents in 2023</li>
+                            <li><strong>$1.02 million</strong> - Average cost of a DDoS attack</li>
+                            <li><strong>80%</strong> of security breaches involve network vulnerabilities</li>
+                            <li><strong>200%</strong> increase in sophisticated network attacks</li>
+                            <li><strong>15 minutes</strong> - Average time for attackers to move laterally in compromised networks</li>
+                        </ul>
+                    </div>
+
+                    <div class="architecture-diagram">
+                        <h3>🏗️ Network Security Architecture Layers</h3>
+                        <div style="margin: 2rem 0;">
+                            <div class="flow-step">Perimeter Defense</div>
+                            <div class="flow-step">Network Segmentation</div>
+                            <div class="flow-step">Traffic Encryption</div>
+                            <div class="flow-step">Access Control</div>
+                            <div class="flow-step">Monitoring & Detection</div>
+                        </div>
+                    </div>
+
+                    <h3>🔐 1. HTTPS/TLS Configuration & SSL/TLS Best Practices</h3>
+                    
+                    <div class="warning-box">
+                        <h4>⚠️ TLS Security Considerations</h4>
+                        <ul>
+                            <li>Always use TLS 1.2 or higher (disable older versions)</li>
+                            <li>Implement perfect forward secrecy (PFS)</li>
+                            <li>Use strong cipher suites and disable weak ones</li>
+                            <li>Implement certificate pinning for mobile applications</li>
+                            <li>Regular certificate rotation and monitoring</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🔒 Advanced HTTPS/TLS Configuration</h4>
+                        <pre><code class="language-javascript">const https = require('https');
+const fs = require('fs');
+const helmet = require('helmet');
+const tls = require('tls');
+
+// Advanced TLS Configuration
+class SecureTLSConfig {
+  constructor() {
+    this.tlsOptions = {
+      // Certificate and key files
+      key: fs.readFileSync(process.env.TLS_PRIVATE_KEY_PATH),
+      cert: fs.readFileSync(process.env.TLS_CERTIFICATE_PATH),
+      ca: fs.readFileSync(process.env.TLS_CA_PATH), // Certificate Authority
+      
+      // TLS Version Control
+      secureProtocol: 'TLSv1_3_method',
+      minVersion: 'TLSv1.2',
+      maxVersion: 'TLSv1.3',
+      
+      // Strong Cipher Suites (ordered by preference)
+      ciphers: [
+        'ECDHE-RSA-AES256-GCM-SHA384',
+        'ECDHE-RSA-AES128-GCM-SHA256',
+        'ECDHE-RSA-AES256-SHA384',
+        'ECDHE-RSA-AES128-SHA256',
+        'DHE-RSA-AES256-GCM-SHA384',
+        'DHE-RSA-AES128-GCM-SHA256'
+      ].join(':'),
+      
+      // Security Options
+      honorCipherOrder: true, // Server cipher preference
+      requestCert: false, // Client certificate validation
+      rejectUnauthorized: true,
+      
+      // Perfect Forward Secrecy
+      dhparam: fs.readFileSync('path/to/dhparam.pem'),
+      
+      // OCSP Stapling
+      enableTrace: false,
+      
+      // Session management
+      sessionIdContext: 'secure-app',
+      ticketKeys: Buffer.from(process.env.TLS_TICKET_KEYS, 'hex')
+    };
+  }
+
+  // Create secure HTTPS server
+  createSecureServer(app) {
+    const server = https.createServer(this.tlsOptions, app);
+    
+    // TLS event handlers
+    server.on('secureConnection', (tlsSocket) => {
+      console.log('Secure connection established:', {
+        protocol: tlsSocket.getProtocol(),
+        cipher: tlsSocket.getCipher(),
+        authorized: tlsSocket.authorized,
+        peerCertificate: tlsSocket.getPeerCertificate()
+      });
+    });
+
+    server.on('tlsClientError', (err, tlsSocket) => {
+      console.error('TLS Client Error:', err.message);
+      // Log potential attack attempts
+      this.logSecurityEvent('tls_client_error', {
+        error: err.message,
+        remoteAddress: tlsSocket.remoteAddress
+      });
+    });
+
+    return server;
+  }
+
+  // Certificate validation and monitoring
+  async validateCertificates() {
+    const cert = fs.readFileSync(process.env.TLS_CERTIFICATE_PATH);
+    const certInfo = tls.parseCertString(cert.toString());
+    
+    const expiryDate = new Date(certInfo.validTo);
+    const daysUntilExpiry = Math.ceil((expiryDate - new Date()) / (1000 * 60 * 60 * 24));
+    
+    if (daysUntilExpiry < 30) {
+      await this.alertCertificateExpiry(daysUntilExpiry);
+    }
+    
+    return {
+      valid: daysUntilExpiry > 0,
+      daysUntilExpiry,
+      issuer: certInfo.issuer,
+      subject: certInfo.subject
+    };
+  }
+
+  async alertCertificateExpiry(days) {
+    console.warn(`Certificate expires in ${days} days!`);
+    // Implement alerting mechanism (email, Slack, etc.)
+  }
+
+  logSecurityEvent(eventType, details) {
+    console.warn('Security Event:', {
+      type: eventType,
+      timestamp: new Date().toISOString(),
+      details
+    });
+  }
+}
+
+// Enhanced security headers with Helmet
+const configureSecurityHeaders = () => {
+  return helmet({
+    // Content Security Policy
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'nonce-{NONCE}'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", "https://api.yourdomain.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'none'"],
+        childSrc: ["'none'"],
+        workerSrc: ["'self'"],
+        frameAncestors: ["'none'"],
+        upgradeInsecureRequests: []
+      },
+      reportUri: '/csp-report'
+    },
+    
+    // HTTP Strict Transport Security (HSTS)
+    hsts: {
+      maxAge: 63072000, // 2 years
+      includeSubDomains: true,
+      preload: true
+    },
+    
+    // X-Frame-Options
+    frameguard: {
+      action: 'deny'
+    },
+    
+    // X-Content-Type-Options
+    noSniff: true,
+    
+    // X-XSS-Protection
+    xssFilter: true,
+    
+    // Referrer Policy
+    referrerPolicy: {
+      policy: 'strict-origin-when-cross-origin'
+    },
+    
+    // Permissions Policy
+    permissionsPolicy: {
+      features: {
+        accelerometer: [],
+        camera: [],
+        geolocation: [],
+        gyroscope: [],
+        magnetometer: [],
+        microphone: [],
+        payment: [],
+        usb: []
+      }
+    },
+    
+    // Hide X-Powered-By header
+    hidePoweredBy: true,
+    
+    // DNS Prefetch Control
+    dnsPrefetchControl: {
+      allow: false
+    }
+  });
+};
+
+// Usage
+const tlsConfig = new SecureTLSConfig();
+const app = express();
+
+app.use(configureSecurityHeaders());
+
+const server = tlsConfig.createSecureServer(app);
+server.listen(443, () => {
+  console.log('Secure HTTPS server running on port 443');
+  tlsConfig.validateCertificates();
+});
+</code></pre>
+                    </div>
+
+                    <h3>🔄 2. Advanced CORS Configuration & API Security</h3>
+                    
+                    <div class="info-box">
+                        <h3>🎯 CORS Security Principles</h3>
+                        <p>Cross-Origin Resource Sharing (CORS) controls how web applications can access resources from different domains. Proper CORS configuration prevents unauthorized cross-origin requests while enabling legitimate integrations.</p>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🛡️ Enterprise CORS Configuration</h4>
+                        <pre><code class="language-javascript">const cors = require('cors');
+
+class EnterpriseCORSManager {
+  constructor() {
+    this.allowedOrigins = new Set([
+      'https://yourdomain.com',
+      'https://app.yourdomain.com',
+      'https://admin.yourdomain.com',
+      'https://api.yourdomain.com'
+    ]);
+    
+    this.dynamicOrigins = new Map(); // For partner integrations
+    this.corsMetrics = {
+      allowed: 0,
+      blocked: 0,
+      errors: 0
+    };
+  }
+
+  // Dynamic origin management for partner APIs
+  addTrustedOrigin(origin, metadata = {}) {
+    this.dynamicOrigins.set(origin, {
+      ...metadata,
+      addedAt: new Date(),
+      requestCount: 0
+    });
+  }
+
+  removeTrustedOrigin(origin) {
+    return this.dynamicOrigins.delete(origin);
+  }
+
+  // Advanced origin validation
+  validateOrigin(origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) {
+      this.corsMetrics.allowed++;
+      return callback(null, true);
+    }
+
+    // Check static allowed origins
+    if (this.allowedOrigins.has(origin)) {
+      this.corsMetrics.allowed++;
+      return callback(null, true);
+    }
+
+    // Check dynamic origins (partner integrations)
+    if (this.dynamicOrigins.has(origin)) {
+      const originData = this.dynamicOrigins.get(origin);
+      originData.requestCount++;
+      originData.lastUsed = new Date();
+      
+      this.corsMetrics.allowed++;
+      return callback(null, true);
+    }
+
+    // Log blocked origin for analysis
+    this.logBlockedOrigin(origin);
+    this.corsMetrics.blocked++;
+    
+    callback(new Error(`Origin ${origin} not allowed by CORS policy`));
+  }
+
+  // Environment-specific CORS configuration
+  getCORSOptions(environment = 'production') {
+    const baseOptions = {
+      origin: (origin, callback) => this.validateOrigin(origin, callback),
+      credentials: true,
+      optionsSuccessStatus: 200,
+      maxAge: 86400, // 24 hours preflight cache
+      
+      // Allowed methods
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      
+      // Allowed headers
+      allowedHeaders: [
+        'Origin',
+        'X-Requested-With',
+        'Content-Type',
+        'Accept',
+        'Authorization',
+        'X-API-Key',
+        'X-Client-Version',
+        'X-Request-ID'
+      ],
+      
+      // Exposed headers
+      exposedHeaders: [
+        'X-Total-Count',
+        'X-Rate-Limit-Remaining',
+        'X-Rate-Limit-Reset',
+        'X-Request-ID'
+      ]
+    };
+
+    // Environment-specific overrides
+    if (environment === 'development') {
+      baseOptions.origin = true; // Allow all origins in development
+      baseOptions.maxAge = 0; // Disable preflight caching
+    } else if (environment === 'testing') {
+      baseOptions.origin = /^https?:\/\/localhost(:\d+)?$/;
+    }
+
+    return baseOptions;
+  }
+
+  // CORS monitoring and analytics
+  getCORSMetrics() {
+    return {
+      ...this.corsMetrics,
+      allowedOrigins: Array.from(this.allowedOrigins),
+      dynamicOrigins: Array.from(this.dynamicOrigins.keys()),
+      totalRequests: this.corsMetrics.allowed + this.corsMetrics.blocked
+    };
+  }
+
+  logBlockedOrigin(origin) {
+    console.warn('CORS: Blocked origin', {
+      origin,
+      timestamp: new Date().toISOString(),
+      userAgent: this.currentRequest?.get('User-Agent'),
+      ip: this.currentRequest?.ip
+    });
+  }
+}
+
+// Usage with Express
+const corsManager = new EnterpriseCORSManager();
+
+// Add partner origins dynamically
+corsManager.addTrustedOrigin('https://partner1.com', {
+  partner: 'Partner One',
+  apiKey: 'partner1_key',
+  permissions: ['read']
+});
+
+const corsOptions = corsManager.getCORSOptions(process.env.NODE_ENV);
+
+app.use(cors(corsOptions));
+
+// CORS metrics endpoint
+app.get('/api/admin/cors-metrics', (req, res) => {
+  res.json(corsManager.getCORSMetrics());
+});
+</code></pre>
+                    </div>
+
+                    <h3>🔥 3. Firewall Configuration & DDoS Protection</h3>
+                    
+                    <div class="warning-box">
+                        <h4>⚠️ Firewall Security Best Practices</h4>
+                        <ul>
+                            <li>Implement principle of least privilege (deny by default)</li>
+                            <li>Regular firewall rule audits and cleanup</li>
+                            <li>Layer multiple firewall solutions (network + application)</li>
+                            <li>Monitor and log all firewall activities</li>
+                            <li>Implement geo-blocking for suspicious regions</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🛡️ Application-Level Firewall & DDoS Protection</h4>
+                        <pre><code class="language-javascript">const rateLimit = require('express-rate-limit');
+const slowDown = require('express-slow-down');
+const MongoStore = require('rate-limit-mongo');
+
+class ApplicationFirewall {
+  constructor() {
+    this.blacklistedIPs = new Set();
+    this.whitelistedIPs = new Set([
+      '127.0.0.1',
+      '::1',
+      '10.0.0.0/8',
+      '172.16.0.0/12',
+      '192.168.0.0/16'
+    ]);
+    
+    <script>
+
+    const suspiciousPatterns = [
+        /\b(union|select|insert|delete|drop|create|alter)\b/i,
+        /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+        /javascript:/gi,
+        /eval\(/gi,
+        /expression\(/gi
+        ];
+    </script>
+    
+    this.geoBlockedCountries = new Set(['CN', 'RU', 'KP']);
+  }
+
+  // IP-based access control
+  ipAccessControl() {
+    return (req, res, next) => {
+      const clientIP = this.getClientIP(req);
+      
+      // Check whitelist first
+      if (this.isIPWhitelisted(clientIP)) {
+        return next();
+      }
+      
+      // Check blacklist
+      if (this.blacklistedIPs.has(clientIP)) {
+        this.logSecurityEvent('blocked_ip_access', {
+          ip: clientIP,
+          reason: 'blacklisted'
+        });
+        
+        return res.status(403).json({
+          error: 'Access denied',
+          code: 'IP_BLOCKED'
+        });
+      }
+      
+      next();
+    };
+  }
+
+  // Geographic blocking
+  geoBlockMiddleware() {
+    return async (req, res, next) => {
+      const clientIP = this.getClientIP(req);
+      const country = await this.getCountryFromIP(clientIP);
+      
+      if (this.geoBlockedCountries.has(country)) {
+        this.logSecurityEvent('geo_blocked_access', {
+          ip: clientIP,
+          country,
+          userAgent: req.get('User-Agent')
+        });
+        
+        return res.status(403).json({
+          error: 'Access denied from your location',
+          code: 'GEO_BLOCKED'
+        });
+      }
+      
+      next();
+    };
+  }
+
+  // SQL injection and XSS protection
+  maliciousRequestDetection() {
+    return (req, res, next) => {
+      const suspiciousData = [
+        JSON.stringify(req.query),
+        JSON.stringify(req.body),
+        JSON.stringify(req.params),
+        req.get('User-Agent') || '',
+        req.get('Referer') || ''
+      ].join(' ');
+
+      for (const pattern of this.suspiciousPatterns) {
+        if (pattern.test(suspiciousData)) {
+          this.logSecurityEvent('malicious_request_detected', {
+            ip: this.getClientIP(req),
+            pattern: pattern.toString(),
+            url: req.originalUrl,
+            method: req.method,
+            userAgent: req.get('User-Agent'),
+            suspiciousData: suspiciousData.substring(0, 1000)
+          });
+          
+          // Temporarily blacklist the IP
+          this.temporaryBlacklist(this.getClientIP(req), 3600000); // 1 hour
+          
+          return res.status(400).json({
+            error: 'Malicious request detected',
+            code: 'MALICIOUS_REQUEST'
+          });
+        }
+      }
+      
+      next();
+    };
+  }
+
+  // Advanced DDoS protection with adaptive thresholds
+  createDDoSProtection() {
+    // Progressive rate limiting
+    const createRateLimiter = (windowMs, max, skipSuccessfulRequests = false) => {
+      return rateLimit({
+        store: new MongoStore({
+          uri: process.env.MONGODB_URI,
+          collectionName: 'rateLimits',
+          expireTimeMs: windowMs
+        }),
+        windowMs,
+        max,
+        skipSuccessfulRequests,
+        standardHeaders: true,
+        legacyHeaders: false,
+        
+        // Custom key generator (IP + User-Agent fingerprint)
+        keyGenerator: (req) => {
+          const ip = this.getClientIP(req);
+          const userAgent = req.get('User-Agent') || '';
+          const fingerprint = this.createFingerprint(userAgent);
+          return `${ip}:${fingerprint}`;
+        },
+        
+        // Dynamic response based on violation severity
+        handler: (req, res) => {
+          const clientIP = this.getClientIP(req);
+          this.incrementViolationCount(clientIP);
+          
+          const violations = this.getViolationCount(clientIP);
+          
+          if (violations > 10) {
+            this.temporaryBlacklist(clientIP, 3600000); // 1 hour blacklist
+          }
+          
+          res.status(429).json({
+            error: 'Too many requests',
+            retryAfter: Math.ceil(windowMs / 1000),
+            violations
+          });
+        }
+      });
+    };
+
+    // Progressive slowdown for suspicious behavior
+    const createSlowDown = (windowMs, delayAfter, delayMs) => {
+      return slowDown({
+        windowMs,
+        delayAfter,
+        delayMs,
+        skipSuccessfulRequests: true,
+        
+        keyGenerator: (req) => {
+          return this.getClientIP(req);
+        }
+      });
+    };
+
+    return {
+      // General API protection
+      general: createRateLimiter(15 * 60 * 1000, 1000), // 1000 requests per 15 minutes
+      
+      // Authentication endpoints (stricter)
+      auth: createRateLimiter(15 * 60 * 1000, 10, true), // 10 attempts per 15 minutes
+      
+      // File upload endpoints
+      upload: createRateLimiter(60 * 60 * 1000, 50), // 50 uploads per hour
+      
+      // Progressive slowdown
+      slowDown: createSlowDown(15 * 60 * 1000, 100, 500), // Slow down after 100 requests
+      
+      // Burst protection
+      burst: createRateLimiter(60 * 1000, 50) // 50 requests per minute
+    };
+  }
+
+  // Utility methods
+  getClientIP(req) {
+    return req.ip || 
+           req.connection?.remoteAddress || 
+           req.socket?.remoteAddress ||
+           (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
+           req.headers['x-real-ip'] ||
+           'unknown';
+  }
+
+  isIPWhitelisted(ip) {
+    for (const whitelistedIP of this.whitelistedIPs) {
+      if (this.isIPInRange(ip, whitelistedIP)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isIPInRange(ip, range) {
+    // Simplified CIDR check - implement proper CIDR matching in production
+    if (!range.includes('/')) {
+      return ip === range;
+    }
+    // Implement proper CIDR matching logic
+    return false;
+  }
+
+  createFingerprint(userAgent) {
+    const crypto = require('crypto');
+    return crypto.createHash('md5').update(userAgent).digest('hex').substring(0, 8);
+  }
+
+  temporaryBlacklist(ip, duration) {
+    this.blacklistedIPs.add(ip);
+    setTimeout(() => {
+      this.blacklistedIPs.delete(ip);
+    }, duration);
+    
+    this.logSecurityEvent('ip_temporarily_blacklisted', {
+      ip,
+      duration,
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  incrementViolationCount(ip) {
+    // Implementation depends on your storage solution
+    // Could use Redis, MongoDB, or in-memory store
+  }
+
+  getViolationCount(ip) {
+    // Implementation depends on your storage solution
+    return 0;
+  }
+
+  async getCountryFromIP(ip) {
+    // Implement using a service like MaxMind GeoIP
+    // This is a placeholder
+    return 'US';
+  }
+
+  logSecurityEvent(type, details) {
+    console.warn('Security Event:', {
+      type,
+      timestamp: new Date().toISOString(),
+      details
+    });
+  }
+}
+
+// Usage
+const firewall = new ApplicationFirewall();
+const ddosProtection = firewall.createDDoSProtection();
+
+// Apply firewall middleware
+app.use(firewall.ipAccessControl());
+app.use(firewall.geoBlockMiddleware());
+app.use(firewall.maliciousRequestDetection());
+
+// Apply DDoS protection
+app.use('/api/', ddosProtection.general);
+app.use('/api/auth/', ddosProtection.auth);
+app.use('/api/upload/', ddosProtection.upload);
+app.use(ddosProtection.slowDown);
+</code></pre>
+                    </div>
+
+                    <h3>🏗️ 4. Network Segmentation & Zero Trust Architecture</h3>
+                    
+                    <div class="info-box">
+                        <h3>🎯 Zero Trust Network Principles</h3>
+                        <p>Zero Trust assumes no implicit trust based on network location. Every request must be authenticated, authorized, and validated before granting access to resources.</p>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🔐 Zero Trust Implementation</h4>
+                        <pre><code class="language-javascript">class ZeroTrustNetworkManager {
+  constructor() {
+    this.networkZones = {
+      public: { trust: 0, color: 'red' },
+      dmz: { trust: 25, color: 'orange' },
+      internal: { trust: 50, color: 'yellow' },
+      secure: { trust: 75, color: 'blue' },
+      critical: { trust: 100, color: 'green' }
+    };
+    
+    this.accessPolicies = new Map();
+    this.deviceRegistry = new Map();
+    this.riskScores = new Map();
+  }
+
+  // Device registration and trust scoring
+  registerDevice(deviceId, metadata) {
+    const device = {
+      id: deviceId,
+      ...metadata,
+      registered: new Date(),
+      lastSeen: new Date(),
+      trustScore: this.calculateInitialTrustScore(metadata),
+      accessHistory: []
+    };
+    
+    this.deviceRegistry.set(deviceId, device);
+    return device;
+  }
+
+  calculateInitialTrustScore(metadata) {
+    let score = 50; // Base score
+    
+    // Factor in device type
+    if (metadata.managed) score += 20;
+    if (metadata.encrypted) score += 15;
+    if (metadata.patchLevel === 'current') score += 10;
+    if (metadata.antivirus) score += 5;
+    
+    return Math.min(100, score);
+  }
+
+  // Dynamic risk assessment
+  assessRequestRisk(req) {
+    const factors = {
+      deviceTrust: this.getDeviceTrustScore(req),
+      geolocation: this.assessGeolocationRisk(req),
+      behavior: this.assessBehaviorRisk(req),
+      network: this.assessNetworkRisk(req),
+      time: this.assessTimeRisk(req)
+    };
+    
+    const weights = {
+      deviceTrust: 0.3,
+      geolocation: 0.2,
+      behavior: 0.25,
+      network: 0.15,
+      time: 0.1
+    };
+    
+    const riskScore = Object.keys(factors).reduce((total, factor) => {
+      return total + (factors[factor] * weights[factor]);
+    }, 0);
+    
+    return {
+      score: Math.round(riskScore),
+      factors,
+      level: this.getRiskLevel(riskScore)
+    };
+  }
+
+  // Adaptive access control
+  createAdaptiveAccessMiddleware() {
+    return async (req, res, next) => {
+      const risk = this.assessRequestRisk(req);
+      const requiredTrustLevel = this.getRequiredTrustLevel(req.path);
+      
+      // Log access attempt
+      this.logAccessAttempt(req, risk);
+      
+      if (risk.level === 'high' && requiredTrustLevel > 50) {
+        // Require additional authentication
+        return this.requireStepUpAuth(req, res, next);
+      }
+      
+      if (risk.level === 'critical') {
+        // Block access and alert
+        this.triggerSecurityAlert('critical_risk_access', { req, risk });
+        return res.status(403).json({
+          error: 'Access denied due to high risk',
+          riskLevel: risk.level,
+          factors: risk.factors
+        });
+      }
+      
+      // Update device trust based on successful access
+      this.updateDeviceTrust(req, 'successful_access');
+      next();
+    };
+  }
+
+  // Micro-segmentation implementation
+  createMicroSegmentationRules() {
+    return {
+      // Database access - only from application servers
+      database: {
+        allowedSources: ['app-server-subnet'],
+        deniedSources: ['public', 'dmz'],
+        ports: [5432, 3306, 27017],
+        encryption: 'required'
+      },
+      
+      // API servers - controlled external access
+      api: {
+        allowedSources: ['dmz', 'internal'],
+        ports: [80, 443],
+        rateLimiting: true,
+        encryption: 'required'
+      },
+      
+      // Internal services - no external access
+      internal: {
+        allowedSources: ['internal', 'secure'],
+        deniedSources: ['public', 'dmz'],
+        ports: [8080, 9090],
+        encryption: 'preferred'
+      },
+      
+      // Admin interfaces - highly restricted
+      admin: {
+        allowedSources: ['secure'],
+        requiresMFA: true,
+        timeRestrictions: '09:00-17:00',
+        encryption: 'required',
+        logging: 'verbose'
+      }
+    };
+  }
+
+  // Network monitoring and anomaly detection
+  startNetworkMonitoring() {
+    setInterval(() => {
+      this.analyzeTrafficPatterns();
+      this.detectAnomalies();
+      this.updateThreatIntelligence();
+    }, 60000); // Every minute
+  }
+
+  analyzeTrafficPatterns() {
+    // Implementation would analyze:
+    // - Connection volumes and patterns
+    // - Protocol usage anomalies
+    // - Unusual port activities
+    // - Geographic distribution changes
+    
+    const patterns = this.getCurrentTrafficPatterns();
+    const anomalies = this.compareWithBaseline(patterns);
+    
+    if (anomalies.length > 0) {
+      this.investigateAnomalies(anomalies);
+    }
+  }
+
+  detectAnomalies() {
+    // Machine learning-based anomaly detection
+    const currentMetrics = this.collectNetworkMetrics();
+    const anomalies = this.mlAnomalyDetection(currentMetrics);
+    
+    anomalies.forEach(anomaly => {
+      this.handleAnomaly(anomaly);
+    });
+  }
+
+  // Utility methods
+  getDeviceTrustScore(req) {
+    const deviceId = req.headers['x-device-id'];
+    const device = this.deviceRegistry.get(deviceId);
+    return device ? device.trustScore : 0;
+  }
+
+  assessGeolocationRisk(req) {
+    const ip = req.ip;
+    const location = this.getIPLocation(ip);
+    
+    // Higher risk for unexpected locations
+    if (this.isHighRiskCountry(location.country)) return 80;
+    if (this.isNewLocation(req.user?.id, location)) return 60;
+    return 20;
+  }
+
+  assessBehaviorRisk(req) {
+    const userId = req.user?.id;
+    if (!userId) return 50;
+    
+    const recentBehavior = this.getUserRecentBehavior(userId);
+    return this.analyzeBehaviorDeviation(recentBehavior);
+  }
+
+  requireStepUpAuth(req, res, next) {
+    res.status(403).json({
+      error: 'Additional authentication required',
+      challenge: 'mfa',
+      methods: ['totp', 'sms', 'push']
+    });
+  }
+
+  triggerSecurityAlert(type, data) {
+    console.error('Security Alert:', {
+      type,
+      timestamp: new Date().toISOString(),
+      data
+    });
+    
+    // Implement alerting system (email, Slack, PagerDuty, etc.)
+  }
+
+  logAccessAttempt(req, risk) {
+    const log = {
+      timestamp: new Date().toISOString(),
+      ip: req.ip,
+      userId: req.user?.id,
+      path: req.path,
+      method: req.method,
+      userAgent: req.get('User-Agent'),
+      riskScore: risk.score,
+      riskLevel: risk.level,
+      riskFactors: risk.factors
+    };
+    
+    // Store in security log database
+    console.log('Access Log:', log);
+  }
+}
+
+// Usage
+const zeroTrust = new ZeroTrustNetworkManager();
+
+// Apply zero trust middleware
+app.use(zeroTrust.createAdaptiveAccessMiddleware());
+
+// Start monitoring
+zeroTrust.startNetworkMonitoring();
+
+// Configure micro-segmentation rules
+const segmentationRules = zeroTrust.createMicroSegmentationRules();
+console.log('Micro-segmentation rules configured:', segmentationRules);
+</code></pre>
+                    </div>
+
+                    <h3>📊 5. Network Monitoring & Intrusion Detection</h3>
+                    
+                    <div class="code-section">
+                        <h4>🔍 Real-time Network Monitoring</h4>
+                        <pre><code class="language-javascript">const EventEmitter = require('events');
+
+class NetworkSecurityMonitor extends EventEmitter {
+  constructor() {
+    super();
+    this.metrics = {
+      connections: 0,
+      bytesTransferred: 0,
+      requestsPerSecond: 0,
+      errorRate: 0,
+      suspiciousActivities: 0
+    };
+    
+    this.alerts = [];
+    this.thresholds = {
+      maxConnectionsPerMinute: 1000,
+      maxErrorRatePercent: 5,
+      maxRequestsPerSecond: 100,
+      suspiciousPatternThreshold: 10
+    };
+    
+    this.trafficBaseline = this.loadTrafficBaseline();
+    this.startRealTimeMonitoring();
+  }
+
+  startRealTimeMonitoring() {
+    // Monitor every 10 seconds
+    setInterval(() => {
+      this.collectMetrics();
+      this.analyzeMetrics();
+      this.checkThresholds();
+    }, 10000);
+    
+    // Detailed analysis every minute
+    setInterval(() => {
+      this.performDetailedAnalysis();
+    }, 60000);
+  }
+
+  // Real-time metrics collection
+  collectMetrics() {
+    const currentTime = Date.now();
+    
+    // Collect system metrics
+    this.metrics.cpuUsage = process.cpuUsage();
+    this.metrics.memoryUsage = process.memoryUsage();
+    this.metrics.timestamp = currentTime;
+    
+    // Network-specific metrics would be collected here
+    // This would typically integrate with network monitoring tools
+  }
+
+  // Intrusion detection patterns
+  detectIntrusionPatterns(req) {
+    const patterns = {
+      sqlInjection: this.detectSQLInjection(req),
+      xssAttempt: this.detectXSSAttempt(req),
+      pathTraversal: this.detectPathTraversal(req),
+      bruteForce: this.detectBruteForce(req),
+      scanningBehavior: this.detectPortScanning(req),
+      ddosPattern: this.detectDDoSPattern(req)
+    };
+    
+    const detectedPatterns = Object.keys(patterns).filter(key => patterns[key]);
+    
+    if (detectedPatterns.length > 0) {
+      this.handleIntrusionDetection(req, detectedPatterns);
+    }
+    
+    return detectedPatterns;
+  }
+
+  detectSQLInjection(req) {
+    const sqlPatterns = [
+      /(\bUNION\b|\bSELECT\b|\bINSERT\b|\bDROP\b|\bDELETE\b)/gi,
+      /(\bOR\b|\bAND\b)\s+\d+\s*=\s*\d+/gi,
+      /'\s*(OR|AND)\s+'[^']*'/gi,
+      /;\s*(DROP|DELETE|INSERT|UPDATE)/gi
+    ];
+    
+    const requestData = JSON.stringify({
+      query: req.query,
+      body: req.body,
+      params: req.params
+    });
+    
+    return sqlPatterns.some(pattern => pattern.test(requestData));
+  }
+
+  detectXSSAttempt(req) {
+    <script>
+    const xssPatterns = [
+      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+      /javascript:/gi,
+      /on\w+\s*=/gi,
+      /<iframe\b[^>]*>/gi,
+      /eval\s*\(/gi
+    ];
+    </script>
+    const requestData = JSON.stringify(req.body) + JSON.stringify(req.query);
+    return xssPatterns.some(pattern => pattern.test(requestData));
+  }
+
+  detectPathTraversal(req) {
+    const pathPatterns = [
+      /\.\.\//g,
+      /\.\.\\+/g,
+      /%2e%2e%2f/gi,
+      /%252e%252e%252f/gi
+    ];
+    
+    const url = req.originalUrl;
+    return pathPatterns.some(pattern => pattern.test(url));
+  }
+
+  detectBruteForce(req) {
+    const ip = req.ip;
+    const endpoint = req.path;
+    
+    // Check for repeated failed attempts
+    const failedAttempts = this.getFailedAttempts(ip, endpoint);
+    
+    return failedAttempts > 10; // Threshold for brute force
+  }
+
+  // Enhanced monitoring middleware
+  createMonitoringMiddleware() {
+    return (req, res, next) => {
+      const startTime = Date.now();
+      
+      // Detect intrusion patterns
+      const detectedPatterns = this.detectIntrusionPatterns(req);
+      
+      if (detectedPatterns.length > 0) {
+        this.logSecurityIncident('intrusion_detected', {
+          ip: req.ip,
+          patterns: detectedPatterns,
+          url: req.originalUrl,
+          method: req.method,
+          userAgent: req.get('User-Agent')
+        });
+      }
+      
+      // Monitor response
+      res.on('finish', () => {
+        const responseTime = Date.now() - startTime;
+        
+        this.recordRequest({
+          ip: req.ip,
+          method: req.method,
+          url: req.originalUrl,
+          statusCode: res.statusCode,
+          responseTime,
+          userAgent: req.get('User-Agent'),
+          timestamp: new Date()
+        });
+        
+        // Update metrics
+        this.updateMetrics(req, res, responseTime);
+      });
+      
+      next();
+    };
+  }
+
+  // Security incident handling
+  handleIntrusionDetection(req, patterns) {
+    const incident = {
+      id: this.generateIncidentId(),
+      timestamp: new Date(),
+      severity: this.calculateSeverity(patterns),
+      source: req.ip,
+      patterns,
+      request: {
+        method: req.method,
+        url: req.originalUrl,
+        headers: req.headers,
+        body: req.body
+      }
+    };
+    
+    this.emit('security-incident', incident);
+    
+    // Auto-response based on severity
+    if (incident.severity >= 8) {
+      this.autoBlockIP(req.ip, 3600000); // 1 hour block
+    }
+    
+    return incident;
+  }
+
+  // Performance and availability monitoring
+  monitorPerformance() {
+    return setInterval(() => {
+      const metrics = {
+        avgResponseTime: this.calculateAverageResponseTime(),
+        errorRate: this.calculateErrorRate(),
+        throughput: this.calculateThroughput(),
+        availability: this.calculateAvailability()
+      };
+      
+      // Check for performance anomalies
+      if (metrics.avgResponseTime > 5000) { // 5 seconds
+        this.triggerAlert('high_response_time', metrics);
+      }
+      
+      if (metrics.errorRate > 0.05) { // 5% error rate
+        this.triggerAlert('high_error_rate', metrics);
+      }
+      
+      this.emit('performance-metrics', metrics);
+    }, 30000); // Every 30 seconds
+  }
+
+  // Alert management
+  triggerAlert(type, data) {
+    const alert = {
+      id: this.generateAlertId(),
+      type,
+      severity: this.getAlertSeverity(type),
+      timestamp: new Date(),
+      data,
+      acknowledged: false
+    };
+    
+    this.alerts.push(alert);
+    this.emit('security-alert', alert);
+    
+    // Send notifications based on severity
+    if (alert.severity >= 7) {
+      this.sendEmergencyNotification(alert);
+    }
+    
+    return alert;
+  }
+
+  // Utility methods
+  logSecurityIncident(type, details) {
+    console.warn('Security Incident:', {
+      type,
+      timestamp: new Date().toISOString(),
+      details
+    });
+  }
+
+  generateIncidentId() {
+    return `INC-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  calculateSeverity(patterns) {
+    const severityMap = {
+      sqlInjection: 9,
+      xssAttempt: 7,
+      pathTraversal: 8,
+      bruteForce: 6,
+      scanningBehavior: 5,
+      ddosPattern: 10
+    };
+    
+    return Math.max(...patterns.map(p => severityMap[p] || 1));
+  }
+}
+
+// Usage
+const monitor = new NetworkSecurityMonitor();
+
+// Apply monitoring middleware
+app.use(monitor.createMonitoringMiddleware());
+
+// Start performance monitoring
+monitor.monitorPerformance();
+
+// Event handlers
+monitor.on('security-incident', (incident) => {
+  console.error('Security Incident Detected:', incident);
+  // Implement incident response procedures
+});
+
+monitor.on('security-alert', (alert) => {
+  console.warn('Security Alert:', alert);
+  // Implement alerting system
+});
+
+monitor.on('performance-metrics', (metrics) => {
+  console.log('Performance Metrics:', metrics);
+  // Store metrics for analysis and reporting
+});
+</code></pre>
+                    </div>
+
+                    <h3>📊 6. Network Security Compliance & Auditing</h3>
+                    
+                    <div class="code-section">
+                        <h4>📋 Compliance Monitoring & Reporting</h4>
+                        <pre><code class="language-javascript">class NetworkComplianceManager {
+  constructor() {
+    this.complianceStandards = {
+      'PCI-DSS': {
+        requirements: [
+          'secure_network_config',
+          'encryption_in_transit',
+          'access_controls',
+          'network_monitoring',
+          'regular_testing'
+        ]
+      },
+      'SOC2': {
+        requirements: [
+          'logical_access_controls',
+          'network_segmentation',
+          'encryption',
+          'monitoring_logging',
+          'incident_response'
+        ]
+      },
+      'ISO27001': {
+        requirements: [
+          'network_access_control',
+          'network_security_management',
+          'network_segregation',
+          'cryptographic_controls'
+        ]
+      }
+    };
+    
+    this.auditLog = [];
+    this.complianceStatus = new Map();
+  }
+
+  // Automated compliance checking
+  performComplianceCheck(standard) {
+    const requirements = this.complianceStandards[standard]?.requirements || [];
+    const results = {};
+    
+    requirements.forEach(requirement => {
+      results[requirement] = this.checkRequirement(requirement);
+    });
+    
+    const overallCompliance = this.calculateComplianceScore(results);
+    
+    this.complianceStatus.set(standard, {
+      timestamp: new Date(),
+      results,
+      score: overallCompliance,
+      status: overallCompliance >= 0.95 ? 'compliant' : 'non-compliant'
+    });
+    
+    return this.complianceStatus.get(standard);
+  }
+
+  // Generate compliance reports
+  generateComplianceReport(standard, format = 'json') {
+    const compliance = this.complianceStatus.get(standard);
+    
+    if (!compliance) {
+      throw new Error(`No compliance data available for ${standard}`);
+    }
+    
+    const report = {
+      standard,
+      assessmentDate: compliance.timestamp,
+      overallScore: compliance.score,
+      status: compliance.status,
+      requirements: compliance.results,
+      recommendations: this.generateRecommendations(compliance.results),
+      nextAssessment: this.calculateNextAssessmentDate()
+    };
+    
+    if (format === 'pdf') {
+      return this.generatePDFReport(report);
+    }
+    
+    return report;
+  }
+
+  checkRequirement(requirement) {
+    // Implementation would check actual system configuration
+    // This is a simplified example
+    const checks = {
+      secure_network_config: () => this.checkNetworkConfiguration(),
+      encryption_in_transit: () => this.checkEncryptionInTransit(),
+      access_controls: () => this.checkAccessControls(),
+      network_monitoring: () => this.checkNetworkMonitoring(),
+      network_segmentation: () => this.checkNetworkSegmentation()
+    };
+    
+    const checkFunction = checks[requirement];
+    return checkFunction ? checkFunction() : { status: 'unknown', details: 'Check not implemented' };
+  }
+
+  checkNetworkConfiguration() {
+    // Verify firewall rules, port configurations, etc.
+    return {
+      status: 'compliant',
+      details: 'Network configuration meets security requirements',
+      evidence: 'Firewall rules audit completed'
+    };
+  }
+
+  checkEncryptionInTransit() {
+    // Verify TLS configuration, cipher suites, etc.
+    return {
+      status: 'compliant',
+      details: 'All communications encrypted with TLS 1.2+',
+      evidence: 'TLS configuration scan completed'
+    };
+  }
+}
+</code></pre>
+                    </div>
+
+                    <div class="checklist">
+                        <h3>🔐 Network Security Checklist</h3>
+                        <ul>
+                            <li>✅ Configure strong TLS/SSL with modern cipher suites</li>
+                            <li>✅ Implement comprehensive firewall rules (deny by default)</li>
+                            <li>✅ Set up network segmentation and micro-segmentation</li>
+                            <li>✅ Deploy DDoS protection and rate limiting</li>
+                            <li>✅ Configure intrusion detection/prevention systems</li>
+                            <li>✅ Implement zero-trust network architecture</li>
+                            <li>✅ Set up real-time network monitoring</li>
+                            <li>✅ Configure geo-blocking for high-risk regions</li>
+                            <li>✅ Implement network access control (NAC)</li>
+                            <li>✅ Regular security audits and penetration testing</li>
+                            <li>✅ Monitor and log all network activities</li>
+                            <li>✅ Maintain compliance with industry standards</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Secure Coding -->
+                <section id="secure-coding">
+                    <h2>💻 Secure Coding Practices</h2>
+                    
+                    <div class="info-box">
+                        <h3>🛠️ Secure Development Fundamentals</h3>
+                        <p>Implementing secure coding practices from the ground up prevents many common vulnerabilities and creates a strong security foundation.</p>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>🔐 Secrets Management</h4>
+                        <pre><code class="language-javascript">const AWS = require('aws-sdk');
+
+const secretsManager = new AWS.SecretsManager({
+  region: process.env.AWS_REGION
+});
+
+const getSecret = async (secretName) => {
+  try {
+    const result = await secretsManager.getSecretValue({
+      SecretId: secretName
+    }).promise();
+    
+    return JSON.parse(result.SecretString);
+  } catch (error) {
+    throw new Error(`Failed to retrieve secret: ${error.message}`);
+  }
+};
+
+// Environment validation
+const requiredEnvVars = [
+  'DATABASE_URL',
+  'JWT_SECRET',
+  'AUTH0_DOMAIN',
+  'REDIS_URL'
+];
+
+requiredEnvVars.forEach(envVar => {
+  if (!process.env[envVar]) {
+    throw new Error(`Required environment variable ${envVar} is missing`);
+  }
+});
+</code></pre>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>⚠️ Error Handling</h4>
+                        <pre><code class="language-javascript">// Secure error handling
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = true;
+    
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// Global error handler
+const globalErrorHandler = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  
+  if (process.env.NODE_ENV === 'production') {
+    res.status(err.statusCode).json({
+      status: 'error',
+      message: err.isOperational ? err.message : 'Something went wrong'
+    });
+  } else {
+    res.status(err.statusCode).json({
+      status: 'error',
+      message: err.message,
+      stack: err.stack
+    });
+  }
+};
+
+app.use(globalErrorHandler);
+</code></pre>
+                    </div>
+                </section>
+
+                <!-- Security Testing -->
+                <section id="testing">
+                    <h2>🔍 Security Testing</h2>
+                    
+                    <div class="code-section">
+                        <h4>🧪 Automated Security Testing</h4>
+                        <pre><code class="language-javascript">// Security test example using Jest
+const request = require('supertest');
+const app = require('../app');
+
+describe('Security Tests', () => {
+  test('should reject requests without authentication', async () => {
+    const response = await request(app)
+      .get('/api/protected-route')
+      .expect(401);
+    
+    expect(response.body.error).toContain('unauthorized');
+  });
+  
+  test('should prevent SQL injection', async () => {
+    const maliciousInput = "'; DROP TABLE users; --";
+    
+    const response = await request(app)
+      .post('/api/users')
+      .send({ name: maliciousInput })
+      .expect(400);
+    
+    expect(response.body.error).toContain('Validation failed');
+  });
+  
+  test('should enforce rate limiting', async () => {
+    const requests = Array(10).fill().map(() => 
+      request(app).post('/api/auth/login')
+    );
+    
+    const responses = await Promise.all(requests);
+    const rateLimitedResponses = responses.filter(r => r.status === 429);
+    
+    expect(rateLimitedResponses.length).toBeGreaterThan(0);
+  });
+});
+</code></pre>
+                    </div>
+                </section>
+
+                <!-- Security Checklist -->
+                <section id="checklist">
+                    <h2>📋 Security Checklist</h2>
+                    
+                    <div class="checklist">
+                        <h3>🔐 Authentication & Authorization (Auth0)</h3>
+                        <ul>
+                            <li>✅ Configure custom domain for branding and security</li>
+                            <li>✅ Enable attack protection (brute force, anomaly detection)</li>
+                            <li>✅ Implement comprehensive RBAC with permissions</li>
+                            <li>✅ Configure multi-factor authentication (MFA)</li>
+                            <li>✅ Set up security monitoring and alerting</li>
+                            <li>✅ Configure appropriate token lifetimes</li>
+                            <li>✅ Implement proper session management</li>
+                            <li>✅ Set up compliance features (GDPR, etc.)</li>
+                        </ul>
+                        
+                        <h3>🛡️ API Security</h3>
+                        <ul>
+                            <li>✅ Use HTTPS/TLS for all communications</li>
+                            <li>✅ Validate and sanitize all inputs</li>
+                            <li>✅ Implement rate limiting and DDoS protection</li>
+                            <li>✅ Use parameterized queries to prevent SQL injection</li>
+                            <li>✅ Implement comprehensive logging and monitoring</li>
+                            <li>✅ Add security headers to all responses</li>
+                            <li>✅ Implement proper CORS configuration</li>
+                        </ul>
+                        
+                        <h3>🌐 Network Security</h3>
+                        <ul>
+                            <li>✅ Configure firewalls and intrusion detection</li>
+                            <li>✅ Use VPNs for secure remote access</li>
+                            <li>✅ Regular security audits and penetration testing</li>
+                            <li>✅ Network segmentation and access controls</li>
+                            <li>✅ Monitor network traffic for anomalies</li>
+                        </ul>
+                        
+                        <h3>💻 Secure Coding</h3>
+                        <ul>
+                            <li>✅ Store secrets securely (not in code)</li>
+                            <li>✅ Keep dependencies updated</li>
+                            <li>✅ Use security headers (CSP, HSTS, etc.)</li>
+                            <li>✅ Implement proper error handling</li>
+                            <li>✅ Regular code security reviews</li>
+                            <li>✅ Follow OWASP security guidelines</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Conclusion -->
+                <div class="security-overview" style="margin-top: 3rem;">
+                    <h2>🎯 Conclusion</h2>
+                    <p>Security is not a one-time implementation but an ongoing process. With Auth0 providing enterprise-grade identity management, combined with robust API security, network hardening, and secure coding practices, you can build applications that are resilient against modern security threats.</p>
+                    <p><strong>Remember: Security is everyone's responsibility</strong> in the development team, and Auth0 provides the tools and infrastructure to implement enterprise-grade security without the complexity of building it from scratch.</p>
+                </div>
+            </section>
+
+            <footer class="post-footer">
+                <div class="post-nav">
+                    <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Deepak Kumar Yadav | <a href="../index.html">Back to Home</a></p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth0 on Google Cloud Platform with Python | Deepak Kumar Yadav</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/blog-post.css">
+    <style>
+        .code-block { background: #f8f9fa; border-radius: 8px; padding: 1rem; margin: 1.5rem 0; }
+        pre { margin: 0; }
+        .info-box { background: #e3f2fd; border-left: 5px solid #1976d2; padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 8px; }
+        .warning-box { background: #fff3cd; border-left: 5px solid #ffc107; padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 8px; }
+        .checklist { background: #f8f9fa; border-radius: 10px; padding: 2rem; margin: 2rem 0; }
+        .checklist ul { list-style: none; padding: 0; }
+        .checklist li { margin: 0.5rem 0; padding: 0.5rem; background: white; border-radius: 5px; border-left: 4px solid #28a745; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="../../index.html">Deepak Kumar Yadav</a>
+            </div>
+            <ul>
+                <li><a href="../../blog.html">Blog</a></li>
+                <li><a href="../../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="blog-post-content">
+            <header class="post-header">
+                <h1>🔑 Auth0 on Google Cloud Platform with Python</h1>
+                <div class="post-meta">
+                    <span class="post-date">June 2025</span>
+                    <div class="post-tags">
+                        <span class="tag">Auth0</span>
+                        <span class="tag">GCP</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Identity</span>
+                        <span class="tag">Security</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="post-content">
+                <h2>What is Auth0?</h2>
+                <div class="info-box">
+                    <p>
+                        <strong>Auth0</strong> is a cloud-based identity and access management platform that provides authentication and authorization as a service. It allows developers to add secure login, single sign-on (SSO), multi-factor authentication (MFA), and user management to applications with minimal effort.
+                    </p>
+                    <ul>
+                        <li><strong>Authentication:</strong> Verifies user identity (login, SSO, social logins, etc.)</li>
+                        <li><strong>Authorization:</strong> Controls what authenticated users can access (roles, permissions, RBAC)</li>
+                        <li><strong>Security:</strong> Built-in protection against common threats (brute force, credential stuffing, etc.)</li>
+                        <li><strong>Compliance:</strong> Meets standards like GDPR, SOC2, HIPAA, etc.</li>
+                    </ul>
+                </div>
+
+                <h2>How Does Auth0 Work?</h2>
+                <p>
+                    Auth0 acts as a trusted third-party between your application and your users. When a user tries to log in, your app redirects them to Auth0. Auth0 authenticates the user (via username/password, social login, enterprise SSO, etc.), then redirects them back to your app with a secure token (JWT or OIDC). Your app uses this token to verify the user's identity and permissions.
+                </p>
+                <img src="https://cdn.auth0.com/blog/auth0-architecture/auth0-architecture-diagram.png" alt="Auth0 Architecture" style="max-width:100%;border-radius:10px;margin:1.5rem 0;">
+
+                <h2>Why Use Auth0 with Google Cloud Platform?</h2>
+                <ul>
+                    <li>Integrates easily with GCP services (Cloud Run, App Engine, Cloud Functions, etc.)</li>
+                    <li>Offloads identity management and security to a trusted provider</li>
+                    <li>Supports modern authentication standards (OAuth2, OIDC, SAML)</li>
+                    <li>Scales with your application and user base</li>
+                    <li>Works seamlessly with Python frameworks (Flask, FastAPI, Django, etc.)</li>
+                </ul>
+
+                <h2>Step-by-Step: Auth0 Integration in Python on GCP</h2>
+                <div class="checklist">
+                    <ul>
+                        <li>✅ Create an Auth0 tenant and application</li>
+                        <li>✅ Configure allowed callback/logout URLs (e.g., your GCP app URL)</li>
+                        <li>✅ Install Auth0 Python SDK and dependencies</li>
+                        <li>✅ Implement authentication in your Python app</li>
+                        <li>✅ Deploy securely on Google Cloud (Cloud Run example)</li>
+                    </ul>
+                </div>
+
+                <h3>1. Create an Auth0 Application</h3>
+                <ol>
+                    <li>Sign up or log in at <a href="https://auth0.com/" target="_blank">Auth0 Dashboard</a>.</li>
+                    <li>Create a new "Regular Web Application".</li>
+                    <li>Note your <strong>Domain</strong>, <strong>Client ID</strong>, and <strong>Client Secret</strong>.</li>
+                    <li>Set <strong>Allowed Callback URLs</strong> and <strong>Allowed Logout URLs</strong> to your GCP app's URL (e.g., <code>https://your-app-xyz.a.run.app/callback</code>).</li>
+                </ol>
+
+                <h3>2. Python Setup: Install Dependencies</h3>
+                <div class="code-block">
+                    <pre><code>pip install flask python-dotenv authlib gunicorn</code></pre>
+                </div>
+
+                <h3>3. Example: Flask App with Auth0 (GCP Ready)</h3>
+                <div class="info-box">
+                    <strong>Tip:</strong> This example works on Cloud Run, App Engine, or locally.
+                </div>
+                <div class="code-block">
+<pre><code class="language-python"># app.py
+import os
+from functools import wraps
+from flask import Flask, redirect, url_for, session, request, jsonify
+from authlib.integrations.flask_client import OAuth
+from dotenv import load_dotenv
+
+load_dotenv()
+
+AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID")
+AUTH0_CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET")
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
+AUTH0_BASE_URL = f"https://{AUTH0_DOMAIN}"
+AUTH0_CALLBACK_URL = os.getenv("AUTH0_CALLBACK_URL")
+
+app = Flask(__name__)
+app.secret_key = os.getenv("APP_SECRET_KEY", "change-this-secret")
+app.config["SESSION_COOKIE_SECURE"] = True
+
+oauth = OAuth(app)
+auth0 = oauth.register(
+    "auth0",
+    client_id=AUTH0_CLIENT_ID,
+    client_secret=AUTH0_CLIENT_SECRET,
+    api_base_url=AUTH0_BASE_URL,
+    access_token_url=f"{AUTH0_BASE_URL}/oauth/token",
+    authorize_url=f"{AUTH0_BASE_URL}/authorize",
+    client_kwargs={"scope": "openid profile email"},
+)
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if "profile" not in session:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route("/")
+def home():
+    return "Welcome! <a href='/login'>Login</a>"
+
+@app.route("/login")
+def login():
+    return auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL)
+
+@app.route("/callback")
+def callback():
+    token = auth0.authorize_access_token()
+    session["user"] = token
+    session["profile"] = token["userinfo"]
+    return redirect("/dashboard")
+
+@app.route("/dashboard")
+@requires_auth
+def dashboard():
+    return jsonify(session["profile"])
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(
+        auth0.api_base_url
+        + "/v2/logout?"
+        + f"returnTo={url_for('home', _external=True)}&client_id={AUTH0_CLIENT_ID}"
+    )
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+</code></pre>
+                </div>
+
+                <h3>4. Environment Variables (.env)</h3>
+                <div class="code-block">
+<pre><code>AUTH0_CLIENT_ID=your_auth0_client_id
+AUTH0_CLIENT_SECRET=your_auth0_client_secret
+AUTH0_DOMAIN=your-tenant-region.auth0.com
+AUTH0_CALLBACK_URL=https://your-app-xyz.a.run.app/callback
+APP_SECRET_KEY=your_flask_secret
+</code></pre>
+                </div>
+
+                <h3>5. Deploying to Google Cloud Run</h3>
+                <ol>
+                    <li>Write a <code>Dockerfile</code> for your Flask app:</li>
+                </ol>
+                <div class="code-block">
+<pre><code class="language-dockerfile"># Dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
+</code></pre>
+                </div>
+                <ol start="2">
+                    <li>Build and deploy to Cloud Run:</li>
+                </ol>
+                <div class="code-block">
+<pre><code># Build container
+gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/auth0-flask-app
+
+# Deploy to Cloud Run
+gcloud run deploy auth0-flask-app \
+  --image gcr.io/YOUR_PROJECT_ID/auth0-flask-app \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-env-vars AUTH0_CLIENT_ID=... \
+  --set-env-vars AUTH0_CLIENT_SECRET=... \
+  --set-env-vars AUTH0_DOMAIN=... \
+  --set-env-vars AUTH0_CALLBACK_URL=... \
+  --set-env-vars APP_SECRET_KEY=...
+</code></pre>
+                </div>
+
+                <h2>How Auth0 Secures Your GCP Python App</h2>
+                <ul>
+                    <li>All authentication is handled by Auth0, not your app.</li>
+                    <li>Tokens (JWT/OIDC) are validated in your Python code before granting access to protected endpoints.</li>
+                    <li>Supports SSO, social logins, enterprise identity providers, and MFA out of the box.</li>
+                    <li>Centralized user management and security policies in the Auth0 dashboard.</li>
+                    <li>Easy integration with GCP IAM, Pub/Sub, Firestore, and other services using Auth0-issued tokens.</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>Security Tips:</strong>
+                    <ul>
+                        <li>Always use HTTPS for all endpoints and callback URLs.</li>
+                        <li>Never expose your Auth0 client secret in frontend code or public repos.</li>
+                        <li>Rotate secrets regularly and use GCP Secret Manager for production deployments.</li>
+                        <li>Enable MFA and anomaly detection in your Auth0 dashboard.</li>
+                    </ul>
+                </div>
+
+                <h2>Conclusion</h2>
+                <p>
+                    Auth0 makes it easy to add secure, scalable authentication and authorization to your Python applications on Google Cloud Platform. By offloading identity management to Auth0, you reduce risk, accelerate development, and ensure compliance with modern security standards. Whether you’re building a simple web app or a complex microservices architecture, Auth0 and GCP are a powerful combination.
+                </p>
+            </section>
+            <footer class="post-footer">
+                <div class="post-nav">
+                    <a href="../../blog.html" class="back-to-blog">← Back to Blog</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2025 Deepak Kumar Yadav | <a href="../../index.html">Back to Home</a></p>
+    </footer>
+</body>
+</html>
