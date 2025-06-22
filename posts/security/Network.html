@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Security: Complete Guide with Examples | Deepak Kumar Yadav</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/blog-post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/shell/shell.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pyodide@0.24.1/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        .code-block { 
+            background: #f8f9fa; 
+            border-radius: 8px; 
+            padding: 1rem; 
+            margin: 1.5rem 0; 
+            overflow-x: auto;
+            border-left: 4px solid #007bff;
+        }
+        pre { margin: 0; font-family: 'Courier New', monospace; }
+        .info-box { 
+            background: #e3f2fd; 
+            border-left: 5px solid #1976d2; 
+            padding: 1rem 1.5rem; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+        }
+        .warning-box { 
+            background: #fff3cd; 
+            border-left: 5px solid #ffc107; 
+            padding: 1rem 1.5rem; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+        }
+        .danger-box { 
+            background: #f8d7da; 
+            border-left: 5px solid #dc3545; 
+            padding: 1rem 1.5rem; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+        }
+        .success-box { 
+            background: #d4edda; 
+            border-left: 5px solid #28a745; 
+            padding: 1rem 1.5rem; 
+            margin: 1.5rem 0; 
+            border-radius: 8px; 
+        }
+        .checklist { 
+            background: #f8f9fa; 
+            border-radius: 10px; 
+            padding: 2rem; 
+            margin: 2rem 0; 
+        }
+        .checklist ul { list-style: none; padding: 0; }
+        .checklist li { 
+            margin: 0.5rem 0; 
+            padding: 0.5rem; 
+            background: white; 
+            border-radius: 5px; 
+            border-left: 4px solid #28a745; 
+        }
+        
+        .interactive-demo { 
+            background: #f8f9fa; 
+            border-radius: 10px; 
+            padding: 1.5rem; 
+            margin: 2rem 0; 
+            border: 2px solid #007bff;
+        }
+        .interactive-demo h4 {
+            margin-top: 0;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .code-editor {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 1rem 0;
+            min-height: 200px;
+        }
+        .demo-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .tab-button {
+            background: #f8f9fa;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 0.25rem;
+        }
+        .tab-button.active {
+            background: #007bff;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .run-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        .run-button:hover {
+            background: #218838;
+        }
+        .run-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .output {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            min-height: 100px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .loading { color: #ffc107; }
+        .error { color: #dc3545; }
+        .success { color: #28a745; }
+        
+        .security-layer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .threat-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .threat-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .threat-level-high { border-left: 5px solid #dc3545; }
+        .threat-level-medium { border-left: 5px solid #ffc107; }
+        .threat-level-low { border-left: 5px solid #28a745; }
+        
+        .architecture-diagram {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .comparison-table th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        .comparison-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .tool-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .tool-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid #007bff;
+        }
+        .tool-card h4 {
+            color: #007bff;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="../../index.html">Deepak Kumar Yadav</a>
+            </div>
+            <ul>
+                <li><a href="../../blog.html">Blog</a></li>
+                <li><a href="../../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="blog-post-content">
+            <header class="post-header">
+                <h1>🛡️ Network Security</h1>
+            </header>
+
+            <section class="post-content">
+                <h2>🎯 What is Network Security?</h2>
+                <div class="info-box">
+                    <p>
+                        <strong>Network Security</strong> is the practice of securing a computer network infrastructure from unauthorized access, misuse, malfunction, modification, destruction, or improper disclosure. It involves both hardware and software technologies and targets a variety of threats to prevent them from entering or spreading on your network.
+                    </p>
+                    <ul>
+                        <li><strong>Confidentiality:</strong> Ensuring data is accessible only to authorized users</li>
+                        <li><strong>Integrity:</strong> Maintaining data accuracy and preventing unauthorized modifications</li>
+                        <li><strong>Availability:</strong> Ensuring network resources remain accessible to legitimate users</li>
+                        <li><strong>Authentication:</strong> Verifying the identity of users and devices</li>
+                        <li><strong>Non-repudiation:</strong> Preventing denial of actions performed</li>
+                    </ul>
+                </div>
+
+                <h2>🏗️ Network Security Architecture</h2>
+                <div class="architecture-diagram">
+                    <div class="mermaid">
+                        graph TB
+                            Internet([Internet/WAN])
+                            
+                            subgraph "Perimeter Security"
+                                FW[Firewall]
+                                IPS[IPS/IDS]
+                                WAF[Web Application Firewall]
+                                LB[Load Balancer]
+                            end
+                            
+                            subgraph "DMZ - Demilitarized Zone"
+                                WebServer[Web Servers]
+                                MailServer[Mail Servers]
+                                DNSServer[DNS Servers]
+                            end
+                            
+                            subgraph "Internal Network"
+                                InternalFW[Internal Firewall]
+                                
+                                subgraph "Network Segmentation"
+                                    UserVLAN[User VLAN]
+                                    ServerVLAN[Server VLAN]
+                                    ManagementVLAN[Management VLAN]
+                                    GuestVLAN[Guest VLAN]
+                                end
+                                
+                                subgraph "Endpoints"
+                                    Workstations[Workstations]
+                                    Servers[Internal Servers]
+                                    IoT[IoT Devices]
+                                end
+                            end
+                            
+                            subgraph "Security Monitoring"
+                                SIEM[SIEM]
+                                SOC[Security Operations Center]
+                                Logging[Centralized Logging]
+                            end
+                            
+                            Internet --> FW
+                            FW --> IPS
+                            IPS --> WAF
+                            WAF --> LB
+                            LB --> WebServer
+                            LB --> MailServer
+                            LB --> DNSServer
+                            
+                            FW --> InternalFW
+                            InternalFW --> UserVLAN
+                            InternalFW --> ServerVLAN
+                            InternalFW --> ManagementVLAN
+                            InternalFW --> GuestVLAN
+                            
+                            UserVLAN --> Workstations
+                            ServerVLAN --> Servers
+                            ManagementVLAN --> IoT
+                            
+                            FW -.-> SIEM
+                            IPS -.-> SIEM
+                            InternalFW -.-> SIEM
+                            SIEM --> SOC
+                            SIEM --> Logging
+                            
+                            style Internet fill:#ffebee
+                            style FW fill:#e3f2fd
+                            style IPS fill:#e8f5e8
+                            style SIEM fill:#fff3e0
+                    </div>
+                </div>
+
+                <h2>🚨 Common Network Security Threats</h2>
+                <div class="threat-matrix">
+                    <div class="threat-card threat-level-high">
+                        <h4>🔥 Advanced Persistent Threats (APT)</h4>
+                        <p><strong>Risk Level:</strong> Critical</p>
+                        <p>Long-term targeted attacks that remain undetected while extracting sensitive data.</p>
+                        <ul>
+                            <li>State-sponsored attacks</li>
+                            <li>Industrial espionage</li>
+                            <li>Multi-stage infiltration</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="threat-card threat-level-high">
+                        <h4>🦠 Malware & Ransomware</h4>
+                        <p><strong>Risk Level:</strong> Critical</p>
+                        <p>Malicious software designed to damage, disrupt, or gain unauthorized access.</p>
+                        <ul>
+                            <li>Viruses and worms</li>
+                            <li>Ransomware encryption</li>
+                            <li>Trojans and rootkits</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="threat-card threat-level-high">
+                        <h4>⚡ DDoS Attacks</h4>
+                        <p><strong>Risk Level:</strong> High</p>
+                        <p>Overwhelming network resources to make services unavailable.</p>
+                        <ul>
+                            <li>Volumetric attacks</li>
+                            <li>Protocol attacks</li>
+                            <li>Application layer attacks</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="threat-card threat-level-medium">
+                        <h4>🎣 Phishing & Social Engineering</h4>
+                        <p><strong>Risk Level:</strong> Medium-High</p>
+                        <p>Manipulating users to divulge sensitive information or perform actions.</p>
+                        <ul>
+                            <li>Email phishing</li>
+                            <li>Spear phishing</li>
+                            <li>Pretexting</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="threat-card threat-level-medium">
+                        <h4>🕳️ Zero-Day Exploits</h4>
+                        <p><strong>Risk Level:</strong> Medium-High</p>
+                        <p>Attacks exploiting previously unknown vulnerabilities.</p>
+                        <ul>
+                            <li>Unpatched vulnerabilities</li>
+                            <li>Software exploits</li>
+                            <li>Hardware vulnerabilities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="threat-card threat-level-medium">
+                        <h4>👤 Insider Threats</h4>
+                        <p><strong>Risk Level:</strong> Medium</p>
+                        <p>Security risks from people within the organization.</p>
+                        <ul>
+                            <li>Malicious insiders</li>
+                            <li>Negligent employees</li>
+                            <li>Compromised accounts</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2>🛠️ Network Security Tools & Technologies</h2>
+                <div class="tool-showcase">
+                    <div class="tool-card">
+                        <h4>🔥 Firewalls</h4>
+                        <p><strong>Purpose:</strong> Network traffic filtering and access control</p>
+                        <ul>
+                            <li><strong>Packet Filtering:</strong> Basic rule-based filtering</li>
+                            <li><strong>Stateful Inspection:</strong> Connection state tracking</li>
+                            <li><strong>Next-Gen Firewalls:</strong> Deep packet inspection, application awareness</li>
+                            <li><strong>Web Application Firewalls:</strong> HTTP/HTTPS protection</li>
+                        </ul>
+                        <p><strong>Examples:</strong> pfSense, Cisco ASA, Fortinet FortiGate, Palo Alto</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4>🔍 Intrusion Detection/Prevention Systems</h4>
+                        <p><strong>Purpose:</strong> Detect and prevent malicious network activity</p>
+                        <ul>
+                            <li><strong>Signature-based:</strong> Known attack patterns</li>
+                            <li><strong>Anomaly-based:</strong> Behavioral analysis</li>
+                            <li><strong>Hybrid systems:</strong> Combined approach</li>
+                            <li><strong>Network vs Host-based:</strong> NIDS vs HIDS</li>
+                        </ul>
+                        <p><strong>Examples:</strong> Snort, Suricata, Zeek, Cisco Firepower</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4>🔐 VPN Technologies</h4>
+                        <p><strong>Purpose:</strong> Secure remote access and site-to-site connectivity</p>
+                        <ul>
+                            <li><strong>IPSec:</strong> Layer 3 encryption</li>
+                            <li><strong>SSL/TLS VPN:</strong> Web-based access</li>
+                            <li><strong>WireGuard:</strong> Modern, lightweight protocol</li>
+                            <li><strong>MPLS VPN:</strong> Service provider networks</li>
+                        </ul>
+                        <p><strong>Examples:</strong> OpenVPN, Cisco AnyConnect, FortiClient</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4>📊 SIEM Systems</h4>
+                        <p><strong>Purpose:</strong> Security information and event management</p>
+                        <ul>
+                            <li><strong>Log aggregation:</strong> Centralized logging</li>
+                            <li><strong>Correlation rules:</strong> Event correlation</li>
+                            <li><strong>Threat intelligence:</strong> IOC integration</li>
+                            <li><strong>Incident response:</strong> Automated workflows</li>
+                        </ul>
+                        <p><strong>Examples:</strong> Splunk, ELK Stack, QRadar, ArcSight</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4>🌐 Network Access Control (NAC)</h4>
+                        <p><strong>Purpose:</strong> Control device access to network resources</p>
+                        <ul>
+                            <li><strong>Device identification:</strong> Asset discovery</li>
+                            <li><strong>Policy enforcement:</strong> Access rules</li>
+                            <li><strong>Quarantine capabilities:</strong> Isolate non-compliant devices</li>
+                            <li><strong>Guest network management:</strong> Visitor access</li>
+                        </ul>
+                        <p><strong>Examples:</strong> Cisco ISE, Aruba ClearPass, ForeScout</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <h4>☁️ Cloud Security</h4>
+                        <p><strong>Purpose:</strong> Protect cloud-based infrastructure and applications</p>
+                        <ul>
+                            <li><strong>CASB:</strong> Cloud Access Security Brokers</li>
+                            <li><strong>CWPP:</strong> Cloud Workload Protection</li>
+                            <li><strong>CSPM:</strong> Cloud Security Posture Management</li>
+                            <li><strong>Zero Trust:</strong> Never trust, always verify</li>
+                        </ul>
+                        <p><strong>Examples:</strong> AWS Security Hub, Azure Security Center, Google Cloud Security</p>
+                    </div>
+                </div>
+
+                <h2>🔧 Hands-On Network Security Examples</h2>
+                
+                <!-- Interactive Demo Section -->
+                <div class="interactive-demo">
+                    <h4>🧪 Interactive Network Security Labs</h4>
+                    <p>Practice network security concepts with these interactive demonstrations:</p>
+                    
+                    <div class="demo-tabs">
+                        <button class="tab-button active" onclick="showTab('firewall-rules')">Firewall Rules</button>
+                        <button class="tab-button" onclick="showTab('port-scanner')">Port Scanner</button>
+                        <button class="tab-button" onclick="showTab('packet-analysis')">Packet Analysis</button>
+                        <button class="tab-button" onclick="showTab('vulnerability-scan')">Vulnerability Scan</button>
+                    </div>
+                    
+                    <!-- Firewall Rules Tab -->
+                    <div id="firewall-rules" class="tab-content active">
+                        <h5>🔥 Firewall Rules Configuration</h5>
+                        <p>Learn how to create and analyze firewall rules:</p>
+                        <div class="code-editor" id="firewallEditor"></div>
+                        <button class="run-button" onclick="runFirewallDemo()">Analyze Rules</button>
+                        <div class="output" id="firewallOutput">Firewall rules analysis will appear here...</div>
+                    </div>
+                    
+                    <!-- Port Scanner Tab -->
+                    <div id="port-scanner" class="tab-content">
+                        <h5>🔍 Network Port Scanner</h5>
+                        <p>Simulate port scanning for network discovery:</p>
+                        <div class="code-editor" id="scannerEditor"></div>
+                        <button class="run-button" onclick="runScannerDemo()">Run Port Scan</button>
+                        <div class="output" id="scannerOutput">Port scan results will appear here...</div>
+                    </div>
+                    
+                    <!-- Packet Analysis Tab -->
+                    <div id="packet-analysis" class="tab-content">
+                        <h5>📊 Network Packet Analysis</h5>
+                        <p>Analyze network packets for security threats:</p>
+                        <div class="code-editor" id="packetEditor"></div>
+                        <button class="run-button" onclick="runPacketDemo()">Analyze Packets</button>
+                        <div class="output" id="packetOutput">Packet analysis results will appear here...</div>
+                    </div>
+                    
+                    <!-- Vulnerability Scanner Tab -->
+                    <div id="vulnerability-scan" class="tab-content">
+                        <h5>🛡️ Vulnerability Assessment</h5>
+                        <p>Simulate vulnerability scanning and assessment:</p>
+                        <div class="code-editor" id="vulnEditor"></div>
+                        <button class="run-button" onclick="runVulnDemo()">Run Vulnerability Scan</button>
+                        <div class="output" id="vulnOutput">Vulnerability scan results will appear here...</div>
+                    </div>
+                </div>
+
+                <h2>🔒 Network Segmentation & Zero Trust</h2>
+                <div class="info-box">
+                    <h4>🎯 Zero Trust Network Architecture (ZTNA)</h4>
+                    <p>
+                        Zero Trust is a security model based on the principle of "never trust, always verify." It assumes that threats exist both inside and outside the network perimeter.
+                    </p>
+                    <ul>
+                        <li><strong>Identity Verification:</strong> Authenticate and authorize every user and device</li>
+                        <li><strong>Least Privilege Access:</strong> Grant minimum necessary permissions</li>
+                        <li><strong>Micro-segmentation:</strong> Create secure zones within the network</li>
+                        <li><strong>Continuous Monitoring:</strong> Real-time security analytics</li>
+                        <li><strong>Encrypted Communications:</strong> All traffic is encrypted</li>
+                    </ul>
+                </div>
+
+                <h3>🏢 Network Segmentation Strategies</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Segmentation Method</th>
+                            <th>Implementation</th>
+                            <th>Use Cases</th>
+                            <th>Security Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Physical Segmentation</strong></td>
+                            <td>Separate physical networks</td>
+                            <td>High-security environments</td>
+                            <td>Very High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VLAN Segmentation</strong></td>
+                            <td>Virtual LANs on same hardware</td>
+                            <td>Department separation</td>
+                            <td>Medium-High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Subnet Segmentation</strong></td>
+                            <td>IP address range separation</td>
+                            <td>Network organization</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Micro-segmentation</strong></td>
+                            <td>Application-level isolation</td>
+                            <td>Cloud environments</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Software-Defined Perimeter</strong></td>
+                            <td>Dynamic security perimeters</td>
+                            <td>Remote access, cloud</td>
+                            <td>Very High</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>🚀 Cloud Network Security</h2>
+                <div class="security-layer">
+                    <h4>☁️ Multi-Cloud Security Architecture</h4>
+                    <p>Modern applications span multiple cloud providers, requiring comprehensive security strategies</p>
+                </div>
+
+                <h3>🔧 Cloud Security Services Comparison</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Service Category</th>
+                            <th>AWS</th>
+                            <th>Azure</th>
+                            <th>Google Cloud</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Network Firewall</strong></td>
+                            <td>AWS WAF, Network Firewall</td>
+                            <td>Azure Firewall, Application Gateway</td>
+                            <td>Cloud Firewall, Cloud Armor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DDoS Protection</strong></td>
+                            <td>AWS Shield</td>
+                            <td>Azure DDoS Protection</td>
+                            <td>Google Cloud Armor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VPN Services</strong></td>
+                            <td>AWS VPN, Direct Connect</td>
+                            <td>Azure VPN Gateway, ExpressRoute</td>
+                            <td>Cloud VPN, Cloud Interconnect</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Identity & Access</strong></td>
+                            <td>AWS IAM, Cognito</td>
+                            <td>Azure Active Directory</td>
+                            <td>Cloud IAM, Identity Platform</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security Monitoring</strong></td>
+                            <td>CloudTrail, GuardDuty</td>
+                            <td>Azure Monitor, Sentinel</td>
+                            <td>Cloud Logging, Security Command Center</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>📋 Network Security Best Practices</h2>
+                <div class="checklist">
+                    <h4>🛡️ Essential Security Controls</h4>
+                    <ul>
+                        <li>✅ <strong>Defense in Depth:</strong> Implement multiple layers of security controls</li>
+                        <li>✅ <strong>Regular Security Assessments:</strong> Conduct penetration testing and vulnerability scans</li>
+                        <li>✅ <strong>Access Control:</strong> Implement strong authentication and authorization</li>
+                        <li>✅ <strong>Network Monitoring:</strong> Deploy comprehensive logging and alerting</li>
+                        <li>✅ <strong>Incident Response:</strong> Develop and test incident response procedures</li>
+                        <li>✅ <strong>Security Awareness:</strong> Train users on security best practices</li>
+                        <li>✅ <strong>Patch Management:</strong> Keep all systems and software updated</li>
+                        <li>✅ <strong>Backup & Recovery:</strong> Implement robust backup and disaster recovery</li>
+                        <li>✅ <strong>Compliance Monitoring:</strong> Ensure adherence to regulatory requirements</li>
+                        <li>✅ <strong>Threat Intelligence:</strong> Stay informed about emerging threats</li>
+                    </ul>
+                </div>
+
+                <h3>🔐 Security Configuration Examples</h3>
+                <div class="code-block">
+                    <pre><code># Linux Firewall (iptables) Configuration
+# Block all incoming traffic by default
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# Allow loopback traffic
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# Allow established connections
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allow SSH (port 22) from specific IP
+iptables -A INPUT -p tcp --dport 22 -s 192.168.1.100 -j ACCEPT
+
+# Allow HTTP/HTTPS
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+
+# Log dropped packets
+iptables -A INPUT -j LOG --log-prefix "DROPPED: "
+
+# Save rules
+iptables-save > /etc/iptables/rules.v4</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <pre><code># Cisco Router ACL Configuration
+# Extended ACL to control traffic
+ip access-list extended SECURITY_ACL
+
+# Allow HTTP/HTTPS to web servers
+permit tcp any host 192.168.10.10 eq 80
+permit tcp any host 192.168.10.10 eq 443
+
+# Allow SSH from management network only
+permit tcp 192.168.100.0 0.0.0.255 any eq 22
+
+# Allow DNS
+permit udp any any eq 53
+
+# Allow ICMP (ping) with rate limiting
+permit icmp any any echo-reply
+permit icmp any any time-exceeded
+permit icmp any any unreachable
+
+# Deny and log everything else
+deny ip any any log
+
+# Apply ACL to interface
+interface GigabitEthernet0/1
+ ip access-group SECURITY_ACL in</code></pre>
+                </div>
+
+                <h2>🔍 Network Security Monitoring & Analysis</h2>
+                <div class="warning-box">
+                    <h4>⚠️ Critical Monitoring Areas</h4>
+                    <ul>
+                        <li><strong>Network Traffic Patterns:</strong> Unusual data flows, traffic spikes</li>
+                        <li><strong>Authentication Events:</strong> Failed logins, privilege escalations</li>
+                        <li><strong>DNS Queries:</strong> Malicious domains, DNS tunneling</li>
+                        <li><strong>File Integrity:</strong> Unauthorized changes to critical files</li>
+                        <li><strong>Network Connections:</strong> Suspicious outbound connections</li>
+                        <li><strong>System Performance:</strong> Resource utilization anomalies</li>
+                    </ul>
+                </div>
+
+                <h3>📊 Security Metrics & KPIs</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Metric Category</th>
+                            <th>Key Performance Indicator</th>
+                            <th>Target Value</th>
+                            <th>Measurement Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Incident Response</strong></td>
+                            <td>Mean Time to Detection (MTTD)</td>
+                            <td>< 24 hours</td>
+                            <td>SIEM alerting</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Incident Response</strong></td>
+                            <td>Mean Time to Response (MTTR)</td>
+                            <td>< 4 hours</td>
+                            <td>Incident tracking</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vulnerability Management</strong></td>
+                            <td>Time to Patch Critical Vulnerabilities</td>
+                            <td>< 72 hours</td>
+                            <td>Patch management system</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Access Control</strong></td>
+                            <td>Failed Authentication Rate</td>
+                            <td>< 5%</td>
+                            <td>Authentication logs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Network Security</strong></td>
+                            <td>Blocked Malicious Connections</td>
+                            <td>Monitor trends</td>
+                            <td>Firewall logs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security Awareness</strong></td>
+                            <td>Phishing Simulation Success Rate</td>
+                            <td>< 10%</td>
+                            <td>Training platforms</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>🚨 Incident Response & Forensics</h2>
+                <div class="danger-box">
+                    <h4>🆘 Security Incident Response Phases</h4>
+                    <ol>
+                        <li><strong>Preparation:</strong> Establish incident response team and procedures</li>
+                        <li><strong>Identification:</strong> Detect and analyze potential security events</li>
+                        <li><strong>Containment:</strong> Isolate affected systems to prevent spread</li>
+                        <li><strong>Eradication:</strong> Remove threats and fix vulnerabilities</li>
+                        <li><strong>Recovery:</strong> Restore systems and monitor for recurring issues</li>
+                        <li><strong>Lessons Learned:</strong> Document and improve response procedures</li>
+                    </ol>
+                </div>
+
+                <h3>🔍 Digital Forensics Tools</h3>
+                <div class="code-block">
+                    <pre><code># Network forensics with tcpdump and Wireshark
+# Capture network traffic
+tcpdump -i eth0 -w network_capture.pcap -s 0
+
+# Filter specific traffic
+tcpdump -i eth0 host 192.168.1.100 and port 80
+
+# Analyze captured packets with tshark
+tshark -r network_capture.pcap -Y "http.request.method==GET" -T fields -e ip.src -e http.host -e http.request.uri
+
+# Extract files from HTTP traffic
+tshark -r network_capture.pcap --export-objects http,extracted_files/
+
+# Memory analysis with Volatility
+volatility -f memory_dump.raw imageinfo
+volatility -f memory_dump.raw --profile=Win7SP1x64 pslist
+volatility -f memory_dump.raw --profile=Win7SP1x64 netscan</code></pre>
+                </div>
+
+                <h2>🔮 Future of Network Security</h2>
+                <div class="success-box">
+                    <h4>🚀 Emerging Technologies & Trends</h4>
+                    <ul>
+                        <li><strong>AI/ML Security:</strong> Machine learning for threat detection and response</li>
+                        <li><strong>Quantum-Safe Cryptography:</strong> Preparing for quantum computing threats</li>
+                        <li><strong>5G Security:</strong> Securing next-generation mobile networks</li>
+                        <li><strong>IoT Security:</strong> Protecting the expanding Internet of Things</li>
+                        <li><strong>Edge Computing Security:</strong> Securing distributed computing environments</li>
+                        <li><strong>Blockchain Security:</strong> Leveraging distributed ledger technology</li>
+                        <li><strong>SASE (Secure Access Service Edge):</strong> Converged networking and security</li>
+                        <li><strong>Extended Detection and Response (XDR):</strong> Holistic security platforms</li>
+                    </ul>
+                </div>
+
+                <h2>📚 Conclusion</h2>
+                <p>
+                    Network security is a critical foundation for any organization's cybersecurity posture. As threats continue to evolve and become more sophisticated, implementing a comprehensive, multi-layered security strategy is essential.
+                </p>
+                <p>
+                    The key to effective network security lies in understanding that it's not just about deploying tools, but about creating a security-conscious culture, maintaining up-to-date knowledge of threats, and continuously improving your security posture through regular assessments and updates.
+                </p>
+
+                <div class="info-box">
+                    <h4>🎯 Key Takeaways</h4>
+                    <ul>
+                        <li>Network security requires a multi-layered, defense-in-depth approach</li>
+                        <li>Regular monitoring and incident response capabilities are crucial</li>
+                        <li>Zero Trust architecture is becoming the new security standard</li>
+                        <li>Cloud security requires specialized knowledge and tools</li>
+                        <li>Security is an ongoing process, not a one-time implementation</li>
+                        <li>Human factors (training, awareness) are as important as technical controls</li>
+                    </ul>
+                </div>
+            </section>
+            <footer class="post-footer">
+                <div class="post-nav">
+                    <a href="../../blog.html" class="back-to-blog">← Back to Blog</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2025 Deepak Kumar Yadav | <a href="../../index.html">Back to Home</a></p>
+    </footer>
