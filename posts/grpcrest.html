@@ -491,7 +491,7 @@ line-1gRPC Setup Instructions<!DOCTYPE html>
             </div>
         </div>
         <section id="overview" class="interactive-section">
-            <h2><i class="fas fa-info-circle"></i> What Are We Comparing?</h2>
+            <h2><i class="fas fa-info-circle"></i> REST vs gRPC</h2>
             
             <div class="comparison-grid">
                 <div class="comparison-card rest">
@@ -513,33 +513,6 @@ line-1gRPC Setup Instructions<!DOCTYPE html>
                         <div class="feature-item">🔒 Type safety</div>
                         <div class="feature-item">📡 Built-in streaming</div>
                         <div class="feature-item">🔧 Code generation</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="intro-content">
-                <p>In this interactive tutorial, you'll learn the key differences between REST and gRPC through hands-on examples. We'll build the same user management API using both approaches, allowing you to run and modify the code directly in your browser.</p>
-                
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🚀</div>
-                        <h3>Interactive Examples</h3>
-                        <p>Run Python code directly in the browser</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚖️</div>
-                        <h3>Side-by-Side Comparison</h3>
-                        <p>See both approaches in action</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3>Performance Analysis</h3>
-                        <p>Benchmark and compare real metrics</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💡</div>
-                        <h3>Best Practices</h3>
-                        <p>Learn when to use each approach</p>
                     </div>
                 </div>
             </div>
@@ -2162,102 +2135,6 @@ Performance benchmark output will appear here when you run the benchmark...
                 </div>
             </div>
         </section>
-
-        <section class="pros-cons">
-            <h2>Pros and Cons</h2>
-            
-            <div class="pros-cons">
-                <div class="pros">
-                    <h3>REST Advantages</h3>
-                    <ul>
-                        <li><strong>Universal Support:</strong> Works with any HTTP client</li>
-                        <li><strong>Browser Compatible:</strong> Direct integration with web applications</li>
-                        <li><strong>Human Readable:</strong> JSON is easy to debug and understand</li>
-                        <li><strong>Caching:</strong> Built-in HTTP caching mechanisms</li>
-                        <li><strong>Simple:</strong> Easy to implement and understand</li>
-                        <li><strong>Stateless:</strong> Each request is independent</li>
-                        <li><strong>Mature Ecosystem:</strong> Extensive tooling and documentation</li>
-                    </ul>
-                </div>
-                
-                <div class="cons">
-                    <h3>REST Disadvantages</h3>
-                    <ul>
-                        <li><strong>Performance:</strong> JSON parsing overhead</li>
-                        <li><strong>Limited Streaming:</strong> No built-in bidirectional streaming</li>
-                        <li><strong>Schema Evolution:</strong> No built-in versioning</li>
-                        <li><strong>Code Generation:</strong> Limited automatic client generation</li>
-                        <li><strong>Type Safety:</strong> No compile-time type checking</li>
-                        <li><strong>Bandwidth:</strong> JSON is more verbose than binary formats</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="pros-cons">
-                <div class="pros">
-                    <h3>gRPC Advantages</h3>
-                    <ul>
-                        <li><strong>Performance:</strong> Binary serialization and HTTP/2</li>
-                        <li><strong>Streaming:</strong> Built-in bidirectional streaming</li>
-                        <li><strong>Type Safety:</strong> Strong typing with Protocol Buffers</li>
-                        <li><strong>Code Generation:</strong> Automatic client/server generation</li>
-                        <li><strong>Schema Evolution:</strong> Built-in versioning support</li>
-                        <li><strong>Efficiency:</strong> Smaller payload sizes</li>
-                        <li><strong>Multiple Languages:</strong> Excellent cross-language support</li>
-                    </ul>
-                </div>
-                
-                <div class="cons">
-                    <h3>gRPC Disadvantages</h3>
-                    <ul>
-                        <li><strong>Browser Support:</strong> Requires grpc-web for browser clients</li>
-                        <li><strong>Debugging:</strong> Binary format is not human-readable</li>
-                        <li><strong>Learning Curve:</strong> More complex than REST</li>
-                        <li><strong>Caching:</strong> Limited HTTP caching support</li>
-                        <li><strong>Firewall Issues:</strong> HTTP/2 may be blocked</li>
-                        <li><strong>Tooling:</strong> Less mature debugging tools</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="when-to-use">
-            <h2>When to Use Each Approach</h2>
-            
-            <h3>Choose REST When:</h3>
-            <ul>
-                <li><strong>Web Applications:</strong> Building public APIs for web consumption</li>
-                <li><strong>Simple CRUD:</strong> Basic create, read, update, delete operations</li>
-                <li><strong>Caching Requirements:</strong> Need HTTP caching mechanisms</li>
-                <li><strong>Team Familiarity:</strong> Team is more comfortable with REST</li>
-                <li><strong>Third-party Integration:</strong> Need to integrate with external services</li>
-                <li><strong>Debugging:</strong> Human-readable format is important</li>
-                <li><strong>Quick Prototyping:</strong> Need to build and test quickly</li>
-            </ul>
-            
-            <h3>Choose gRPC When:</h3>
-            <ul>
-                <li><strong>Microservices:</strong> Internal service-to-service communication</li>
-                <li><strong>Performance Critical:</strong> Low latency and high throughput requirements</li>
-                <li><strong>Streaming:</strong> Real-time data streaming needs</li>
-                <li><strong>Type Safety:</strong> Strong typing and schema validation required</li>
-                <li><strong>Polyglot Environment:</strong> Multiple programming languages</li>
-                <li><strong>Schema Evolution:</strong> Need versioning and backward compatibility</li>
-                <li><strong>Code Generation:</strong> Want automatic client generation</li>
-            </ul>
-        </section>
-
-        <section class="real-world-examples">
-            <h2>Real-World Use Cases</h2>
-            
-            <h3>Companies Using REST</h3>
-            <ul>
-                <li><strong>Twitter API:</strong> Public API for social media integration</li>
-                <li><strong>GitHub API:</strong> Developer platform integration</li>
-                <li><strong>Stripe:</strong> Payment processing API</li>
-                <li><strong>Instagram:</strong> Photo sharing and social media</li>
-            </ul>
-            
         <section id="when-to-use" class="interactive-section">
             <h2><i class="fas fa-lightbulb"></i> When to Use Each Approach</h2>
             
