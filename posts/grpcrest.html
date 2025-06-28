@@ -1,4 +1,4 @@
-line-1gRPC Setup Instructions<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -197,6 +197,18 @@ line-1gRPC Setup Instructions<!DOCTYPE html>
         .btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .code-content {
@@ -444,9 +456,132 @@ line-1gRPC Setup Instructions<!DOCTYPE html>
             display: block;
         }
 
+        .protocol-comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .protocol-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .protocol-card.grpc-protocol {
+            border-left-color: var(--secondary-color);
+        }
+
+        .protocol-diagram {
+            margin: 20px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .protocol-layer {
+            background: white;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .grpc-protocol .protocol-layer {
+            border-left-color: var(--secondary-color);
+        }
+
+        .protocol-layer h4 {
+            background: linear-gradient(90deg, var(--primary-color), #6ec1e4);
+            color: white;
+            margin: 0;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .grpc-protocol .protocol-layer h4 {
+            background: linear-gradient(90deg, var(--secondary-color), #81c784);
+        }
+
+        .layer-content {
+            padding: 12px 15px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .protocol-features {
+            margin-top: 25px;
+        }
+
+        .protocol-features h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .grpc-protocol .protocol-features h4 {
+            color: var(--secondary-color);
+        }
+
+        .protocol-features ul {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .protocol-features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .protocol-features li::before {
+            content: "▶";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            top: 8px;
+            font-size: 12px;
+        }
+
+        .grpc-protocol .protocol-features li::before {
+            color: var(--secondary-color);
+        }
+
+        .code-example {
+            background: #1e1e1e;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .code-example pre {
+            margin: 0;
+            padding: 20px;
+            color: #d4d4d4;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-example code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
         @media (max-width: 768px) {
             .comparison-grid,
-            .pros-cons-grid {
+            .pros-cons-grid,
+            .protocol-comparison-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -461,6 +596,20 @@ line-1gRPC Setup Instructions<!DOCTYPE html>
             
             .nav-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .protocol-diagram {
+                padding: 15px;
+            }
+
+            .protocol-layer h4 {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+
+            .layer-content {
+                padding: 10px 12px;
+                font-size: 14px;
             }
         }
     </style>
@@ -513,6 +662,144 @@ line-1gRPC Setup Instructions<!DOCTYPE html>
                         <div class="feature-item">🔒 Type safety</div>
                         <div class="feature-item">📡 Built-in streaming</div>
                         <div class="feature-item">🔧 Code generation</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Protocol Architecture Deep Dive -->
+        <section id="protocol-deep-dive" class="interactive-section">
+            <h2><i class="fas fa-network-wired"></i> Protocol Architecture Deep Dive</h2>
+            
+            <div class="protocol-comparison-grid">
+                <div class="protocol-card rest-protocol">
+                    <h3><i class="fas fa-globe"></i> REST Protocol Architecture</h3>
+                    <div class="protocol-diagram">
+                        <div class="protocol-layer">
+                            <h4>Application Layer</h4>
+                            <div class="layer-content">REST API Endpoints</div>
+                        </div>
+                        <div class="protocol-layer">
+                            <h4>HTTP Layer</h4>
+                            <div class="layer-content">HTTP/1.1 or HTTP/2</div>
+                        </div>
+                        <div class="protocol-layer">
+                            <h4>Transport Layer</h4>
+                            <div class="layer-content">TCP</div>
+                        </div>
+                        <div class="protocol-layer">
+                            <h4>Network Layer</h4>
+                            <div class="layer-content">IP</div>
+                        </div>
+                    </div>
+                    
+                    <div class="protocol-features">
+                        <h4>Key Characteristics:</h4>
+                        <ul>
+                            <li><strong>Stateless:</strong> Each request contains all information needed for processing</li>
+                            <li><strong>Resource-based:</strong> URLs represent resources (nouns), not actions</li>
+                            <li><strong>HTTP Methods:</strong> GET, POST, PUT, DELETE, PATCH for CRUD operations</li>
+                            <li><strong>Content Negotiation:</strong> Accept/Content-Type headers for format selection</li>
+                            <li><strong>Caching:</strong> ETag, Last-Modified, Cache-Control headers</li>
+                            <li><strong>Status Codes:</strong> Semantic HTTP status codes (200, 404, 500, etc.)</li>
+                            <li><strong>Headers:</strong> Rich metadata through HTTP headers</li>
+                            <li><strong>Idempotent:</strong> GET, PUT, DELETE operations are idempotent</li>
+                        </ul>
+                        
+                        <h4>REST Request Flow:</h4>
+                        <div class="code-example" style="margin: 15px 0;">
+                            <pre><code>1. Client → HTTP Request → Server
+   GET /api/users/123 HTTP/1.1
+   Host: api.example.com
+   Accept: application/json
+   Authorization: Bearer token
+
+2. Server → HTTP Response → Client
+   HTTP/1.1 200 OK
+   Content-Type: application/json
+   Cache-Control: max-age=3600
+   
+   {"id": 123, "name": "John Doe"}</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="protocol-card grpc-protocol">
+                    <h3><i class="fas fa-bolt"></i> gRPC Protocol Architecture</h3>
+                    <div class="protocol-diagram">
+                        <div class="protocol-layer">
+                            <h4>Application Layer</h4>
+                            <div class="layer-content">gRPC Service Methods</div>
+                        </div>
+                        <div class="protocol-layer">
+                            <h4>gRPC Layer</h4>
+                            <div class="layer-content">Protocol Buffers + RPC</div>
+                        </div>
+                        <div class="protocol-layer">
+                            <h4>HTTP/2 Layer</h4>
+                            <div class="layer-content">Multiplexed Streams</div>
+                        </div>
+                        <div class="protocol-layer">
+                            <h4>Transport Layer</h4>
+                            <div class="layer-content">TCP</div>
+                        </div>
+                        <div class="protocol-layer">
+                            <h4>Network Layer</h4>
+                            <div class="layer-content">IP</div>
+                        </div>
+                    </div>
+                    
+                    <div class="protocol-features">
+                        <h4>Key Characteristics:</h4>
+                        <ul>
+                            <li><strong>Binary Protocol:</strong> Efficient protobuf serialization over HTTP/2</li>
+                            <li><strong>HTTP/2 Multiplexing:</strong> Multiple concurrent requests over single connection</li>
+                            <li><strong>Streaming Types:</strong> Unary, server streaming, client streaming, bidirectional</li>
+                            <li><strong>Type Safety:</strong> Strong typing through protobuf schemas with validation</li>
+                            <li><strong>Code Generation:</strong> Auto-generated client/server stubs in 10+ languages</li>
+                            <li><strong>Deadline/Timeout:</strong> Built-in request timeout handling</li>
+                            <li><strong>Metadata:</strong> Key-value pairs for request/response metadata</li>
+                            <li><strong>Error Handling:</strong> Rich error model with status codes and details</li>
+                        </ul>
+                        
+                        <h4>gRPC Request Flow:</h4>
+                        <div class="code-example" style="margin: 15px 0;">
+                            <pre><code>1. Client → gRPC Call → Server
+   POST /user_service.UserService/GetUser HTTP/2
+   Content-Type: application/grpc
+   grpc-encoding: gzip
+   
+   [Binary Protobuf Data]
+
+2. Server → gRPC Response → Client
+   HTTP/2 200 OK
+   Content-Type: application/grpc
+   grpc-status: 0
+   
+   [Binary Protobuf Response]</code></pre>
+                        </div>
+                        
+                        <h4>Streaming Capabilities:</h4>
+                        <div style="margin: 15px 0;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: #f0f8ff; padding: 15px; border-radius: 8px;">
+                                    <strong>Server Streaming:</strong><br>
+                                    Client sends one request, server sends multiple responses
+                                </div>
+                                <div style="background: #f0fff0; padding: 15px; border-radius: 8px;">
+                                    <strong>Client Streaming:</strong><br>
+                                    Client sends multiple requests, server sends one response
+                                </div>
+                                <div style="background: #fff8f0; padding: 15px; border-radius: 8px;">
+                                    <strong>Bidirectional:</strong><br>
+                                    Both client and server can send multiple messages
+                                </div>
+                                <div style="background: #f8f0ff; padding: 15px; border-radius: 8px;">
+                                    <strong>Unary:</strong><br>
+                                    Traditional request-response (like REST)
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -926,7 +1213,8 @@ class RestUserClient:
     def health_check(self):
         """Check server health"""
         try:
-            response = self.session.get(f"{self.base_url}/health")
+            response = self.sessio
+                        gap: 20px;n.get(f"{self.base_url}/health")
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -2134,7 +2422,7 @@ Performance benchmark output will appear here when you run the benchmark...
                     </div>
                 </div>
             </div>
-        </section>
+        </section>      
         <section id="when-to-use" class="interactive-section">
             <h2><i class="fas fa-lightbulb"></i> When to Use Each Approach</h2>
             
@@ -2986,7 +3274,7 @@ Performance benchmark output will appear here when you run the benchmark...
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            showNotification('Interactive gRPC vs REST guide loaded! 🚀', 'success');
+      showNotification('Interactive gRPC vs REST guide loaded! 🚀', 'success');
         });
     </script>
 </body>
