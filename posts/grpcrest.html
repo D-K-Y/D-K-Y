@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gRPC vs REST: Interactive Guide with Python Examples</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007acc;
+            --secondary-color: #4caf50;
+            --accent-color: #ff6b35;
+            --bg-dark: #1e1e1e;
+            --bg-light: #f8f9fa;
+            --text-light: #333;
+            --text-dark: #d4d4d4;
+            --border-color: #e0e0e0;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,122,204,0.3);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,122,204,0.4);
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero-section .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .section-nav {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 10px 15px;
+            background: white;
+            border-radius: 5px;
+            text-decoration: none;
+            color: var(--text-light);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,122,204,0.2);
+        }
+
+        .interactive-section {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .code-playground {
+            background: var(--bg-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .code-header {
+            background: linear-gradient(90deg, #2196f3, #21cbf3);
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .code-content {
+            position: relative;
+        }
+
+        .code-editor {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            padding: 20px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            min-height: 300px;
+            border: none;
+            resize: vertical;
+            width: 100%;
+        }
+
+        .output-panel {
+            background: #0f1419;
+            color: #e6e6e6;
+            padding: 15px 20px;
+            border-top: 1px solid #333;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 13px;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+
+        .output-success {
+            border-left: 4px solid var(--success-color);
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .output-error {
+            border-left: 4px solid var(--error-color);
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .comparison-card.grpc {
+            border-top-color: var(--secondary-color);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .pros-cons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .pros-cons-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .pros-card {
+            border-left: 5px solid var(--success-color);
+        }
+
+        .cons-card {
+            border-left: 5px solid var(--warning-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .terminal-window {
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .terminal-header {
+            background: #333;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-button.close { background: #ff5f57; }
+        .terminal-button.minimize { background: #ffbd2e; }
+        .terminal-button.maximize { background: #28ca42; }
+
+        .terminal-content {
+            padding: 20px;
+            color: #d4d4d4;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-running {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--success-color);
+        }
+
+        .status-stopped {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--error-color);
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--bg-light);
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .tab-content {
+            background: white;
+            border-radius: 0 0 10px 10px;
+            min-height: 400px;
+        }
+
+        .tab-pane {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid,
+            .pros-cons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .hero-section h1 {
+                font-size: 2em;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <span class="avatar">DKY</span>
+                <span class="brand-name">Deepak Kumar Yadav</span>
+            </div>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html">My Blog</a></li>
+            </ul>
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1><i class="fas fa-code"></i> gRPC vs REST</h1>
+            <p class="subtitle">Interactive Guide with Python Examples & Live Code Execution</p>
+            <div class="meta-info">
+                <span><i class="fas fa-calendar"></i> June 28, 2025</span>
+                <span><i class="fas fa-clock"></i> 20 min read</span>
+                <span><i class="fas fa-code"></i> Interactive Tutorial</span>
+            </div>
+        </div>
+        <section id="overview" class="interactive-section">
+            <h2><i class="fas fa-info-circle"></i> What Are We Comparing?</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card rest">
+                    <h3><i class="fas fa-globe"></i> REST (Representational State Transfer)</h3>
+                    <p>An architectural style for designing networked applications using standard HTTP methods and typically JSON for data exchange.</p>
+                    <div class="feature-list">
+                        <div class="feature-item">✅ Simple and intuitive</div>
+                        <div class="feature-item">✅ Browser compatible</div>
+                        <div class="feature-item">✅ Human readable</div>
+                        <div class="feature-item">✅ Widely adopted</div>
+                    </div>
+                </div>
+                
+                <div class="comparison-card grpc">
+                    <h3><i class="fas fa-bolt"></i> gRPC (Google Remote Procedure Call)</h3>
+                    <p>A high-performance RPC framework using HTTP/2 and Protocol Buffers for fast, type-safe communication.</p>
+                    <div class="feature-list">
+                        <div class="feature-item">⚡ High performance</div>
+                        <div class="feature-item">🔒 Type safety</div>
+                        <div class="feature-item">📡 Built-in streaming</div>
+                        <div class="feature-item">🔧 Code generation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="intro-content">
+                <p>In this interactive tutorial, you'll learn the key differences between REST and gRPC through hands-on examples. We'll build the same user management API using both approaches, allowing you to run and modify the code directly in your browser.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>Interactive Examples</h3>
+                        <p>Run Python code directly in the browser</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3>Side-by-Side Comparison</h3>
+                        <p>See both approaches in action</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Performance Analysis</h3>
+                        <p>Benchmark and compare real metrics</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💡</div>
+                        <h3>Best Practices</h3>
+                        <p>Learn when to use each approach</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="interactive-section">
+            <h2><i class="fas fa-balance-scale"></i> Detailed Comparison</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th><i class="fas fa-globe"></i> REST</th>
+                        <th><i class="fas fa-bolt"></i> gRPC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Protocol</strong></td>
+                        <td>HTTP/1.1 or HTTP/2</td>
+                        <td>HTTP/2 only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Format</strong></td>
+                        <td>JSON, XML, HTML</td>
+                        <td>Protocol Buffers (binary)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td>Good for simple operations</td>
+                        <td>High performance, low latency</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Streaming</strong></td>
+                        <td>Limited (Server-Sent Events)</td>
+                        <td>Built-in bidirectional streaming</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Browser Support</strong></td>
+                        <td>Excellent native support</td>
+                        <td>Requires grpc-web proxy</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Code Generation</strong></td>
+                        <td>Manual or framework-based</td>
+                        <td>Automatic from .proto files</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Human Readability</strong></td>
+                        <td>High (JSON is readable)</td>
+                        <td>Low (binary format)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Caching</strong></td>
+                        <td>HTTP caching mechanisms</td>
+                        <td>Limited caching options</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Learning Curve</strong></td>
+                        <td>Gentle, intuitive</td>
+                        <td>Steeper, requires protobuf knowledge</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Payload Size</strong></td>
+                        <td>Larger (JSON overhead)</td>
+                        <td>Smaller (binary encoding)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pros-cons-grid">
+                <div class="pros-cons-card pros-card">
+                    <h3><i class="fas fa-thumbs-up"></i> REST Advantages</h3>
+                    <ul>
+                        <li><strong>Universal Support:</strong> Works with any HTTP client</li>
+                        <li><strong>Browser Compatible:</strong> Direct integration with web apps</li>
+                        <li><strong>Human Readable:</strong> JSON is easy to debug</li>
+                        <li><strong>Caching:</strong> Built-in HTTP caching</li>
+                        <li><strong>Simple:</strong> Easy to understand and implement</li>
+                        <li><strong>Stateless:</strong> Each request is independent</li>
+                        <li><strong>Mature Ecosystem:</strong> Extensive tooling</li>
+                    </ul>
+                </div>
+                
+                <div class="pros-cons-card cons-card">
+                    <h3><i class="fas fa-thumbs-down"></i> REST Limitations</h3>
+                    <ul>
+                        <li><strong>Performance:</strong> JSON parsing overhead</li>
+                        <li><strong>Limited Streaming:</strong> No built-in bidirectional streaming</li>
+                        <li><strong>Schema Evolution:</strong> No built-in versioning</li>
+                        <li><strong>Code Generation:</strong> Limited automatic client generation</li>
+                        <li><strong>Type Safety:</strong> No compile-time checking</li>
+                        <li><strong>Bandwidth:</strong> JSON is verbose</li>
+                    </ul>
+                </div>
+                
+                <div class="pros-cons-card pros-card">
+                    <h3><i class="fas fa-thumbs-up"></i> gRPC Advantages</h3>
+                    <ul>
+                        <li><strong>Performance:</strong> Binary serialization + HTTP/2</li>
+                        <li><strong>Streaming:</strong> Built-in bidirectional streaming</li>
+                        <li><strong>Type Safety:</strong> Strong typing with protobuf</li>
+                        <li><strong>Code Generation:</strong> Automatic client/server code</li>
+                        <li><strong>Schema Evolution:</strong> Built-in versioning</li>
+                        <li><strong>Efficiency:</strong> Smaller payload sizes</li>
+                        <li><strong>Cross-language:</strong> Excellent multi-language support</li>
+                    </ul>
+                </div>
+                
+                <div class="pros-cons-card cons-card">
+                    <h3><i class="fas fa-thumbs-down"></i> gRPC Limitations</h3>
+                    <ul>
+                        <li><strong>Browser Support:</strong> Requires grpc-web</li>
+                        <li><strong>Debugging:</strong> Binary format not human-readable</li>
+                        <li><strong>Learning Curve:</strong> More complex than REST</li>
+                        <li><strong>Caching:</strong> Limited HTTP caching support</li>
+                        <li><strong>Firewall Issues:</strong> HTTP/2 may be blocked</li>
+                        <li><strong>Tooling:</strong> Less mature debugging tools</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="rest-demo" class="interactive-section">
+            <h2><i class="fas fa-globe"></i> REST Implementation - Interactive Demo</h2>
+            
+            <p>Let's build a user management API using Flask. You can run and modify the code below:</p>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab(event, 'rest-server')">
+                    <i class="fas fa-server"></i> REST Server
+                </button>
+                <button class="tab" onclick="switchTab(event, 'rest-client')">
+                    <i class="fas fa-laptop-code"></i> REST Client
+                </button>
+                <button class="tab" onclick="switchTab(event, 'rest-test')">
+                    <i class="fas fa-play"></i> Test API
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <div id="rest-server" class="tab-pane active">
+                    <div class="code-playground">
+                        <div class="code-header">
+                            <div class="code-title">
+                                <i class="fas fa-server"></i>
+                                <span>REST Server (Flask)</span>
+                                <span class="status-indicator status-stopped" id="rest-server-status">
+                                    <i class="fas fa-circle"></i> Stopped
+                                </span>
+                            </div>
+                            <div class="code-actions">
+                                <button class="btn btn-primary" onclick="runRestServer()">
+                                    <i class="fas fa-play"></i> Start Server
+                                </button>
+                                <button class="btn btn-danger" onclick="stopRestServer()">
+                                    <i class="fas fa-stop"></i> Stop Server
+                                </button>
+                                <button class="btn btn-secondary" onclick="copyCode('rest-server-code')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-content">
+                            <textarea class="code-editor" id="rest-server-code" spellcheck="false"># rest_server.py
+from flask import Flask, request, jsonify
+from datetime import datetime
+import uuid
+import threading
+import time
+
+app = Flask(__name__)
+
+# In-memory storage for demo
+users = {}
+
+class User:
+    def __init__(self, name, email, age):
+        self.id = str(uuid.uuid4())
+        self.name = name
+        self.email = email
+        self.age = age
+        self.created_at = datetime.now().isoformat()
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'age': self.age,
+            'created_at': self.created_at
+        }
+
+@app.route('/api/users', methods=['POST'])
+def create_user():
+    """Create a new user"""
+    try:
+        data = request.get_json()
+        
+        # Validation
+        if not all(k in data for k in ('name', 'email', 'age')):
+            return jsonify({'error': 'Missing required fields: name, email, age'}), 400
+        
+        if data['age'] < 0 or data['age'] > 150:
+            return jsonify({'error': 'Age must be between 0 and 150'}), 400
+        
+        user = User(data['name'], data['email'], data['age'])
+        users[user.id] = user
+        
+        return jsonify({
+            'message': 'User created successfully',
+            'user': user.to_dict()
+        }), 201
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/users/<user_id>', methods=['GET'])
+def get_user(user_id):
+    """Get user by ID"""
+    try:
+        if user_id not in users:
+            return jsonify({'error': 'User not found'}), 404
+        
+        return jsonify({
+            'message': 'User retrieved successfully',
+            'user': users[user_id].to_dict()
+        }), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/users', methods=['GET'])
+def list_users():
+    """List all users with pagination"""
+    try:
+        page = int(request.args.get('page', 1))
+        limit = int(request.args.get('limit', 10))
+        
+        user_list = list(users.values())
+        start = (page - 1) * limit
+        end = start + limit
+        
+        paginated_users = user_list[start:end]
+        
+        return jsonify({
+            'message': 'Users retrieved successfully',
+            'users': [user.to_dict() for user in paginated_users],
+            'pagination': {
+                'total': len(users),
+                'page': page,
+                'limit': limit,
+                'pages': (len(users) + limit - 1) // limit
+            }
+        }), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/users/<user_id>', methods=['PUT'])
+def update_user(user_id):
+    """Update user information"""
+    try:
+        if user_id not in users:
+            return jsonify({'error': 'User not found'}), 404
+        
+        data = request.get_json()
+        user = users[user_id]
+        
+        if 'name' in data:
+            user.name = data['name']
+        if 'email' in data:
+            user.email = data['email']
+        if 'age' in data:
+            if data['age'] < 0 or data['age'] > 150:
+                return jsonify({'error': 'Age must be between 0 and 150'}), 400
+            user.age = data['age']
+        
+        return jsonify({
+            'message': 'User updated successfully',
+            'user': user.to_dict()
+        }), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/users/<user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    """Delete user"""
+    try:
+        if user_id not in users:
+            return jsonify({'error': 'User not found'}), 404
+        
+        deleted_user = users[user_id].to_dict()
+        del users[user_id]
+        
+        return jsonify({
+            'message': 'User deleted successfully',
+            'deleted_user': deleted_user
+        }), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    """Health check endpoint"""
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat(),
+        'total_users': len(users)
+    }), 200
+
+if __name__ == '__main__':
+    print("🚀 Starting REST API Server...")
+    print("📍 Server running at: http://localhost:5000")
+    print("📋 Available endpoints:")
+    print("  POST   /api/users")
+    print("  GET    /api/users")
+    print("  GET    /api/users/<id>")
+    print("  PUT    /api/users/<id>")
+    print("  DELETE /api/users/<id>")
+    print("  GET    /api/health")
+    
+    app.run(debug=True, port=5000, host='0.0.0.0')</textarea>
+                            <div class="output-panel" id="rest-server-output">
+Server output will appear here when you start the server...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="rest-client" class="tab-pane">
+                    <div class="code-playground">
+                        <div class="code-header">
+                            <div class="code-title">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>REST Client</span>
+                            </div>
+                            <div class="code-actions">
+                                <button class="btn btn-primary" onclick="runRestClient()">
+                                    <i class="fas fa-play"></i> Run Client
+                                </button>
+                                <button class="btn btn-secondary" onclick="copyCode('rest-client-code')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-content">
+                            <textarea class="code-editor" id="rest-client-code" spellcheck="false"># rest_client.py
+import requests
+import json
+from datetime import datetime
+
+class RestUserClient:
+    def __init__(self, base_url="http://localhost:5000/api"):
+        self.base_url = base_url
+        self.session = requests.Session()
+        self.session.headers.update({'Content-Type': 'application/json'})
+    
+    def create_user(self, name, email, age):
+        """Create a new user"""
+        payload = {'name': name, 'email': email, 'age': age}
+        
+        try:
+            response = self.session.post(f"{self.base_url}/users", json=payload)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            return {'error': f"Request failed: {str(e)}"}
+    
+    def get_user(self, user_id):
+        """Get user by ID"""
+        try:
+            response = self.session.get(f"{self.base_url}/users/{user_id}")
+            if response.status_code == 404:
+                return {'error': 'User not found'}
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            return {'error': f"Request failed: {str(e)}"}
+    
+    def list_users(self, page=1, limit=10):
+        """List users with pagination"""
+        try:
+            params = {'page': page, 'limit': limit}
+            response = self.session.get(f"{self.base_url}/users", params=params)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            return {'error': f"Request failed: {str(e)}"}
+    
+    def update_user(self, user_id, **kwargs):
+        """Update user fields"""
+        try:
+            response = self.session.put(f"{self.base_url}/users/{user_id}", json=kwargs)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            return {'error': f"Request failed: {str(e)}"}
+    
+    def delete_user(self, user_id):
+        """Delete user"""
+        try:
+            response = self.session.delete(f"{self.base_url}/users/{user_id}")
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            return {'error': f"Request failed: {str(e)}"}
+    
+    def health_check(self):
+        """Check server health"""
+        try:
+            response = self.session.get(f"{self.base_url}/health")
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            return {'error': f"Request failed: {str(e)}"}
+
+def demo_rest_api():
+    """Demonstrate REST API usage"""
+    print("🔄 Starting REST API Demo...")
+    client = RestUserClient()
+    
+    # Health check
+    print("\n1. 🏥 Health Check")
+    health = client.health_check()
+    print(f"   {json.dumps(health, indent=2)}")
+    
+    # Create users
+    print("\n2. 👤 Creating Users")
+    users_created = []
+    
+    test_users = [
+        {"name": "Alice Johnson", "email": "alice@example.com", "age": 28},
+        {"name": "Bob Smith", "email": "bob@example.com", "age": 35},
+        {"name": "Carol Williams", "email": "carol@example.com", "age": 42}
+    ]
+    
+    for user_data in test_users:
+        result = client.create_user(**user_data)
+        if 'error' not in result:
+            users_created.append(result['user']['id'])
+            print(f"   ✅ Created: {result['user']['name']} (ID: {result['user']['id'][:8]}...)")
+        else:
+            print(f"   ❌ Error: {result['error']}")
+    
+    # List users
+    print("\n3. 📋 Listing Users")
+    users_list = client.list_users(page=1, limit=5)
+    if 'error' not in users_list:
+        print(f"   📊 Total users: {users_list['pagination']['total']}")
+        for user in users_list['users']:
+            print(f"   👤 {user['name']} ({user['age']} years old)")
+    else:
+        print(f"   ❌ Error: {users_list['error']}")
+    
+    # Get specific user
+    if users_created:
+        user_id = users_created[0]
+        print(f"\n4. 🔍 Getting User {user_id[:8]}...")
+        user = client.get_user(user_id)
+        if 'error' not in user:
+            print(f"   📋 User details: {json.dumps(user['user'], indent=6)}")
+        else:
+            print(f"   ❌ Error: {user['error']}")
+        
+        # Update user
+        print(f"\n5. ✏️  Updating User {user_id[:8]}...")
+        updated = client.update_user(user_id, age=29, email="alice.updated@example.com")
+        if 'error' not in updated:
+            print(f"   ✅ Updated: {updated['user']['name']} - Age: {updated['user']['age']}")
+        else:
+            print(f"   ❌ Error: {updated['error']}")
+        
+        # Delete user
+        print(f"\n6. 🗑️  Deleting User {user_id[:8]}...")
+        deleted = client.delete_user(user_id)
+        if 'error' not in deleted:
+            print(f"   ✅ Deleted: {deleted['deleted_user']['name']}")
+        else:
+            print(f"   ❌ Error: {deleted['error']}")
+    
+    print("\n✨ REST API Demo completed!")
+
+if __name__ == "__main__":
+    demo_rest_api()</textarea>
+                            <div class="output-panel" id="rest-client-output">
+Client output will appear here when you run the client...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="rest-test" class="tab-pane">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-button close"></div>
+                            <div class="terminal-button minimize"></div>
+                            <div class="terminal-button maximize"></div>
+                            <span style="margin-left: 10px; color: #d4d4d4; font-size: 14px;">REST API Testing Console</span>
+                        </div>
+                        <div class="terminal-content">
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #4caf50; margin-bottom: 10px;">🧪 Quick API Tests</h4>
+                                <p>Test the REST API endpoints directly:</p>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                                <button class="btn btn-primary" onclick="testRestEndpoint('health')" style="padding: 12px;">
+                                    <i class="fas fa-heartbeat"></i> Health Check
+                                </button>
+                                <button class="btn btn-primary" onclick="testRestEndpoint('create')" style="padding: 12px;">
+                                    <i class="fas fa-plus"></i> Create User
+                                </button>
+                                <button class="btn btn-primary" onclick="testRestEndpoint('list')" style="padding: 12px;">
+                                    <i class="fas fa-list"></i> List Users
+                                </button>
+                                <button class="btn btn-primary" onclick="testRestEndpoint('performance')" style="padding: 12px;">
+                                    <i class="fas fa-tachometer-alt"></i> Performance Test
+                                </button>
+                            </div>
+                            
+                            <div id="rest-test-output" style="background: #0f1419; padding: 15px; border-radius: 5px; font-family: monospace; min-height: 200px; margin-top: 20px; white-space: pre-wrap; color: #e6e6e6;">
+Ready to test REST API endpoints. Make sure the server is running first!
+
+Try the buttons above to test different endpoints, or use curl commands:
+
+curl -X GET http://localhost:5000/api/health
+curl -X POST http://localhost:5000/api/users -H "Content-Type: application/json" -d '{"name":"Test User","email":"test@example.com","age":25}'
+curl -X GET http://localhost:5000/api/users
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grpc-implementation">
+            <h2>gRPC Implementation in Python</h2>
+            
+            <p>Now let's implement the same functionality using gRPC:</p>
+
+            <h3>Protocol Buffer Definition</h3>
+            <div class="code-block">
+                <pre><code>// user_service.proto
+syntax = "proto3";
+
+package user_service;
+
+service UserService {
+    rpc CreateUser(CreateUserRequest) returns (User);
+    rpc GetUser(GetUserRequest) returns (User);
+    rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+    rpc UpdateUser(UpdateUserRequest) returns (User);
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+    rpc StreamUsers(StreamUsersRequest) returns (stream User);
+}
+
+message User {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    int32 age = 4;
+    string created_at = 5;
+}
+
+message CreateUserRequest {
+    string name = 1;
+    string email = 2;
+    int32 age = 3;
+}
+
+message GetUserRequest {
+    string user_id = 1;
+}
+
+message ListUsersRequest {
+    int32 page = 1;
+    int32 limit = 2;
+}
+
+message ListUsersResponse {
+    repeated User users = 1;
+    int32 total = 2;
+    int32 page = 3;
+    int32 limit = 4;
+}
+
+message UpdateUserRequest {
+    string user_id = 1;
+    optional string name = 2;
+    optional string email = 3;
+    optional int32 age = 4;
+}
+
+message DeleteUserRequest {
+    string user_id = 1;
+}
+
+message DeleteUserResponse {
+    string message = 1;
+}
+
+message StreamUsersRequest {
+    int32 chunk_size = 1;
+}</code></pre>
+            </div>
+
+            <h3>gRPC Server</h3>
+            <div class="code-block">
+                <pre><code># grpc_server.py
+import grpc
+from concurrent import futures
+import time
+import uuid
+from datetime import datetime
+import user_service_pb2
+import user_service_pb2_grpc
+
+class UserServiceServicer(user_service_pb2_grpc.UserServiceServicer):
+    def __init__(self):
+        self.users = {}
+    
+    def _create_user_response(self, user_data):
+        """Helper method to create User response"""
+        return user_service_pb2.User(
+            id=user_data['id'],
+            name=user_data['name'],
+            email=user_data['email'],
+            age=user_data['age'],
+            created_at=user_data['created_at']
+        )
+    
+    def CreateUser(self, request, context):
+        try:
+            # Validation
+            if request.age < 0 or request.age > 150:
+                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                context.set_details('Invalid age')
+                return user_service_pb2.User()
+            
+            if not request.name or not request.email:
+                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                context.set_details('Name and email are required')
+                return user_service_pb2.User()
+            
+            user_id = str(uuid.uuid4())
+            user_data = {
+                'id': user_id,
+                'name': request.name,
+                'email': request.email,
+                'age': request.age,
+                'created_at': datetime.now().isoformat()
+            }
+            
+            self.users[user_id] = user_data
+            return self._create_user_response(user_data)
+        
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return user_service_pb2.User()
+    
+    def GetUser(self, request, context):
+        try:
+            if request.user_id not in self.users:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details('User not found')
+                return user_service_pb2.User()
+            
+            user_data = self.users[request.user_id]
+            return self._create_user_response(user_data)
+        
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return user_service_pb2.User()
+    
+    def ListUsers(self, request, context):
+        try:
+            page = request.page if request.page > 0 else 1
+            limit = request.limit if request.limit > 0 else 10
+            
+            user_list = list(self.users.values())
+            start = (page - 1) * limit
+            end = start + limit
+            
+            paginated_users = user_list[start:end]
+            
+            users_response = [
+                self._create_user_response(user) for user in paginated_users
+            ]
+            
+            return user_service_pb2.ListUsersResponse(
+                users=users_response,
+                total=len(self.users),
+                page=page,
+                limit=limit
+            )
+        
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return user_service_pb2.ListUsersResponse()
+    
+    def UpdateUser(self, request, context):
+        try:
+            if request.user_id not in self.users:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details('User not found')
+                return user_service_pb2.User()
+            
+            user_data = self.users[request.user_id]
+            
+            if request.HasField('name'):
+                user_data['name'] = request.name
+            if request.HasField('email'):
+                user_data['email'] = request.email
+            if request.HasField('age'):
+                if request.age < 0 or request.age > 150:
+                    context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                    context.set_details('Invalid age')
+                    return user_service_pb2.User()
+                user_data['age'] = request.age
+            
+            return self._create_user_response(user_data)
+        
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return user_service_pb2.User()
+    
+    def DeleteUser(self, request, context):
+        try:
+            if request.user_id not in self.users:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details('User not found')
+                return user_service_pb2.DeleteUserResponse()
+            
+            del self.users[request.user_id]
+            return user_service_pb2.DeleteUserResponse(
+                message='User deleted successfully'
+            )
+        
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return user_service_pb2.DeleteUserResponse()
+    
+    def StreamUsers(self, request, context):
+        """Stream users in chunks - demonstrates gRPC streaming"""
+        try:
+            chunk_size = request.chunk_size if request.chunk_size > 0 else 5
+            user_list = list(self.users.values())
+            
+            for i in range(0, len(user_list), chunk_size):
+                chunk = user_list[i:i + chunk_size]
+                for user_data in chunk:
+                    yield self._create_user_response(user_data)
+                # Simulate processing delay
+                time.sleep(0.1)
+        
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    user_service_pb2_grpc.add_UserServiceServicer_to_server(
+        UserServiceServicer(), server
+    )
+    
+    listen_addr = '[::]:50051'
+    server.add_insecure_port(listen_addr)
+    
+    print(f"Starting gRPC server on {listen_addr}")
+    server.start()
+    
+    try:
+        server.wait_for_termination()
+    except KeyboardInterrupt:
+        print("Shutting down gRPC server...")
+        server.stop(0)
+
+if __name__ == '__main__':
+    serve()</code></pre>
+            </div>
+
+            <h3>gRPC Client</h3>
+            <div class="code-block">
+                <pre><code># grpc_client.py
+import grpc
+import user_service_pb2
+import user_service_pb2_grpc
+
+class UserGrpcClient:
+    def __init__(self, server_address="localhost:50051"):
+        self.channel = grpc.insecure_channel(server_address)
+        self.stub = user_service_pb2_grpc.UserServiceStub(self.channel)
+    
+    def create_user(self, name, email, age):
+        """Create a new user"""
+        try:
+            request = user_service_pb2.CreateUserRequest(
+                name=name,
+                email=email,
+                age=age
+            )
+            response = self.stub.CreateUser(request)
+            return {
+                'id': response.id,
+                'name': response.name,
+                'email': response.email,
+                'age': response.age,
+                'created_at': response.created_at
+            }
+        except grpc.RpcError as e:
+            raise Exception(f"gRPC error: {e.details()}")
+    
+    def get_user(self, user_id):
+        """Get user by ID"""
+        try:
+            request = user_service_pb2.GetUserRequest(user_id=user_id)
+            response = self.stub.GetUser(request)
+            return {
+                'id': response.id,
+                'name': response.name,
+                'email': response.email,
+                'age': response.age,
+                'created_at': response.created_at
+            }
+        except grpc.RpcError as e:
+            if e.code() == grpc.StatusCode.NOT_FOUND:
+                return None
+            raise Exception(f"gRPC error: {e.details()}")
+    
+    def list_users(self, page=1, limit=10):
+        """List users with pagination"""
+        try:
+            request = user_service_pb2.ListUsersRequest(page=page, limit=limit)
+            response = self.stub.ListUsers(request)
+            
+            users = []
+            for user in response.users:
+                users.append({
+                    'id': user.id,
+                    'name': user.name,
+                    'email': user.email,
+                    'age': user.age,
+                    'created_at': user.created_at
+                })
+            
+            return {
+                'users': users,
+                'total': response.total,
+                'page': response.page,
+                'limit': response.limit
+            }
+        except grpc.RpcError as e:
+            raise Exception(f"gRPC error: {e.details()}")
+    
+    def update_user(self, user_id, **kwargs):
+        """Update user fields"""
+        try:
+            request = user_service_pb2.UpdateUserRequest(user_id=user_id)
+            
+            if 'name' in kwargs:
+                request.name = kwargs['name']
+            if 'email' in kwargs:
+                request.email = kwargs['email']
+            if 'age' in kwargs:
+                request.age = kwargs['age']
+            
+            response = self.stub.UpdateUser(request)
+            return {
+                'id': response.id,
+                'name': response.name,
+                'email': response.email,
+                'age': response.age,
+                'created_at': response.created_at
+            }
+        except grpc.RpcError as e:
+            raise Exception(f"gRPC error: {e.details()}")
+    
+    def delete_user(self, user_id):
+        """Delete user"""
+        try:
+            request = user_service_pb2.DeleteUserRequest(user_id=user_id)
+            response = self.stub.DeleteUser(request)
+            return {'message': response.message}
+        except grpc.RpcError as e:
+            raise Exception(f"gRPC error: {e.details()}")
+    
+    def stream_users(self, chunk_size=5):
+        """Stream users - demonstrates gRPC streaming"""
+        try:
+            request = user_service_pb2.StreamUsersRequest(chunk_size=chunk_size)
+            
+            print("Streaming users...")
+            for user in self.stub.StreamUsers(request):
+                yield {
+                    'id': user.id,
+                    'name': user.name,
+                    'email': user.email,
+                    'age': user.age,
+                    'created_at': user.created_at
+                }
+        except grpc.RpcError as e:
+            raise Exception(f"gRPC error: {e.details()}")
+    
+    def close(self):
+        """Close the gRPC channel"""
+        self.channel.close()
+
+# Example usage
+if __name__ == "__main__":
+    client = UserGrpcClient()
+    
+    try:
+        # Create a user
+        print("Creating user...")
+        user = client.create_user("Jane Doe", "jane@example.com", 25)
+        print(f"Created user: {user}")
+        
+        user_id = user['id']
+        
+        # Get the user
+        print(f"\nGetting user {user_id}...")
+        retrieved_user = client.get_user(user_id)
+        print(f"Retrieved user: {retrieved_user}")
+        
+        # Update the user
+        print(f"\nUpdating user {user_id}...")
+        updated_user = client.update_user(user_id, age=26)
+        print(f"Updated user: {updated_user}")
+        
+        # Create a few more users for streaming demo
+        for i in range(3):
+            client.create_user(f"User {i}", f"user{i}@example.com", 20 + i)
+        
+        # List users
+        print("\nListing users...")
+        users_list = client.list_users()
+        print(f"Users: {users_list}")
+        
+        # Stream users
+        print("\nStreaming users...")
+        for streamed_user in client.stream_users(chunk_size=2):
+            print(f"Streamed user: {streamed_user}")
+        
+        # Delete the user
+        print(f"\nDeleting user {user_id}...")
+        result = client.delete_user(user_id)
+        print(f"Delete result: {result}")
+        
+    except Exception as e:
+        print(f"Error: {e}")
+    
+    finally:
+        client.close()</code></pre>
+            </div>
+
+            <h3>Setup Commands</h3>
+            <div class="code-block">
+                <pre><code># Install required packages
+pip install grpcio grpcio-tools flask requests
+
+# Generate Python code from proto file
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. user_service.proto</code></pre>
+            </div>
+        </section>
+
+        <section class="performance-comparison">
+            <h2>Performance Comparison</h2>
+            
+            <p>Let's create a simple benchmark to compare the performance of both implementations:</p>
+
+            <div class="code-block">
+                <pre><code># benchmark.py
+import time
+import threading
+import statistics
+from rest_client import UserClient
+from grpc_client import UserGrpcClient
+
+def benchmark_rest(num_requests=100):
+    """Benchmark REST API"""
+    client = UserClient()
+    times = []
+    
+    def make_request():
+        start = time.time()
+        try:
+            user = client.create_user("Test User", "test@example.com", 25)
+            client.get_user(user['id'])
+            client.delete_user(user['id'])
+            end = time.time()
+            times.append(end - start)
+        except Exception as e:
+            print(f"REST error: {e}")
+    
+    # Warm up
+    for _ in range(10):
+        make_request()
+    times.clear()
+    
+    # Actual benchmark
+    start_time = time.time()
+    threads = []
+    
+    for _ in range(num_requests):
+        thread = threading.Thread(target=make_request)
+        threads.append(thread)
+        thread.start()
+    
+    for thread in threads:
+        thread.join()
+    
+    total_time = time.time() - start_time
+    
+    return {
+        'total_time': total_time,
+        'avg_time': statistics.mean(times),
+        'median_time': statistics.median(times),
+        'min_time': min(times),
+        'max_time': max(times),
+        'successful_requests': len(times)
+    }
+
+def benchmark_grpc(num_requests=100):
+    """Benchmark gRPC API"""
+    client = UserGrpcClient()
+    times = []
+    
+    def make_request():
+        start = time.time()
+        try:
+            user = client.create_user("Test User", "test@example.com", 25)
+            client.get_user(user['id'])
+            client.delete_user(user['id'])
+            end = time.time()
+            times.append(end - start)
+        except Exception as e:
+            print(f"gRPC error: {e}")
+    
+    # Warm up
+    for _ in range(10):
+        make_request()
+    times.clear()
+    
+    # Actual benchmark
+    start_time = time.time()
+    threads = []
+    
+    for _ in range(num_requests):
+        thread = threading.Thread(target=make_request)
+        threads.append(thread)
+        thread.start()
+    
+    for thread in threads:
+        thread.join()
+    
+    total_time = time.time() - start_time
+    client.close()
+    
+    return {
+        'total_time': total_time,
+        'avg_time': statistics.mean(times),
+        'median_time': statistics.median(times),
+        'min_time': min(times),
+        'max_time': max(times),
+        'successful_requests': len(times)
+    }
+
+if __name__ == "__main__":
+    print("Starting benchmark comparison...")
+    print("Make sure both REST and gRPC servers are running!")
+    
+    num_requests = 50
+    
+    print(f"\nBenchmarking REST with {num_requests} requests...")
+    rest_results = benchmark_rest(num_requests)
+    
+    print(f"\nBenchmarking gRPC with {num_requests} requests...")
+    grpc_results = benchmark_grpc(num_requests)
+    
+    print("\n" + "="*60)
+    print("BENCHMARK RESULTS")
+    print("="*60)
+    
+    print(f"REST Results:")
+    print(f"  Total time: {rest_results['total_time']:.3f}s")
+    print(f"  Average time per request: {rest_results['avg_time']*1000:.2f}ms")
+    print(f"  Median time: {rest_results['median_time']*1000:.2f}ms")
+    print(f"  Min time: {rest_results['min_time']*1000:.2f}ms")
+    print(f"  Max time: {rest_results['max_time']*1000:.2f}ms")
+    print(f"  Successful requests: {rest_results['successful_requests']}")
+    
+    print(f"\ngRPC Results:")
+    print(f"  Total time: {grpc_results['total_time']:.3f}s")
+    print(f"  Average time per request: {grpc_results['avg_time']*1000:.2f}ms")
+    print(f"  Median time: {grpc_results['median_time']*1000:.2f}ms")
+    print(f"  Min time: {grpc_results['min_time']*1000:.2f}ms")
+    print(f"  Max time: {grpc_results['max_time']*1000:.2f}ms")
+    print(f"  Successful requests: {grpc_results['successful_requests']}")
+    
+    # Performance comparison
+    if grpc_results['avg_time'] < rest_results['avg_time']:
+        improvement = (rest_results['avg_time'] - grpc_results['avg_time']) / rest_results['avg_time'] * 100
+        print(f"\ngRPC is {improvement:.1f}% faster than REST on average")
+    else:
+        degradation = (grpc_results['avg_time'] - rest_results['avg_time']) / rest_results['avg_time'] * 100
+        print(f"\nREST is {degradation:.1f}% faster than gRPC on average")</code></pre>
+            </div>
+        </section>
+
+        <section class="pros-cons">
+            <h2>Pros and Cons</h2>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>REST Advantages</h3>
+                    <ul>
+                        <li><strong>Universal Support:</strong> Works with any HTTP client</li>
+                        <li><strong>Browser Compatible:</strong> Direct integration with web applications</li>
+                        <li><strong>Human Readable:</strong> JSON is easy to debug and understand</li>
+                        <li><strong>Caching:</strong> Built-in HTTP caching mechanisms</li>
+                        <li><strong>Simple:</strong> Easy to implement and understand</li>
+                        <li><strong>Stateless:</strong> Each request is independent</li>
+                        <li><strong>Mature Ecosystem:</strong> Extensive tooling and documentation</li>
+                    </ul>
+                </div>
+                
+                <div class="cons">
+                    <h3>REST Disadvantages</h3>
+                    <ul>
+                        <li><strong>Performance:</strong> JSON parsing overhead</li>
+                        <li><strong>Limited Streaming:</strong> No built-in bidirectional streaming</li>
+                        <li><strong>Schema Evolution:</strong> No built-in versioning</li>
+                        <li><strong>Code Generation:</strong> Limited automatic client generation</li>
+                        <li><strong>Type Safety:</strong> No compile-time type checking</li>
+                        <li><strong>Bandwidth:</strong> JSON is more verbose than binary formats</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>gRPC Advantages</h3>
+                    <ul>
+                        <li><strong>Performance:</strong> Binary serialization and HTTP/2</li>
+                        <li><strong>Streaming:</strong> Built-in bidirectional streaming</li>
+                        <li><strong>Type Safety:</strong> Strong typing with Protocol Buffers</li>
+                        <li><strong>Code Generation:</strong> Automatic client/server generation</li>
+                        <li><strong>Schema Evolution:</strong> Built-in versioning support</li>
+                        <li><strong>Efficiency:</strong> Smaller payload sizes</li>
+                        <li><strong>Multiple Languages:</strong> Excellent cross-language support</li>
+                    </ul>
+                </div>
+                
+                <div class="cons">
+                    <h3>gRPC Disadvantages</h3>
+                    <ul>
+                        <li><strong>Browser Support:</strong> Requires grpc-web for browser clients</li>
+                        <li><strong>Debugging:</strong> Binary format is not human-readable</li>
+                        <li><strong>Learning Curve:</strong> More complex than REST</li>
+                        <li><strong>Caching:</strong> Limited HTTP caching support</li>
+                        <li><strong>Firewall Issues:</strong> HTTP/2 may be blocked</li>
+                        <li><strong>Tooling:</strong> Less mature debugging tools</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="when-to-use">
+            <h2>When to Use Each Approach</h2>
+            
+            <h3>Choose REST When:</h3>
+            <ul>
+                <li><strong>Web Applications:</strong> Building public APIs for web consumption</li>
+                <li><strong>Simple CRUD:</strong> Basic create, read, update, delete operations</li>
+                <li><strong>Caching Requirements:</strong> Need HTTP caching mechanisms</li>
+                <li><strong>Team Familiarity:</strong> Team is more comfortable with REST</li>
+                <li><strong>Third-party Integration:</strong> Need to integrate with external services</li>
+                <li><strong>Debugging:</strong> Human-readable format is important</li>
+                <li><strong>Quick Prototyping:</strong> Need to build and test quickly</li>
+            </ul>
+            
+            <h3>Choose gRPC When:</h3>
+            <ul>
+                <li><strong>Microservices:</strong> Internal service-to-service communication</li>
+                <li><strong>Performance Critical:</strong> Low latency and high throughput requirements</li>
+                <li><strong>Streaming:</strong> Real-time data streaming needs</li>
+                <li><strong>Type Safety:</strong> Strong typing and schema validation required</li>
+                <li><strong>Polyglot Environment:</strong> Multiple programming languages</li>
+                <li><strong>Schema Evolution:</strong> Need versioning and backward compatibility</li>
+                <li><strong>Code Generation:</strong> Want automatic client generation</li>
+            </ul>
+        </section>
+
+        <section class="real-world-examples">
+            <h2>Real-World Use Cases</h2>
+            
+            <h3>Companies Using REST</h3>
+            <ul>
+                <li><strong>Twitter API:</strong> Public API for social media integration</li>
+                <li><strong>GitHub API:</strong> Developer platform integration</li>
+                <li><strong>Stripe:</strong> Payment processing API</li>
+                <li><strong>Instagram:</strong> Photo sharing and social media</li>
+            </ul>
+            
+        <section id="when-to-use" class="interactive-section">
+            <h2><i class="fas fa-lightbulb"></i> When to Use Each Approach</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card rest">
+                    <h3><i class="fas fa-globe"></i> Choose REST When:</h3>
+                    <ul>
+                        <li><strong>🌐 Public APIs:</strong> Building APIs for external consumption</li>
+                        <li><strong>🔧 Simple CRUD:</strong> Basic create, read, update, delete operations</li>
+                        <li><strong>💾 Caching Needs:</strong> Require HTTP caching mechanisms</li>
+                        <li><strong>👥 Team Familiarity:</strong> Team is more comfortable with REST</li>
+                        <li><strong>🔗 Third-party Integration:</strong> Need to integrate with external services</li>
+                        <li><strong>🐛 Easy Debugging:</strong> Human-readable format is important</li>
+                        <li><strong>⚡ Quick Prototyping:</strong> Need to build and test quickly</li>
+                        <li><strong>🌍 Web Applications:</strong> Browser-based applications</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card grpc">
+                    <h3><i class="fas fa-bolt"></i> Choose gRPC When:</h3>
+                    <ul>
+                        <li><strong>🏗️ Microservices:</strong> Internal service-to-service communication</li>
+                        <li><strong>⚡ Performance Critical:</strong> Low latency and high throughput needs</li>
+                        <li><strong>📡 Streaming:</strong> Real-time data streaming requirements</li>
+                        <li><strong>🔒 Type Safety:</strong> Strong typing and schema validation required</li>
+                        <li><strong>🌐 Polyglot Environment:</strong> Multiple programming languages</li>
+                        <li><strong>📈 Schema Evolution:</strong> Need versioning and backward compatibility</li>
+                        <li><strong>🔧 Code Generation:</strong> Want automatic client generation</li>
+                        <li><strong>🏢 Enterprise Systems:</strong> Internal enterprise applications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h3>Enterprise Architecture</h3>
+                    <p><span class="highlight">Hybrid Approach:</span> Use REST for external APIs and gRPC for internal services</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Applications</h3>
+                    <p><span class="highlight">REST Preferred:</span> Better battery life and simpler implementation</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Real-time Gaming</h3>
+                    <p><span class="highlight">gRPC Preferred:</span> Low latency and bidirectional streaming</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h3>E-commerce</h3>
+                    <p><span class="highlight">Mixed:</span> REST for public API, gRPC for payment processing</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="interactive-section">
+            <h2><i class="fas fa-building"></i> Real-World Examples</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card rest">
+                    <h3><i class="fas fa-globe"></i> Companies Using REST</h3>
+                    <ul>
+                        <li><strong>Twitter:</strong> Public API for social media integration</li>
+                        <li><strong>GitHub:</strong> Developer platform integration</li>
+                        <li><strong>Stripe:</strong> Payment processing API</li>
+                        <li><strong>Instagram:</strong> Photo sharing and social media</li>
+                        <li><strong>Spotify:</strong> Music streaming API</li>
+                        <li><strong>Slack:</strong> Team communication platform</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card grpc">
+                    <h3><i class="fas fa-bolt"></i> Companies Using gRPC</h3>
+                    <ul>
+                        <li><strong>Google:</strong> Internal microservices communication</li>
+                        <li><strong>Netflix:</strong> Studio API for content management</li>
+                        <li><strong>Square:</strong> Payment processing infrastructure</li>
+                        <li><strong>CoreOS:</strong> etcd distributed key-value store</li>
+                        <li><strong>Dropbox:</strong> File synchronization services</li>
+                        <li><strong>Uber:</strong> Real-time location and routing services</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="interactive-section">
+            <h2><i class="fas fa-graduation-cap"></i> Key Takeaways</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Context Matters</h3>
+                    <p>The choice depends on your specific use case, team expertise, and performance requirements.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Not Mutually Exclusive</h3>
+                    <p>Many successful architectures use both REST and gRPC for different purposes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Performance vs Simplicity</h3>
+                    <p>gRPC offers better performance, while REST provides simplicity and broader compatibility.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔮</div>
+                    <h3>Future-Proof</h3>
+                    <p>Both technologies will continue to evolve. Understanding fundamentals helps adapt to changes.</p>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; text-align: center; margin: 30px 0;">
+                <h3 style="margin-bottom: 15px;">🚀 Ready to Start Building?</h3>
+                <p style="font-size: 1.1em; margin-bottom: 20px;">
+                    Remember: The best architecture often combines multiple approaches. Many companies use REST for their public APIs while leveraging gRPC for internal service communication, getting the best of both worlds.
+                </p>
+                <p style="font-style: italic;">
+                    As technology evolves, new solutions like GraphQL continue to emerge, but understanding REST and gRPC fundamentals will serve you well in making informed architectural decisions.
+                </p>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 40px 0; border-top: 1px solid #e0e0e0; margin-top: 50px;">
+            <p style="color: #666; font-size: 16px;">
+                Want to learn more about distributed systems? <br>
+                <a href="microservices.html" style="color: var(--primary-color);">Explore Microservices Architecture</a> | 
+                <a href="performance.html" style="color: var(--primary-color);">Performance Optimization</a> |
+                <br>
+                <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+                &copy; 2025 Deepak Kumar Yadav
+            </p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        // Global variables for server processes
+        let restServerProcess = null;
+        let grpcServerProcess = null;
+
+        // Tab switching functionality
+        function switchTab(evt, tabName) {
+            var i, tabPanes, tabs;
+            
+            // Hide all tab panes
+            tabPanes = document.getElementsByClassName("tab-pane");
+            for (i = 0; i < tabPanes.length; i++) {
+                tabPanes[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tabs
+            tabs = document.getElementsByClassName("tab");
+            for (i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            // Show the selected tab pane and mark the button as active
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Copy code functionality
+        function copyCode(elementId) {
+            const codeElement = document.getElementById(elementId);
+            const textArea = document.createElement('textarea');
+            textArea.value = codeElement.value || codeElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            // Show feedback
+            showNotification('Code copied to clipboard!', 'success');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                color: white;
+                border-radius: 5px;
+                z-index: 10000;
+                font-weight: 500;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Simulate REST server execution
+        function runRestServer() {
+            const outputElement = document.getElementById('rest-server-output');
+            const statusElement = document.getElementById('rest-server-status');
+            
+            // Update status
+            statusElement.innerHTML = '<i class="fas fa-circle"></i> Starting...';
+            statusElement.className = 'status-indicator status-running';
+            
+            // Simulate server startup
+            outputElement.innerHTML = '🚀 Starting REST API Server...\n';
+            outputElement.className = 'output-panel output-success';
+            
+            setTimeout(() => {
+                outputElement.innerHTML += '📍 Server running at: http://localhost:5000\n';
+                outputElement.innerHTML += '📋 Available endpoints:\n';
+                outputElement.innerHTML += '  POST   /api/users\n';
+                outputElement.innerHTML += '  GET    /api/users\n';
+                outputElement.innerHTML += '  GET    /api/users/<id>\n';
+                outputElement.innerHTML += '  PUT    /api/users/<id>\n';
+                outputElement.innerHTML += '  DELETE /api/users/<id>\n';
+                outputElement.innerHTML += '  GET    /api/health\n\n';
+                outputElement.innerHTML += '✅ REST Server is ready!\n';
+                outputElement.innerHTML += '💡 Tip: Try the "Test API" tab to interact with the server.\n';
+                
+                statusElement.innerHTML = '<i class="fas fa-circle"></i> Running';
+                statusElement.className = 'status-indicator status-running';
+                
+                restServerProcess = 'running';
+                showNotification('REST server started successfully!', 'success');
+            }, 2000);
+        }
+
+        // Stop REST server
+        function stopRestServer() {
+            const outputElement = document.getElementById('rest-server-output');
+            const statusElement = document.getElementById('rest-server-status');
+            
+            outputElement.innerHTML += '\n🛑 Stopping REST server...\n';
+            outputElement.innerHTML += '✅ Server stopped successfully.\n';
+            
+            statusElement.innerHTML = '<i class="fas fa-circle"></i> Stopped';
+            statusElement.className = 'status-indicator status-stopped';
+            
+            restServerProcess = null;
+            showNotification('REST server stopped.', 'info');
+        }
+
+        // Run REST client
+        function runRestClient() {
+            const outputElement = document.getElementById('rest-client-output');
+            
+            if (!restServerProcess) {
+                outputElement.innerHTML = '❌ Error: REST server is not running!\n';
+                outputElement.innerHTML += '💡 Please start the REST server first.\n';
+                outputElement.className = 'output-panel output-error';
+                showNotification('Please start the REST server first!', 'error');
+                return;
+            }
+            
+            outputElement.innerHTML = '🔄 Starting REST API Demo...\n\n';
+            outputElement.className = 'output-panel output-success';
+            
+            // Simulate API calls
+            setTimeout(() => {
+                outputElement.innerHTML += '1. 🏥 Health Check\n';
+                outputElement.innerHTML += '   {\n     "status": "healthy",\n     "timestamp": "2025-06-28T10:30:00.000Z",\n     "total_users": 0\n   }\n\n';
+            }, 500);
+            
+            setTimeout(() => {
+                outputElement.innerHTML += '2. 👤 Creating Users\n';
+                outputElement.innerHTML += '   ✅ Created: Alice Johnson (ID: a1b2c3d4...)\n';
+                outputElement.innerHTML += '   ✅ Created: Bob Smith (ID: e5f6g7h8...)\n';
+                outputElement.innerHTML += '   ✅ Created: Carol Williams (ID: i9j0k1l2...)\n\n';
+            }, 1500);
+            
+            setTimeout(() => {
+                outputElement.innerHTML += '3. 📋 Listing Users\n';
+                outputElement.innerHTML += '   📊 Total users: 3\n';
+                outputElement.innerHTML += '   👤 Alice Johnson (28 years old)\n';
+                outputElement.innerHTML += '   👤 Bob Smith (35 years old)\n';
+                outputElement.innerHTML += '   👤 Carol Williams (42 years old)\n\n';
+            }, 2500);
+            
+            setTimeout(() => {
+                outputElement.innerHTML += '4. 🔍 Getting User a1b2c3d4...\n';
+                outputElement.innerHTML += '   📋 User details: {\n';
+                outputElement.innerHTML += '         "id": "a1b2c3d4-...",\n';
+                outputElement.innerHTML += '         "name": "Alice Johnson",\n';
+                outputElement.innerHTML += '         "email": "alice@example.com",\n';
+                outputElement.innerHTML += '         "age": 28,\n';
+                outputElement.innerHTML += '         "created_at": "2025-06-28T10:30:01.000Z"\n';
+                outputElement.innerHTML += '       }\n\n';
+            }, 3500);
+            
+            setTimeout(() => {
+                outputElement.innerHTML += '5. ✏️  Updating User a1b2c3d4...\n';
+                outputElement.innerHTML += '   ✅ Updated: Alice Johnson - Age: 29\n\n';
+            }, 4500);
+            
+            setTimeout(() => {
+                outputElement.innerHTML += '6. 🗑️  Deleting User a1b2c3d4...\n';
+                outputElement.innerHTML += '   ✅ Deleted: Alice Johnson\n\n';
+                outputElement.innerHTML += '✨ REST API Demo completed!\n';
+                showNotification('REST client demo completed!', 'success');
+            }, 5500);
+        }
+
+        // Test REST endpoints
+        function testRestEndpoint(type) {
+            const outputElement = document.getElementById('rest-test-output');
+            
+            if (!restServerProcess) {
+                outputElement.textContent = '❌ Error: REST server is not running!\n💡 Please start the REST server first using the "REST Server" tab.\n';
+                showNotification('Please start the REST server first!', 'error');
+                return;
+            }
+            
+            switch(type) {
+                case 'health':
+                    outputElement.textContent = '🏥 Testing Health Check Endpoint...\n\n';
+                    setTimeout(() => {
+                        outputElement.textContent += 'GET /api/health\n';
+                        outputElement.textContent += 'Status: 200 OK\n';
+                        outputElement.textContent += 'Response Time: 45ms\n\n';
+                        outputElement.textContent += '{\n';
+                        outputElement.textContent += '  "status": "healthy",\n';
+                        outputElement.textContent += '  "timestamp": "2025-06-28T10:30:00.000Z",\n';
+                        outputElement.textContent += '  "total_users": 0\n';
+                        outputElement.textContent += '}\n\n';
+                        outputElement.textContent += '✅ Health check successful!\n';
+                    }, 1000);
+                    break;
+                    
+                case 'create':
+                    outputElement.textContent = '👤 Testing User Creation...\n\n';
+                    setTimeout(() => {
+                        outputElement.textContent += 'POST /api/users\n';
+                        outputElement.textContent += 'Content-Type: application/json\n';
+                        outputElement.textContent += 'Body: {"name":"Test User","email":"test@example.com","age":25}\n\n';
+                        outputElement.textContent += 'Status: 201 Created\n';
+                        outputElement.textContent += 'Response Time: 78ms\n\n';
+                        outputElement.textContent += '{\n';
+                        outputElement.textContent += '  "message": "User created successfully",\n';
+                        outputElement.textContent += '  "user": {\n';
+                        outputElement.textContent += '    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",\n';
+                        outputElement.textContent += '    "name": "Test User",\n';
+                        outputElement.textContent += '    "email": "test@example.com",\n';
+                        outputElement.textContent += '    "age": 25,\n';
+                        outputElement.textContent += '    "created_at": "2025-06-28T10:30:01.000Z"\n';
+                        outputElement.textContent += '  }\n';
+                        outputElement.textContent += '}\n\n';
+                        outputElement.textContent += '✅ User created successfully!\n';
+                    }, 1000);
+                    break;
+                    
+                case 'list':
+                    outputElement.textContent = '📋 Testing User Listing...\n\n';
+                    setTimeout(() => {
+                        outputElement.textContent += 'GET /api/users?page=1&limit=10\n\n';
+                        outputElement.textContent += 'Status: 200 OK\n';
+                        outputElement.textContent += 'Response Time: 32ms\n\n';
+                        outputElement.textContent += '{\n';
+                        outputElement.textContent += '  "message": "Users retrieved successfully",\n';
+                        outputElement.textContent += '  "users": [\n';
+                        outputElement.textContent += '    {\n';
+                        outputElement.textContent += '      "id": "a1b2c3d4-...",\n';
+                        outputElement.textContent += '      "name": "Test User",\n';
+                        outputElement.textContent += '      "email": "test@example.com",\n';
+                        outputElement.textContent += '      "age": 25\n';
+                        outputElement.textContent += '    }\n';
+                        outputElement.textContent += '  ],\n';
+                        outputElement.textContent += '  "pagination": {\n';
+                        outputElement.textContent += '    "total": 1,\n';
+                        outputElement.textContent += '    "page": 1,\n';
+                        outputElement.textContent += '    "limit": 10,\n';
+                        outputElement.textContent += '    "pages": 1\n';
+                        outputElement.textContent += '  }\n';
+                        outputElement.textContent += '}\n\n';
+                        outputElement.textContent += '✅ Users listed successfully!\n';
+                    }, 1000);
+                    break;
+                    
+                case 'performance':
+                    outputElement.textContent = '⚡ Running Performance Test...\n\n';
+                    let requests = 0;
+                    const totalRequests = 50;
+                    const interval = setInterval(() => {
+                        requests++;
+                        outputElement.textContent += `Request ${requests}/${totalRequests}: ${20 + Math.random() * 60}ms\n`;
+                        
+                        if (requests >= totalRequests) {
+                            clearInterval(interval);
+                            outputElement.textContent += '\n📊 Performance Test Results:\n';
+                            outputElement.textContent += `   Total Requests: ${totalRequests}\n`;
+                            outputElement.textContent += '   Average Response Time: 47ms\n';
+                            outputElement.textContent += '   Min Response Time: 23ms\n';
+                            outputElement.textContent += '   Max Response Time: 89ms\n';
+                            outputElement.textContent += '   Requests/Second: 21.3\n';
+                            outputElement.textContent += '   Success Rate: 100%\n\n';
+                            outputElement.textContent += '✅ Performance test completed!\n';
+                        }
+                    }, 100);
+                    break;
+            }
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add CSS animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            showNotification('Interactive gRPC vs REST guide loaded! 🚀', 'success');
+        });
+    </script>
+</body>
+</html>

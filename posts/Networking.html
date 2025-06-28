@@ -7,379 +7,1904 @@
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 2em; 
+            margin: 0;
+            padding: 0;
             background: #f8f9fa; 
             line-height: 1.6;
         }
-        h1, h2, h3 { color: #2c3e50; }
-        h1 { border-bottom: 3px solid #3498db; padding-bottom: 0.5em; }
-        h2 { border-left: 4px solid #3498db; padding-left: 1em; margin-top: 2em; }
-        h3 { color: #e74c3c; }
-        pre { 
-            background: #2c3e50; 
-            color: #ecf0f1; 
-            padding: 1.5em; 
-            border-radius: 8px; 
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2em;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 3em 0;
+            text-align: center;
+            margin-bottom: 2em;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            margin: 1em 0 0 0;
+            opacity: 0.9;
+        }
+        
+        /* Navigation */
+        .nav-container {
+            background: white;
+            padding: 1em 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-bottom: 2em;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1em;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+        }
+        
+        .nav-link {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Content Sections */
+        .section {
+            background: white;
+            margin: 2em 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 1.5em 2em;
+            border-bottom: none;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        
+        .section-header p {
+            margin: 0.5em 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .section-content {
+            padding: 2em;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5em;
+            margin-top: 2em;
+        }
+        
+        h4 {
+            color: #e74c3c;
+            margin-top: 1.5em;
+        }
+        
+        /* Code Styles */
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5em;
+            border-radius: 8px;
             overflow-x: auto;
             border-left: 4px solid #3498db;
+            margin: 1em 0;
         }
-        code { 
-            color: #e74c3c; 
-            background: #ecf0f1; 
-            padding: 2px 4px; 
-            border-radius: 3px;
+        
+        code {
+            color: #e74c3c;
+            background: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
         }
-        .architecture-box {
-            background: #ffffff;
-            border: 2px solid #3498db;
+        
+        /* Special Boxes */
+        .info-box {
+            background: #e8f6f3;
+            border: 1px solid #16a085;
             border-radius: 8px;
             padding: 1.5em;
-            margin: 1em 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 1.5em 0;
+            position: relative;
         }
-        .note {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 5px;
-            padding: 1em;
-            margin: 1em 0;
+        
+        .info-box::before {
+            content: "ℹ️";
+            position: absolute;
+            top: 1em;
+            left: 1em;
+            font-size: 1.2em;
         }
-        .warning {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 1em;
-            margin: 1em 0;
+        
+        .info-box h4 {
+            margin-left: 2em;
+            color: #16a085;
         }
+        
+        .warning-box {
+            background: #fef9e7;
+            border: 1px solid #f39c12;
+            border-radius: 8px;
+            padding: 1.5em;
+            margin: 1.5em 0;
+            position: relative;
+        }
+        
+        .warning-box::before {
+            content: "⚠️";
+            position: absolute;
+            top: 1em;
+            left: 1em;
+            font-size: 1.2em;
+        }
+        
+        .warning-box h4 {
+            margin-left: 2em;
+            color: #f39c12;
+        }
+        
+        .success-box {
+            background: #eafaf1;
+            border: 1px solid #27ae60;
+            border-radius: 8px;
+            padding: 1.5em;
+            margin: 1.5em 0;
+            position: relative;
+        }
+        
+        .success-box::before {
+            content: "✅";
+            position: absolute;
+            top: 1em;
+            left: 1em;
+            font-size: 1.2em;
+        }
+        
+        .success-box h4 {
+            margin-left: 2em;
+            color: #27ae60;
+        }
+        
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1em 0;
+            margin: 1.5em 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px 12px;
+            padding: 12px 15px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
+        
         th {
-            background-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* Visual Diagrams */
+        .diagram-container {
+            background: #ffffff;
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            padding: 2em;
+            margin: 2em 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .osi-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1.5em 0;
+            gap: 4px;
+        }
+        
+        .osi-layer {
+            width: 350px;
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .osi-layer:hover {
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .layer-7 { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .layer-6 { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .layer-5 { background: linear-gradient(135deg, #f1c40f, #f39c12); color: #2c3e50; }
+        .layer-4 { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .layer-3 { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .layer-2 { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .layer-1 { background: linear-gradient(135deg, #34495e, #2c3e50); }
+        
+        /* Topology Styles */
+        .topology-diagrams {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2em;
+            margin: 2em 0;
+        }
+        
+        .topology-diagram {
+            background: #ffffff;
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            padding: 2em;
+            text-align: center;
+            min-height: 400px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .topology-controls {
+            margin: 2em 0;
+            text-align: center;
+        }
+        
+        .topology-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 8px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .topology-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .topology-btn.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        /* Star Topology */
+        .star-topology {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .hub:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .device {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .device:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        /* Device positions */
+        .device-1 { top: 25px; left: 50%; transform: translateX(-50%); }
+        .device-2 { top: 50px; right: 25px; }
+        .device-3 { bottom: 50px; right: 25px; }
+        .device-4 { bottom: 25px; left: 50%; transform: translateX(-50%); }
+        .device-5 { bottom: 50px; left: 25px; }
+        .device-6 { top: 50px; left: 25px; }
+        
+        .connection-line {
+            position: absolute;
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            z-index: 1;
+            height: 4px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        /* Connection lines */
+        .line-1 { top: 125px; left: 50%; width: 80px; height: 4px; transform: translateX(-50%) rotate(-90deg); }
+        .line-2 { top: 158px; left: 190px; width: 80px; height: 4px; transform: rotate(-30deg); transform-origin: left; }
+        .line-3 { top: 195px; left: 190px; width: 80px; height: 4px; transform: rotate(30deg); transform-origin: left; }
+        .line-4 { bottom: 120px; left: 50%; width: 80px; height: 4px; transform: translateX(-50%) rotate(90deg); }
+        .line-5 { top: 240px; left: 90px; width: 80px; height: 4px; transform: rotate(-30deg); transform-origin: left; }
+        .line-6 { top: 110px; left: 90px; width: 80px; height: 4px; transform: rotate(30deg); transform-origin: left; }
+        
+        /* BUS TOPOLOGY STYLES */
+        .bus-topology {
+            position: relative;
+            width: 450px;
+            height: 250px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .bus-backbone {
+            position: absolute;
+            top: 50%;
+            left: 30px;
+            right: 30px;
+            height: 10px;
+            background: linear-gradient(90deg, #34495e 0%, #2c3e50 50%, #34495e 100%);
+            transform: translateY(-50%);
+            border-radius: 5px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        
+        .bus-backbone::before {
+            content: "BUS BACKBONE";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        
+        .bus-device {
+            position: absolute;
+            width: 50px;
+            height: 45px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .bus-device:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        }
+        
+        /* Bus device positions - evenly distributed */
+        .bus-device-1 { top: 40px; left: 60px; }
+        .bus-device-2 { top: 40px; left: 130px; }
+        .bus-device-3 { top: 40px; left: 200px; }
+        .bus-device-4 { top: 40px; right: 60px; }
+        .bus-device-5 { bottom: 40px; left: 90px; }
+        .bus-device-6 { bottom: 40px; left: 170px; }
+        .bus-device-7 { bottom: 40px; right: 90px; }
+        
+        .bus-connector {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(180deg, #34495e, #7f8c8d);
+            z-index: 5;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        /* T-connectors from devices to backbone */
+        .bus-connector-1 { top: 85px; left: 82px; height: 40px; }
+        .bus-connector-2 { top: 85px; left: 152px; height: 40px; }
+        .bus-connector-3 { top: 85px; left: 222px; height: 40px; }
+        .bus-connector-4 { top: 85px; right: 82px; height: 40px; }
+        .bus-connector-5 { bottom: 85px; left: 112px; height: 40px; }
+        .bus-connector-6 { bottom: 85px; left: 192px; height: 40px; }
+        .bus-connector-7 { bottom: 85px; right: 112px; height: 40px; }
+        
+        /* Terminator indicators */
+        .bus-terminator {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bus-terminator:hover {
+            transform: translateY(-50%) scale(1.2);
+            box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
+        }
+        
+        .bus-terminator::after {
+            content: "T";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+        }
+        
+        .terminator-left { left: 20px; }
+        .terminator-right { right: 20px; }
+        
+        /* Data flow animation for bus */
+        @keyframes busDataFlow {
+            0% { left: 30px; opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { right: 30px; left: auto; opacity: 1; }
+        }
+        
+        .bus-data-packet {
+            position: absolute;
+            width: 15px;
+            height: 8px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 4px;
+            z-index: 15;
+            animation: busDataFlow 3s infinite ease-in-out;
+            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.4);
+        }
+        
+        /* RING TOPOLOGY STYLES */
+        .ring-topology {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .ring-device {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .ring-device:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        /* Ring device positions - perfect circle formation (6 devices) */
+        .ring-device-1 { top: 40px; left: 50%; transform: translateX(-50%); } /* 12 o'clock */
+        .ring-device-2 { top: 90px; right: 60px; } /* 2 o'clock */
+        .ring-device-3 { bottom: 90px; right: 60px; } /* 4 o'clock */
+        .ring-device-4 { bottom: 40px; left: 50%; transform: translateX(-50%); } /* 6 o'clock */
+        .ring-device-5 { bottom: 90px; left: 60px; } /* 8 o'clock */
+        .ring-device-6 { top: 90px; left: 60px; } /* 10 o'clock */
+        
+        .ring-connection {
+            position: absolute;
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            z-index: 1;
+            height: 6px;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Ring connections - connecting adjacent devices in perfect circle */
+        .ring-line-1 { 
+            top: 95px; 
+            left: 225px; 
+            width: 90px; 
+            height: 6px; 
+            transform: rotate(30deg); 
+            transform-origin: left center; 
+        }
+        .ring-line-2 { 
+            top: 210px; 
+            right: 85px; 
+            width: 90px; 
+            height: 6px; 
+            transform: rotate(90deg); 
+            transform-origin: center; 
+        }
+        .ring-line-3 { 
+            bottom: 95px; 
+            left: 225px; 
+            width: 90px; 
+            height: 6px; 
+            transform: rotate(-30deg); 
+            transform-origin: left center; 
+        }
+        .ring-line-4 { 
+            bottom: 95px; 
+            left: 85px; 
+            width: 90px; 
+            height: 6px; 
+            transform: rotate(30deg); 
+            transform-origin: left center; 
+        }
+        .ring-line-5 { 
+            top: 210px; 
+            left: 85px; 
+            width: 90px; 
+            height: 6px; 
+            transform: rotate(-90deg); 
+            transform-origin: center; 
+        }
+        .ring-line-6 { 
+            top: 95px; 
+            left: 85px; 
+            width: 90px; 
+            height: 6px; 
+            transform: rotate(-30deg); 
+            transform-origin: left center; 
+        }
+        
+        /* Token animation for ring - fixed positions */
+        @keyframes ringTokenFlow {
+            0% { 
+                top: 70px; 
+                left: 50%; 
+                transform: translateX(-50%);
+                opacity: 1;
+            }
+            16.66% { 
+                top: 120px; 
+                right: 90px; 
+                transform: none;
+                opacity: 0.8;
+            }
+            33.33% { 
+                bottom: 120px; 
+                right: 90px;
+                opacity: 0.6;
+            }
+            50% { 
+                bottom: 70px; 
+                left: 50%; 
+                transform: translateX(-50%);
+                opacity: 0.8;
+            }
+            66.66% { 
+                bottom: 120px; 
+                left: 90px;
+                transform: none;
+                opacity: 0.6;
+            }
+            83.33% { 
+                top: 120px; 
+                left: 90px;
+                opacity: 0.8;
+            }
+            100% { 
+                top: 70px; 
+                left: 50%; 
+                transform: translateX(-50%);
+                opacity: 1;
+            }
+        }
+        
+        .ring-token {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border-radius: 50%;
+            z-index: 15;
+            animation: ringTokenFlow 4s infinite ease-in-out;
+            box-shadow: 0 3px 8px rgba(243, 156, 18, 0.6);
+            border: 3px solid white;
+        }
+        
+        .ring-token::after {
+            content: "T";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        /* Ring direction indicators - better positioning */
+        .ring-direction {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            z-index: 5;
+            box-shadow: 0 2px 6px rgba(155, 89, 182, 0.4);
+        }
+        
+        .direction-1 { top: 130px; left: 190px; }
+        .direction-2 { top: 185px; right: 115px; }
+        .direction-3 { bottom: 130px; right: 190px; }
+        .direction-4 { bottom: 185px; left: 115px; }
+        
+        .ring-direction::after {
+            content: "→";
+        }
+        
+        /* Ring center label */
+        .ring-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(52, 73, 94, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: bold;
+            z-index: 5;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        /* Add visual ring guide (optional background circle) */
+        .ring-guide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 280px;
+            height: 280px;
+            border: 2px dashed rgba(52, 152, 219, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+        
+        /* Grid Layout for Multiple Sections */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+            margin: 2em 0;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            margin: 2em 0;
+        }
+        
+        /* Command Cards */
+        .command-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+        
+        .command-card h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2em;
+            margin-top: 3em;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1em;
+            }
+            
+            .nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .osi-layer {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .star-topology, .bus-topology {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .ring-topology {
+                width: 320px;
+                height: 320px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Comprehensive Guide to Networking Using Linux Shell Scripting</h1>
-    <p>
-        Networking is the backbone of modern computing infrastructure. Understanding how to manage, monitor, and troubleshoot networks using Linux shell scripting is essential for system administrators, DevOps engineers, and developers. This comprehensive guide covers networking fundamentals, various network architectures, and practical shell scripting techniques.
-    </p>
-
-    <h2>Understanding Network Architectures</h2>
-    
-    <div class="architecture-box">
-        <h3>1. OSI Model Overview</h3>
-        <p>The OSI (Open Systems Interconnection) model provides a framework for understanding network communication:</p>
-        <table>
-            <tr><th>Layer</th><th>Name</th><th>Function</th><th>Linux Tools</th></tr>
-            <tr><td>7</td><td>Application</td><td>User interface</td><td>curl, wget, ssh</td></tr>
-            <tr><td>6</td><td>Presentation</td><td>Data formatting</td><td>openssl, gpg</td></tr>
-            <tr><td>5</td><td>Session</td><td>Connection management</td><td>netstat, ss</td></tr>
-            <tr><td>4</td><td>Transport</td><td>Data delivery</td><td>ss, netstat</td></tr>
-            <tr><td>3</td><td>Network</td><td>Routing</td><td>ip, route</td></tr>
-            <tr><td>2</td><td>Data Link</td><td>Frame handling</td><td>ip link, ethtool</td></tr>
-            <tr><td>1</td><td>Physical</td><td>Hardware</td><td>lshw, dmesg</td></tr>
-        </table>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <h1>🌐 Networking with Linux Shell Scripting</h1>
+            <p>Master network management, monitoring, and troubleshooting with practical shell scripts</p>
+        </div>
     </div>
-
-    <div class="architecture-box">
-        <h3>2. Network Topologies</h3>
-        <p><strong>Star Topology:</strong> Central hub/switch connects all devices</p>
-        <p><strong>Mesh Topology:</strong> Every device connects to every other device</p>
-        <p><strong>Ring Topology:</strong> Devices connected in circular fashion</p>
-        <p><strong>Bus Topology:</strong> All devices share a common communication line</p>
-    </div>
-
-    <h2>1. Basic Network Interface Management</h2>
-    <p>
-        Network interfaces are the connection points between your system and the network. Here are simple scripts to manage them.
-    </p>
     
-    <h3>Check Network Interfaces</h3>
-    <pre><code>#!/bin/bash
-# Show all network interfaces
+    <div class="container">
+        <!-- Section 1: Fundamentals -->
+        <section id="fundamentals" class="section">
+            <div class="section-header">
+                <h2>📚 Network Fundamentals</h2>
+                <p>Understanding the foundation of network communication</p>
+            </div>
+            <div class="section-content">
+                <div class="diagram-container">
+                    <h3>OSI Model - The Foundation of Networking</h3>
+                    <div class="osi-stack">
+                        <div class="osi-layer layer-7">Layer 7 - Application (HTTP, FTP, SSH, SMTP)</div>
+                        <div class="osi-layer layer-6">Layer 6 - Presentation (SSL/TLS, Encryption, Compression)</div>
+                        <div class="osi-layer layer-5">Layer 5 - Session (NetBIOS, RPC, SQL Sessions)</div>
+                        <div class="osi-layer layer-4">Layer 4 - Transport (TCP, UDP, Port Numbers)</div>
+                        <div class="osi-layer layer-3">Layer 3 - Network (IP, ICMP, Routing)</div>
+                        <div class="osi-layer layer-2">Layer 2 - Data Link (Ethernet, PPP, MAC Addresses)</div>
+                        <div class="osi-layer layer-1">Layer 1 - Physical (Cables, Hubs, Electrical Signals)</div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h4>OSI Model in Practice</h4>
+                    <p>Each layer has specific responsibilities and interacts only with adjacent layers. Understanding this helps troubleshoot network issues systematically.</p>
+                </div>
+                
+                <table>
+                    <tr><th>Layer</th><th>Name</th><th>Function</th><th>Linux Tools</th><th>Common Protocols</th></tr>
+                    <tr><td>7</td><td>Application</td><td>User interface & services</td><td>curl, wget, ssh, ftp</td><td>HTTP, FTP, SSH, SMTP</td></tr>
+                    <tr><td>6</td><td>Presentation</td><td>Data formatting & encryption</td><td>openssl, gpg</td><td>SSL/TLS, JPEG, GIF</td></tr>
+                    <tr><td>5</td><td>Session</td><td>Connection management</td><td>netstat, ss</td><td>NetBIOS, RPC</td></tr>
+                    <tr><td>4</td><td>Transport</td><td>Reliable data delivery</td><td>ss, netstat, nc</td><td>TCP, UDP</td></tr>
+                    <tr><td>3</td><td>Network</td><td>Routing & addressing</td><td>ip, route, traceroute</td><td>IP, ICMP, OSPF</td></tr>
+                    <tr><td>2</td><td>Data Link</td><td>Frame handling & MAC</td><td>ip link, ethtool, arp</td><td>Ethernet, PPP</td></tr>
+                    <tr><td>1</td><td>Physical</td><td>Hardware & signals</td><td>lshw, dmesg, iwconfig</td><td>Cables, Radio waves</td></tr>
+                </table>
+            </div>
+        </section>
+        
+        <!-- Section 2: Network Topologies -->
+        <section id="topologies" class="section">
+            <div class="section-header">
+                <h2>🔗 Network Topologies</h2>
+                <p>Visual understanding of different network architectures</p>
+            </div>
+            <div class="section-content">
+                <div class="diagram-container">
+                    <h3>Interactive Network Topologies</h3>
+                    <div class="topology-controls">
+                        <button class="topology-btn active" onclick="showTopology('star')">⭐ Star</button>
+                        <button class="topology-btn" onclick="showTopology('ring')">🔄 Ring</button>
+                        <button class="topology-btn" onclick="showTopology('bus')">🚌 Bus</button>
+                        <button class="topology-btn" onclick="showTopology('mesh')">🕸️ Mesh</button>
+                        <button class="topology-btn" onclick="showTopology('tree')">🌳 Tree</button>
+                    </div>
+                    
+                    <div class="topology-diagrams">
+                        <div class="topology-diagram" id="star-diagram">
+                            <h4>Star Topology</h4>
+                            <div class="star-topology">
+                                <div class="connection-line line-1"></div>
+                                <div class="connection-line line-2"></div>
+                                <div class="connection-line line-3"></div>
+                                <div class="connection-line line-4"></div>
+                                <div class="connection-line line-5"></div>
+                                <div class="connection-line line-6"></div>
+                                <div class="hub" title="Central Hub/Switch">SWITCH</div>
+                                <div class="device device-1" title="Computer 1">PC1</div>
+                                <div class="device device-2" title="Computer 2">PC2</div>
+                                <div class="device device-3" title="Computer 3">PC3</div>
+                                <div class="device device-4" title="Server">SRV</div>
+                                <div class="device device-5" title="Printer">PRT</div>
+                                <div class="device device-6" title="Laptop">LAP</div>
+                            </div>
+                            <div class="topology-info">
+                                <p><span class="advantages">✓ Advantages:</span> Easy installation, centralized management, fault isolation, scalable</p>
+                                <p><span class="disadvantages">✗ Disadvantages:</span> Central hub single point of failure, requires more cable</p>
+                                <p><strong>🏢 Best Use:</strong> Modern office LANs, most common topology today</p>
+                            </div>
+                        </div>
+                        
+                        <div class="topology-diagram" id="ring-diagram" style="display: none;">
+                            <h4>Ring Topology</h4>
+                            <div class="ring-topology">
+                                <!-- Optional guide circle -->
+                                <div class="ring-guide"></div>
+                                
+                                <!-- Ring connections -->
+                                <div class="ring-connection ring-line-1"></div>
+                                <div class="ring-connection ring-line-2"></div>
+                                <div class="ring-connection ring-line-3"></div>
+                                <div class="ring-connection ring-line-4"></div>
+                                <div class="ring-connection ring-line-5"></div>
+                                <div class="ring-connection ring-line-6"></div>
+                                
+                                <!-- Token passing animation -->
+                                <div class="ring-token" title="Token Ring Token"></div>
+                                
+                                <!-- Direction indicators -->
+                                <div class="ring-direction direction-1" title="Data Flow Direction"></div>
+                                <div class="ring-direction direction-2" title="Data Flow Direction"></div>
+                                <div class="ring-direction direction-3" title="Data Flow Direction"></div>
+                                <div class="ring-direction direction-4" title="Data Flow Direction"></div>
+                                
+                                <!-- Center label -->
+                                <div class="ring-center">TOKEN RING</div>
+                                
+                                <!-- Ring devices -->
+                                <div class="ring-device ring-device-1" title="Workstation 1">WS1</div>
+                                <div class="ring-device ring-device-2" title="Workstation 2">WS2</div>
+                                <div class="ring-device ring-device-3" title="File Server">FS</div>
+                                <div class="ring-device ring-device-4" title="Print Server">PS</div>
+                                <div class="ring-device ring-device-5" title="Workstation 5">WS5</div>
+                                <div class="ring-device ring-device-6" title="Database Server">DB</div>
+                            </div>
+                            <div class="topology-info">
+                                <p><span class="advantages">✓ Advantages:</span> Equal access for all nodes, no collisions, predictable performance, orderly data transmission</p>
+                                <p><span class="disadvantages">✗ Disadvantages:</span> Single cable break affects entire network, difficult troubleshooting, expensive, token loss issues</p>
+                                <p><strong>🏭 Best Use:</strong> Token Ring networks (IBM), FDDI networks, some industrial control systems</p>
+                                <p><strong>⚡ Key Features:</strong> Token passing protocol, unidirectional data flow, deterministic access method, 4-16 Mbps speeds</p>
+                                <p><strong>📊 Performance:</strong> Consistent performance under load, but largely obsolete due to Ethernet dominance</p>
+                            </div>
+                        </div>
+                        
+                        <div class="topology-diagram" id="bus-diagram" style="display: none;">
+                            <h4>Bus Topology</h4>
+                            <div class="bus-topology">
+                                <!-- Bus backbone -->
+                                <div class="bus-backbone"></div>
+                                
+                                <!-- Data packet animation -->
+                                <div class="bus-data-packet"></div>
+                                
+                                <!-- Terminators -->
+                                <div class="bus-terminator terminator-left" title="50Ω Terminator"></div>
+                                <div class="bus-terminator terminator-right" title="50Ω Terminator"></div>
+                                
+
+                                <!-- T-connectors -->
+                                <div class="bus-connector bus-connector-1"></div>
+                                <div class="bus-connector bus-connector-2"></div>
+                                <div class="bus-connector bus-connector-3"></div>
+                                <div class="bus-connector bus-connector-4"></div>
+                                <div class="bus-connector bus-connector-5"></div>
+                                <div class="bus-connector bus-connector-6"></div>
+                                <div class="bus-connector bus-connector-7"></div>
+                                
+
+                                <!-- Devices -->
+                                <div class="bus-device bus-device-1" title="Workstation 1">PC1</div>
+                                <div class="bus-device bus-device-2" title="Workstation 2">PC2</div>
+                                <div class="bus-device bus-device-3" title="Workstation 3">PC3</div>
+                                <div class="bus-device bus-device-4" title="Workstation 4">PC4</div>
+                                <div class="bus-device bus-device-5" title="Printer">PRT</div>
+                                <div class="bus-device bus-device-6" title="Server">SRV</div>
+                                <div class="bus-device bus-device-7" title="Scanner">SCN</div>
+                            </div>
+                            <div class="topology-info">
+                                <p><span class="advantages">✓ Advantages:</span> Simple and cost-effective, easy to install, minimal cable required, easy to extend</p>
+                                <p><span class="disadvantages">✗ Disadvantages:</span> Single point of failure, performance degrades with more devices, collision domain issues, difficult troubleshooting</p>
+                                <p><strong>🏭 Best Use:</strong> Early Ethernet networks (10Base2/Thinnet), small temporary networks, legacy industrial systems</p>
+                                <p><strong>⚡ Key Features:</strong> CSMA/CD protocol, 50Ω terminators required, maximum 30 devices per segment</p>
+                            </div>
+                        </div>
+                        
+                        <div class="topology-diagram" id="mesh-diagram" style="display: none;">
+                            <h4>Mesh Topology</h4>
+                            <p><em>Mesh topology diagram would be implemented here...</em></p>
+                        </div>
+                        
+                        <div class="topology-diagram" id="tree-diagram" style="display: none;">
+                            <h4>Tree Topology</h4>
+                            <p><em>Tree topology diagram would be implemented here...</em></p>
+                        </div>
+                    </div>
+                    
+                    <table>
+                        <tr><th>Topology</th><th>Cost</th><th>Reliability</th><th>Scalability</th><th>Performance</th><th>Best Use Case</th></tr>
+                        <tr><td>Star</td><td>Medium</td><td>Good</td><td>Excellent</td><td>Good</td><td>Office LANs</td></tr>
+                        <tr><td>Ring</td><td>Medium</td><td>Fair</td><td>Limited</td><td>Predictable</td><td>Legacy systems</td></tr>
+                        <tr><td>Bus</td><td>Low</td><td>Poor</td><td>Limited</td><td>Degrades</td><td>Small networks</td></tr>
+                        <tr><td>Mesh</td><td>Very High</td><td>Excellent</td><td>Poor</td><td>Excellent</td><td>Critical systems</td></tr>
+                        <tr><td>Tree</td><td>High</td><td>Good</td><td>Excellent</td><td>Good</td><td>Large organizations</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Interface Management -->
+        <section id="interfaces" class="section">
+            <div class="section-header">
+                <h2>🔧 Network Interface Management</h2>
+                <p>Managing network interfaces with shell scripts</p>
+            </div>
+            <div class="section-content">
+                <div class="grid-2">
+                    <div class="command-card">
+                        <h4>📋 Check Network Interfaces</h4>
+                        <pre><code>#!/bin/bash
+# Display all network interfaces
 ip addr show
 
 # Show only active interfaces
 ip link show up
 
-# Display interface statistics
+# Interface statistics
 cat /proc/net/dev
-</code></pre>
 
-    <h3>Configure Network Interface</h3>
-    <pre><code>#!/bin/bash
-# Simple interface configuration
+# Wireless interfaces
+iwconfig 2>/dev/null</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>⚙️ Configure Interface</h4>
+                        <pre><code>#!/bin/bash
+# Configure network interface
 INTERFACE="eth0"
 IP="192.168.1.100"
 NETMASK="24"
+GATEWAY="192.168.1.1"
 
+# Set IP address
 sudo ip addr add $IP/$NETMASK dev $INTERFACE
+
+# Bring interface up
 sudo ip link set $INTERFACE up
-echo "Interface $INTERFACE configured"
-</code></pre>
 
-    <h2>2. Network Connectivity Testing</h2>
-    <p>
-        Testing network connectivity is essential for troubleshooting. Here are basic connectivity tests.
-    </p>
+# Set default gateway
+sudo ip route add default via $GATEWAY
 
-    <h3>Basic Connectivity Test</h3>
-    <pre><code>#!/bin/bash
-# Test basic connectivity
-TARGET="google.com"
+echo "✅ Interface $INTERFACE configured"</code></pre>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h4>Interface Management Best Practices</h4>
+                    <ul>
+                        <li>Always backup current configuration before changes</li>
+                        <li>Test changes in non-production environments first</li>
+                        <li>Use descriptive interface names when possible</li>
+                        <li>Monitor interface statistics for performance issues</li>
+                    </ul>
+                </div>
+                
+                <h3>Advanced Interface Operations</h3>
+                <div class="grid-3">
+                    <div class="command-card">
+                        <h4>🔍 Interface Details</h4>
+                        <pre><code>#!/bin/bash
+# Detailed interface information
+INTERFACE="eth0"
 
-echo "Testing connectivity to $TARGET"
-if ping -c 3 $TARGET; then
-    echo "✓ Connection successful"
-else
-    echo "✗ Connection failed"
-fi
-</code></pre>
+echo "=== Interface: $INTERFACE ==="
+ethtool $INTERFACE | grep -E "(Speed|Duplex|Link)"
+ip addr show $INTERFACE
+ip route show dev $INTERFACE</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>📊 Traffic Statistics</h4>
+                        <pre><code>#!/bin/bash
+# Interface traffic monitoring
+INTERFACE="eth0"
 
-    <h3>Port Connectivity Test</h3>
-    <pre><code>#!/bin/bash
+while true; do
+    clear
+    echo "Traffic on $INTERFACE:"
+    cat /proc/net/dev | grep $INTERFACE
+    sleep 2
+done</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>🔄 Interface Reset</h4>
+                        <pre><code>#!/bin/bash
+# Safely restart interface
+INTERFACE="eth0"
+
+echo "Restarting $INTERFACE..."
+sudo ip link set $INTERFACE down
+sleep 2
+sudo ip link set $INTERFACE up
+echo "✅ Interface restarted"</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 4: Connectivity Testing -->
+        <section id="connectivity" class="section">
+            <div class="section-header">
+                <h2>🔍 Network Connectivity Testing</h2>
+                <p>Comprehensive network testing and troubleshooting</p>
+            </div>
+            <div class="section-content">
+                <div class="info-box">
+                    <h4>Testing Strategy</h4>
+                    <p>Follow a systematic approach: Physical → Data Link → Network → Transport → Application layers</p>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="command-card">
+                        <h4>🏓 Basic Connectivity (ICMP)</h4>
+                        <pre><code>#!/bin/bash
+# Comprehensive ping test
+TARGETS=("8.8.8.8" "google.com" "192.168.1.1")
+
+echo "🔍 Testing Connectivity..."
+for target in "${TARGETS[@]}"; do
+    if ping -c 3 -W 3 $target >/dev/null 2>&1; then
+        latency=$(ping -c 3 $target | tail -1 | cut -d'/' -f5)
+        echo "✅ $target: ${latency}ms"
+    else
+        echo "❌ $target: UNREACHABLE"
+    fi
+done</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>🔌 Port Connectivity (TCP/UDP)</h4>
+                        <pre><code>#!/bin/bash
 # Test specific ports
 HOST="google.com"
-PORTS=(80 443 22)
+PORTS=(80 443 22 53)
 
+echo "🔍 Testing Ports on $HOST..."
 for port in "${PORTS[@]}"; do
-    if timeout 5 bash -c "echo >/dev/tcp/$HOST/$port"; then
-        echo "✓ Port $port: Open"
+    if timeout 5 bash -c "echo >/dev/tcp/$HOST/$port" 2>/dev/null; then
+        echo "✅ Port $port: OPEN"
     else
-        echo "✗ Port $port: Closed"
+        echo "❌ Port $port: CLOSED/FILTERED"
     fi
+done</code></pre>
+                    </div>
+                </div>
+                
+                <h3>Advanced Connectivity Tests</h3>
+                <div class="command-card">
+                    <h4>🧪 Comprehensive Network Test</h4>
+                    <pre><code>#!/bin/bash
+# Complete network health check
+echo "🏥 Network Health Check"
+echo "======================"
+
+# 1. Interface status
+echo "📡 Network Interfaces:"
+ip link show | grep -E "^[0-9]+:" | while read line; do
+    iface=$(echo $line | cut -d: -f2 | tr -d ' ')
+    state=$(echo $line | grep -o "state [A-Z]*" | cut -d' ' -f2)
+    echo "  $iface: $state"
 done
-</code></pre>
 
-    <h2>3. Basic Routing Management</h2>
-    <p>
-        Understanding routing helps manage network traffic flow across different architectures.
-    </p>
+# 2. Default gateway
+echo "🚪 Default Gateway:"
+GATEWAY=$(ip route | grep default | awk '{print $3}')
+if ping -c 1 $GATEWAY >/dev/null 2>&1; then
+    echo "  ✅ $GATEWAY reachable"
+else
+    echo "  ❌ $GATEWAY unreachable"
+fi
 
-    <div class="architecture-box">
-        <h3>Enterprise Network Layers</h3>
-        <ul>
-            <li><strong>Core Layer:</strong> High-speed backbone network</li>
-            <li><strong>Distribution Layer:</strong> Policy enforcement and routing decisions</li>
-            <li><strong>Access Layer:</strong> End-device connectivity and access control</li>
-        </ul>
-    </div>
+# 3. DNS resolution
+echo "🔍 DNS Resolution:"
+if nslookup google.com >/dev/null 2>&1; then
+    echo "  ✅ DNS working"
+else
+    echo "  ❌ DNS failed"
+fi
 
-    <h3>View Routing Information</h3>
-    <pre><code>#!/bin/bash
+# 4. Internet connectivity
+echo "🌐 Internet Connectivity:"
+if curl -s --max-time 5 http://google.com >/dev/null; then
+    echo "  ✅ Internet accessible"
+else
+    echo "  ❌ Internet not accessible"
+fi</code></pre>
+                </div>
+                
+                <div class="warning-box">
+                    <h4>Troubleshooting Tips</h4>
+                    <ul>
+                        <li>Start with physical layer (cables, LEDs)</li>
+                        <li>Check interface status and IP configuration</li>
+                        <li>Test local network connectivity first</li>
+                        <li>Verify DNS resolution separately</li>
+                        <li>Use traceroute to identify where packets are dropped</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 5: Routing Management -->
+        <section id="routing" class="section">
+            <div class="section-header">
+                <h2>🗺️ Routing Management</h2>
+                <p>Understanding and managing network traffic routing</p>
+            </div>
+            <div class="section-content">
+                <div class="grid-2">
+                    <div class="command-card">
+                        <h4>📋 View Routing Information</h4>
+                        <pre><code>#!/bin/bash
 # Display routing table
+echo "🗺️ Current Routing Table:"
 ip route show
 
-# Show default gateway
-ip route | grep default
+echo "🚪 Default Gateway:"
+ip route show default
 
-# Display routing rules
+echo "📏 Routing Rules:"
 ip rule show
-</code></pre>
 
-    <h3>Add Custom Route</h3>
-    <pre><code>#!/bin/bash
-# Add a custom route
+echo "🏃 Route Cache:"
+ip route show cache</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>➕ Add Custom Routes</h4>
+                        <pre><code>#!/bin/bash
+# Add custom routes
 NETWORK="10.0.0.0/8"
 GATEWAY="192.168.1.1"
 INTERFACE="eth0"
 
+# Add network route
 sudo ip route add $NETWORK via $GATEWAY dev $INTERFACE
-echo "Route added: $NETWORK via $GATEWAY"
-</code></pre>
 
-    <h2>4. Port and Service Discovery</h2>
-    <p>
-        Discovering what services are running helps with security and troubleshooting.
-    </p>
+# Add host route
+sudo ip route add 8.8.8.8 via $GATEWAY
 
-    <h3>Check Listening Ports</h3>
-    <pre><code>#!/bin/bash
-# Show listening ports
-echo "TCP Ports:"
-ss -tln
+echo "✅ Custom routes added"
+echo "Current routes:"
+ip route show</code></pre>
+                    </div>
+                </div>
+                
+                <h3>Advanced Routing Operations</h3>
+                <div class="command-card">
+                    <h4>🔄 Dynamic Routing Management</h4>
+                    <pre><code>#!/bin/bash
+# Advanced routing script
+echo "🔧 Advanced Routing Management"
 
-echo "UDP Ports:"
-ss -uln
-</code></pre>
-
-    <h3>Security Port Scan</h3>
-    <pre><code>#!/bin/bash
-# Basic security check
-VULNERABLE_PORTS=(21 23 135 139 445)
-
-echo "Checking for vulnerable ports:"
-for port in "${VULNERABLE_PORTS[@]}"; do
-    if ss -tln | grep ":$port "; then
-        echo "⚠️ Port $port is open"
-    fi
-done
-</code></pre>
-
-    <h2>5. File Transfer Scripts</h2>
-    <p>
-        Different protocols serve different purposes in network architectures.
-    </p>
-
-    <h3>HTTP Download</h3>
-    <pre><code>#!/bin/bash
-# Simple HTTP download
-URL="https://example.com/file.zip"
-DESTINATION="./downloads/"
-
-curl -o "$DESTINATION" "$URL" --progress-bar
-echo "Download completed"
-</code></pre>
-
-    <h3>Bandwidth Test</h3>
-    <pre><code>#!/bin/bash
-# Basic bandwidth test
-echo "Testing download speed..."
-curl -o /dev/null -s -w "Speed: %{speed_download} bytes/sec\n" \
-    http://speedtest.wdc01.softlayer.com/downloads/test10.zip
-</code></pre>
-
-    <h2>6. Network Monitoring</h2>
-
-    <div class="architecture-box">
-        <h3>Cloud Network Components</h3>
-        <ul>
-            <li><strong>VPC:</strong> Virtual Private Cloud - isolated network environment</li>
-            <li><strong>Subnets:</strong> Network segmentation for security and organization</li>
-            <li><strong>Security Groups:</strong> Virtual firewalls controlling traffic</li>
-            <li><strong>Load Balancers:</strong> Distribute traffic across multiple servers</li>
-        </ul>
-    </div>
-
-    <h3>Basic Network Monitor</h3>
-    <pre><code>#!/bin/bash
-# Simple network monitoring
-echo "=== Network Status ==="
-echo "Active interfaces:"
-ip link show up | grep -E '^[0-9]+:'
-
-echo "Network connections:"
-ss -s
-
-echo "DNS test:"
-nslookup google.com | grep -A1 "Name:"
-</code></pre>
-
-    <h3>Network Health Check</h3>
-    <pre><code>#!/bin/bash
-# Quick health check
-echo "=== Health Check ==="
-
-# Check default gateway
-GATEWAY=$(ip route | grep default | awk '{print $3}')
-if ping -c 1 $GATEWAY &>/dev/null; then
-    echo "✓ Gateway reachable"
-else
-    echo "✗ Gateway unreachable"
-fi
-
-# Check DNS
-if nslookup google.com &>/dev/null; then
-    echo "✓ DNS working"
-else
-    echo "✗ DNS failed"
-fi
-</code></pre>
-
-    <h2>7. Basic Security Management</h2>
-    <p>
-        Network security is crucial across all architectures.
-    </p>
-
-    <h3>Firewall Status Check</h3>
-    <pre><code>#!/bin/bash
-# Check firewall status
-if command -v ufw &>/dev/null; then
-    sudo ufw status
-elif command -v firewall-cmd &>/dev/null; then
-    sudo firewall-cmd --state
-else
-    sudo iptables -L
-fi
-</code></pre>
-
-    <h3>Connection Monitor</h3>
-    <pre><code>#!/bin/bash
-# Monitor network connections
-echo "Active connections:"
-netstat -an | grep ESTABLISHED | head -10
-
-echo "Listening services:"
-netstat -tlnp | grep LISTEN | head -5
-</code></pre>
-
-    <div class="warning">
-        <strong>Security Note:</strong> Always test scripts in safe environments before production use.
-    </div>
-
-    <h2>8. Performance Optimization</h2>
-
-    <h3>Network Performance Check</h3>
-    <pre><code>#!/bin/bash
-# Basic performance check
-echo "=== Network Performance ==="
-
-# Check TCP settings
-echo "TCP congestion control:"
-sysctl net.ipv4.tcp_congestion_control
-
-# Interface speeds
-for iface in $(ip link show | grep -E '^[0-9]+:' | cut -d: -f2 | tr -d ' '); do
-    if [[ $iface != "lo" ]]; then
-        speed=$(ethtool $iface 2>/dev/null | grep Speed | awk '{print $2}')
-        echo "$iface: ${speed:-Unknown}"
-    fi
-done
-</code></pre>
-
-    <h3>Latency Test</h3>
-    <pre><code>#!/bin/bash
-# Test latency to common destinations
-DESTINATIONS=("8.8.8.8" "1.1.1.1" "google.com")
-
-for dest in "${DESTINATIONS[@]}"; do
-    latency=$(ping -c 3 $dest 2>/dev/null | tail -1 | awk -F'/' '{print $5}')
-    echo "$dest: ${latency:-TIMEOUT}ms"
-done
-</code></pre>
-
-    <h2>Conclusion</h2>
-    <p>
-        These simple shell scripts provide a foundation for network management across different architectures:
-    </p>
-    <ul>
-        <li><strong>Enterprise Networks:</strong> Use interface and routing scripts for complex topologies</li>
-        <li><strong>Cloud Environments:</strong> Monitor VPC components and security groups</li>
-        <li><strong>Home Networks:</strong> Basic connectivity and performance testing</li>
-        <li><strong>Security Audits:</strong> Port scanning and firewall management</li>
-    </ul>
+# Function to add route with validation
+add_route() {
+    local network=$1
+    local gateway=$2
+    local interface=$3
     
-    <div class="note">
-        <strong>Getting Started:</strong>
-        <ul>
-            <li>Start with basic connectivity tests</li>
-            <li>Practice interface management in safe environments</li>
-            <li>Build monitoring scripts for your specific needs</li>
-            <li>Always backup configurations before changes</li>
-        </ul>
-    </div>
+    if ip route add $network via $gateway dev $interface 2>/dev/null; then
+        echo "✅ Route added: $network via $gateway"
+    else
+        echo "❌ Failed to add route: $network"
+    fi
+}
 
-    <p>
-        These lightweight scripts are perfect for learning networking fundamentals while building practical automation skills. As you become more comfortable, you can expand these basic scripts into more comprehensive network management tools.
-    </p>
+# Function to remove route
+remove_route() {
+    local network=$1
+    
+    if ip route del $network 2>/dev/null; then
+        echo "✅ Route removed: $network"
+    else
+        echo "❌ Route not found: $network"
+    fi
+}
+
+# Function to test route
+test_route() {
+    local destination=$1
+    echo "🧪 Testing route to $destination:"
+    traceroute -n -m 5 $destination | head -6
+}
+
+# Example usage
+add_route "192.168.100.0/24" "192.168.1.1" "eth0"
+test_route "192.168.100.1"</code></pre>
+                </div>
+                
+                <div class="info-box">
+                    <h4>Routing Best Practices</h4>
+                    <ul>
+                        <li>Use specific routes before general ones</li>
+                        <li>Monitor routing table size in large networks</li>
+                        <li>Implement route redundancy for critical paths</li>
+                        <li>Document custom routing decisions</li>
+                        <li>Test routes before implementing in production</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 6: Network Monitoring -->
+        <section id="monitoring" class="section">
+            <div class="section-header">
+                <h2>📊 Network Monitoring</h2>
+                <p>Real-time network performance monitoring and analysis</p>
+            </div>
+            <div class="section-content">
+                <div class="grid-2">
+                    <div class="command-card">
+                        <h4>📈 Real-time Monitoring</h4>
+                        <pre><code>#!/bin/bash
+# Network monitoring dashboard
+echo "📊 Network Monitoring Dashboard"
+echo "==============================="
+
+while true; do
+    clear
+    echo "🕐 $(date)"
+    echo
+    
+    # Interface status
+    echo "📡 Active Interfaces:"
+    ip link show up | grep -E "^[0-9]+:" | head -5
+    echo
+    
+    # Network connections
+    echo "🔗 Network Connections:"
+    ss -s
+    echo
+    
+    # Top bandwidth usage
+    echo "📊 Network Usage:"
+    cat /proc/net/dev | grep -v lo | head -3
+    
+    sleep 5
+done</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>🚨 Alert System</h4>
+                        <pre><code>#!/bin/bash
+# Network monitoring with alerts
+ALERT_EMAIL="admin@company.com"
+PING_TARGET="8.8.8.8"
+BANDWIDTH_THRESHOLD=80
+
+check_connectivity() {
+    if ! ping -c 3 $PING_TARGET >/dev/null 2>&1; then
+        echo "🚨 ALERT: Internet connectivity lost!"
+        # Send email alert (requires mail setup)
+        # echo "Connectivity lost" | mail -s "Network Alert" $ALERT_EMAIL
+        return 1
+    fi
+    return 0
+}
+
+check_bandwidth() {
+    # Simplified bandwidth check
+    local usage=$(cat /proc/loadavg | cut -d' ' -f1 | cut -d'.' -f1)
+    if [ $usage -gt $BANDWIDTH_THRESHOLD ]; then
+        echo "🚨 ALERT: High bandwidth usage: ${usage}%"
+        return 1
+    fi
+    return 0
+}
+
+# Main monitoring loop
+while true; do
+    check_connectivity
+    check_bandwidth
+    sleep 30
+done</code></pre>
+                    </div>
+                </div>
+                
+                <h3>Performance Metrics</h3>
+                <div class="command-card">
+                    <h4>📋 Comprehensive Network Report</h4>
+                    <pre><code>#!/bin/bash
+# Generate network performance report
+generate_report() {
+    local report_file="network_report_$(date +%Y%m%d_%H%M%S).txt"
+    
+    echo "📋 Network Performance Report" > $report_file
+    echo "Generated: $(date)" >> $report_file
+    echo "=================================" >> $report_file
+    echo >> $report_file
+    
+    # System info
+    echo "🖥️  System Information:" >> $report_file
+    echo "Hostname: $(hostname)" >> $report_file
+    echo "Uptime: $(uptime)" >> $report_file
+    echo >> $report_file
+    
+    # Interface information
+    echo "📡 Network Interfaces:" >> $report_file
+    ip addr show >> $report_file
+    echo >> $report_file
+    
+    # Routing table
+    echo "🗺️  Routing Table:" >> $report_file
+    ip route show >> $report_file
+    echo >> $report_file
+    
+    # Active connections
+    echo "🔗 Active Connections:" >> $report_file
+    ss -tuln >> $report_file
+    echo >> $report_file
+    
+    # Network statistics
+    echo "📊 Network Statistics:" >> $report_file
+    cat /proc/net/dev >> $report_file
+    
+    echo "✅ Report generated: $report_file"
+}
+
+generate_report</code></pre>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 7: Security -->
+        <section id="security" class="section">
+            <div class="section-header">
+                <h2>🔒 Network Security</h2>
+                <p>Implementing network security measures and monitoring</p>
+            </div>
+            <div class="section-content">
+                <div class="warning-box">
+                    <h4>Security First</h4>
+                    <p>Always test security scripts in isolated environments. Never run unknown scripts with elevated privileges.</p>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="command-card">
+                        <h4>🛡️ Firewall Management</h4>
+                        <pre><code>#!/bin/bash
+# Firewall status and management
+check_firewall() {
+    echo "🛡️ Firewall Status Check"
+    echo "========================"
+    
+    # Check UFW (Ubuntu/Debian)
+    if command -v ufw &>/dev/null; then
+        echo "UFW Status:"
+        sudo ufw status verbose
+    # Check firewalld (CentOS/RHEL)
+    elif command -v firewall-cmd &>/dev/null; then
+        echo "Firewalld Status:"
+        sudo firewall-cmd --state
+        sudo firewall-cmd --list-all
+    # Check iptables (Generic)
+    else
+        echo "IPTables Rules:"
+        sudo iptables -L -n
+    fi
+}
+
+# Basic firewall setup
+setup_basic_firewall() {
+    echo "⚙️ Setting up basic firewall..."
+    
+    if command -v ufw &>/dev/null; then
+        sudo ufw default deny incoming
+        sudo ufw default allow outgoing
+        sudo ufw allow ssh
+        sudo ufw allow 80/tcp
+        sudo ufw allow 443/tcp
+        sudo ufw --force enable
+        echo "✅ UFW configured"
+    fi
+}
+
+check_firewall</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>🕵️ Security Scanning</h4>
+                        <pre><code>#!/bin/bash
+# Basic security assessment
+security_scan() {
+    echo "🕵️ Security Scan Report"
+    echo "======================="
+    
+    # Check for open ports
+    echo "🔍 Open Ports:"
+    ss -tuln | grep LISTEN | head -10
+    echo
+    
+    # Check for suspicious processes
+    echo "🚨 Network Processes:"
+    ps aux | grep -E "(nc|netcat|nmap)" | grep -v grep
+    echo
+    
+    # Failed login attempts
+    echo "🔐 Recent Failed Logins:"
+    if [ -f /var/log/auth.log ]; then
+        grep "Failed password" /var/log/auth.log | tail -5
+    fi
+    echo
+    
+    # Network connections
+    echo "🔗 Established Connections:"
+    ss -an | grep ESTABLISHED | head -10
+}
+
+# Port vulnerability check
+check_vulnerable_ports() {
+    local DANGEROUS_PORTS=(21 23 135 139 445 1433 3389)
+    
+    echo "⚠️ Checking for potentially dangerous open ports:"
+    for port in "${DANGEROUS_PORTS[@]}"; do
+        if ss -tuln | grep ":$port " >/dev/null; then
+            echo "🚨 Port $port is open (potentially dangerous)"
+        fi
+    done
+}
+
+security_scan
+check_vulnerable_ports</code></pre>
+                    </div>
+                </div>
+                
+                <h3>Network Access Control</h3>
+                <div class="command-card">
+                    <h4>👥 Access Monitoring</h4>
+                    <pre><code>#!/bin/bash
+# Monitor network access and connections
+monitor_access() {
+    echo "👥 Network Access Monitor"
+    echo "========================"
+    
+    # Current SSH sessions
+    echo "🔐 Active SSH Sessions:"
+    who | grep pts
+    echo
+    
+    # Recent connections
+    echo "📊 Recent Connections Summary:"
+    ss -an | awk '{print $1, $2}' | sort | uniq -c | sort -nr | head -10
+    echo
+    
+    # Geographic analysis (if geoip available)
+    echo "🌍 Connection Sources:"
+    ss -an | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head -5
+}
+
+# Intrusion detection basics
+simple_ids() {
+    echo "🚨 Simple Intrusion Detection"
+    echo "============================="
+    
+    # Check for port scanning
+    netstat -an | grep -E ":80|:443|:22" | grep SYN_RECV | wc -l | \
+    awk '{if($1>10) print "⚠️ Possible port scan detected: " $1 " SYN_RECV connections"}'
+    
+    # Check for brute force attempts
+    if [ -f /var/log/auth.log ]; then
+        failed_attempts=$(grep "Failed password" /var/log/auth.log | \
+                         grep "$(date +%b\ %d)" | wc -l)
+        if [ $failed_attempts -gt 10 ]; then
+            echo "🚨 Possible brute force attack: $failed_attempts failed attempts today"
+        fi
+    fi
+}
+
+monitor_access
+simple_ids</code></pre>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 8: Performance Optimization -->
+        <section id="optimization" class="section">
+            <div class="section-header">
+                <h2>⚡ Network Performance Optimization</h2>
+                <p>Optimizing network performance and troubleshooting bottlenecks</p>
+            </div>
+            <div class="section-content">
+                <div class="grid-2">
+                    <div class="command-card">
+                        <h4>📊 Performance Assessment</h4>
+                        <pre><code>#!/bin/bash
+# Network performance analysis
+performance_check() {
+    echo "⚡ Network Performance Check"
+    echo "==========================="
+    
+    # Interface speeds
+    echo "📡 Interface Speeds:"
+    for iface in $(ls /sys/class/net/ | grep -v lo); do
+        if [ -f /sys/class/net/$iface/speed ]; then
+            speed=$(cat /sys/class/net/$iface/speed 2>/dev/null)
+            echo "  $iface: ${speed}Mbps"
+        fi
+    done
+    echo
+    
+    # TCP settings
+    echo "🔧 TCP Configuration:"
+    echo "  Congestion Control: $(sysctl -n net.ipv4.tcp_congestion_control)"
+    echo "  Window Scaling: $(sysctl -n net.ipv4.tcp_window_scaling)"
+    echo "  Timestamps: $(sysctl -n net.ipv4.tcp_timestamps)"
+    echo
+    
+    # Buffer sizes
+    echo "📦 Buffer Sizes:"
+    echo "  TCP Read: $(sysctl -n net.core.rmem_default) / $(sysctl -n net.core.rmem_max)"
+    echo "  TCP Write: $(sysctl -n net.core.wmem_default) / $(sysctl -n net.core.wmem_max)"
+}
+
+performance_check</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>🚀 Performance Optimization</h4>
+                        <pre><code>#!/bin/bash
+# Network performance tuning
+optimize_network() {
+    echo "🚀 Optimizing Network Performance"
+    echo "================================="
+    
+    # Backup current settings
+    sysctl -a | grep -E "net\.(core|ipv4)" > /tmp/network_backup.conf
+    echo "📄 Settings backed up to /tmp/network_backup.conf"
+    
+    # Optimize TCP settings
+    echo "🔧 Optimizing TCP settings..."
+    
+    # Increase buffer sizes
+    sudo sysctl -w net.core.rmem_max=134217728
+    sudo sysctl -w net.core.wmem_max=134217728
+    sudo sysctl -w net.ipv4.tcp_rmem="4096 16384 134217728"
+    sudo sysctl -w net.ipv4.tcp_wmem="4096 65536 134217728"
+    
+    # Enable TCP window scaling
+    sudo sysctl -w net.ipv4.tcp_window_scaling=1
+    
+    # Use BBR congestion control (if available)
+    if sysctl net.ipv4.tcp_available_congestion_control | grep -q bbr; then
+        sudo sysctl -w net.ipv4.tcp_congestion_control=bbr
+        echo "✅ BBR congestion control enabled"
+    fi
+    
+    echo "✅ Network optimization applied"
+    echo "🔄 Reboot recommended for all changes to take effect"
+}
+
+# Bandwidth testing
+test_bandwidth() {
+    echo "📊 Bandwidth Testing"
+    echo "==================="
+    
+    # Download test
+    echo "⬇️ Download Test:"
+    curl -o /dev/null -s -w "Speed: %{speed_download} bytes/sec\n" \
+         http://speedtest.wdc01.softlayer.com/downloads/test10.zip
+}
+
+optimize_network
+test_bandwidth</code></pre>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h4>Performance Optimization Tips</h4>
+                    <ul>
+                        <li>Monitor baseline performance before making changes</li>
+                        <li>Test optimizations in non-production environments</li>
+                        <li>Use modern congestion control algorithms (BBR, CUBIC)</li>
+                        <li>Adjust buffer sizes based on bandwidth-delay product</li>
+                        <li>Consider hardware offloading for high-throughput applications</li>
+                    </ul>
+                </div>
+                
+                <h3>Latency Optimization</h3>
+                <div class="command-card">
+                    <h4>⚡ Latency Testing & Optimization</h4>
+                    <pre><code>#!/bin/bash
+# Comprehensive latency testing
+latency_test() {
+    local DESTINATIONS=("8.8.8.8" "1.1.1.1" "google.com" "cloudflare.com")
+    
+    echo "⚡ Latency Analysis"
+    echo "=================="
+    
+    for dest in "${DESTINATIONS[@]}"; do
+        echo "🎯 Testing $dest:"
+        
+        # Basic ping test
+        ping_result=$(ping -c 10 $dest 2>/dev/null | tail -1)
+        if [ $? -eq 0 ]; then
+            echo "  $(echo $ping_result | awk -F'/' '{printf "  Min: %.2fms  Avg: %.2fms  Max: %.2fms\n", $4, $5, $6}')"
+        else
+            echo "  ❌ Unreachable"
+        fi
+        
+        # Traceroute analysis
+        echo "  📍 Route (first 5 hops):"
+        traceroute -n -m 5 $dest 2>/dev/null | tail -n +2 | head -5 | \
+        awk '{printf "    Hop %s: %s (%sms)\n", $1, $2, $3}'
+        echo
+    done
+}
+
+# Network quality assessment
+assess_quality() {
+    echo "📊 Network Quality Assessment"
+    echo "============================="
+    
+    # Packet loss test
+    echo "📦 Packet Loss Test:"
+    loss=$(ping -c 100 8.8.8.8 | grep "packet loss" | awk '{print $6}')
+    echo "  Packet Loss: $loss"
+    
+    # Jitter measurement
+    echo "📈 Jitter Measurement:"
+    ping -c 20 8.8.8.8 | grep "time=" | awk -F'time=' '{print $2}' | \
+    awk '{times[NR]=$1} END {
+        sum=0; for(i=1;i<=NR;i++) sum+=times[i]; avg=sum/NR;
+        sumsq=0; for(i=1;i<=NR;i++) sumsq+=(times[i]-avg)^2;
+        printf "  Average: %.2fms  Jitter: %.2fms\n", avg, sqrt(sumsq/NR)
+    }'
+}
+
+latency_test
+assess_quality</code></pre>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Quick Reference Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2>📚 Quick Reference</h2>
+                <p>Essential commands and troubleshooting guide</p>
+            </div>
+            <div class="section-content">
+                <div class="grid-3">
+                    <div class="command-card">
+                        <h4>🔧 Essential Commands</h4>
+                        <pre><code># Interface management
+ip addr show
+ip link set eth0 up/down
+ip route show
+
+# Connectivity testing
+ping -c 3 google.com
+traceroute google.com
+nslookup domain.com
+
+# Port scanning
+ss -tuln
+netstat -an
+nc -zv host port</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>🚨 Troubleshooting Steps</h4>
+                        <pre><code># 1. Check physical connection
+ethtool eth0 | grep Link
+
+# 2. Verify IP configuration
+ip addr show eth0
+
+# 3. Test local connectivity
+ping 192.168.1.1
+
+# 4. Check DNS resolution
+nslookup google.com
+
+# 5. Test internet access
+curl -I http://google.com</code></pre>
+                    </div>
+                    
+                    <div class="command-card">
+                        <h4>📊 Monitoring Commands</h4>
+                        <pre><code># Real-time monitoring
+watch -n 1 'ss -s'
+iftop -i eth0
+nethogs
+
+# Log analysis
+tail -f /var/log/syslog
+journalctl -u networking
+
+# Performance metrics
+iperf3 -s/-c server
+speedtest-cli</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p>🌐 <strong>Networking with Linux Shell Scripting</strong></p>
+            <p>Master network management through practical automation and monitoring scripts</p>
+            <p><em>Always test scripts in safe environments before production use</em></p>
+        </div>
+    </div>
+    
+    <script>
+        function showTopology(type) {
+            // Hide all diagrams
+            const diagrams = ['star', 'ring', 'bus', 'mesh', 'tree'];
+            diagrams.forEach(diagram => {
+                const element = document.getElementById(diagram + '-diagram');
+                if (element) element.style.display = 'none';
+            });
+            
+            // Show selected diagram
+            const selectedDiagram = document.getElementById(type + '-diagram');
+            if (selectedDiagram) selectedDiagram.style.display = 'block';
+            
+            // Update button states
+            document.querySelectorAll('.topology-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Add click animations to interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const devices = document.querySelectorAll('.device, .hub, .osi-layer');
+            devices.forEach(device => {
+                device.addEventListener('click', function() {
+                    this.style.animation = 'pulse 0.6s ease-in-out';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 600);
+                });
+            });
+            
+            // Add pulse animation
+            const style = document.createElement('style');
+           
+            style.textContent = `
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); filter: brightness(1.2); }
+                    100% { transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
 </body>
 </html>
